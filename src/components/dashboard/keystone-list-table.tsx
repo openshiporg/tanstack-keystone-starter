@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
 import { ArrowDown, ArrowUp } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 
 import { Badge } from '@/components/ui/badge'
@@ -18,6 +18,7 @@ import {
   executeRawDashboardGraphQL,
 } from '@/features/cms/graphql-client'
 
+import { BulkEditDialog, bulkEditableFields } from './bulk-edit-dialog'
 import { ListPageActions } from './list-page-actions'
 import { Pagination } from './pagination'
 import { getFieldViewsForField } from './views/registry'
@@ -109,6 +110,11 @@ export function KeystoneListTable({
   const [deleting, setDeleting] = useState(false)
   const [bulkMessage, setBulkMessage] = useState<string | null>(null)
   const canBulkDelete = !data.list.hideDelete
+  const [bulkEditOpen, setBulkEditOpen] = useState(false)
+  const canBulkEdit = useMemo(
+    () => bulkEditableFields(data.list).length > 0,
+    [data.list],
+  )
   const [selectedItemsState, setSelectedItems] = useState<{
     itemsFromServer?: DashboardListItem[]
     selectedItems: Set<string>
@@ -225,6 +231,7 @@ export function KeystoneListTable({
   }
 
   const list = data.list
+  const canSelect = canBulkDelete || canBulkEdit
   const titleField =
     list.labelField && list.fieldMap[list.labelField] ? list.labelField : 'id'
   const titleLabel =
@@ -354,7 +361,7 @@ export function KeystoneListTable({
           <caption className="sr-only">{list.label}</caption>
           <thead>
             <tr className="[&>th]:h-9 [&>th]:border-b [&>th]:border-[var(--ks-line)] [&>th]:bg-[var(--ks-surface-2)] [&>th]:px-3 [&>th]:text-left [&>th]:align-middle">
-              {canBulkDelete ? (
+              {canSelect ? (
                 <th scope="col" className="w-10 !pr-1 !pl-6">
                   <Checkbox
                     aria-label={`Select all ${list.label.toLowerCase()}`}
@@ -366,7 +373,7 @@ export function KeystoneListTable({
               ) : null}
               <th
                 scope="col"
-                className={cn('min-w-[240px]', !canBulkDelete && '!pl-6')}
+                className={cn('min-w-[240px]', !canSelect && '!pl-6')}
                 aria-sort={
                   sortField === titleField
                     ? descending
@@ -438,7 +445,7 @@ export function KeystoneListTable({
                   aria-selected={isSelected || undefined}
                   className="group cursor-pointer hover:[&>td]:bg-[var(--ks-hover)] data-[selected]:[&>td]:bg-[var(--ks-selected)] [&>td]:h-10 [&>td]:border-b [&>td]:border-[var(--ks-line)] [&>td]:px-3 [&>td]:align-middle"
                 >
-                  {canBulkDelete ? (
+                  {canSelect ? (
                     <td className="relative w-10 !pr-1 !pl-6">
                       {isSelected ? (
                         <span
@@ -455,7 +462,7 @@ export function KeystoneListTable({
                       />
                     </td>
                   ) : null}
-                  <td className={cn('max-w-[420px]', !canBulkDelete && '!pl-6')}>
+                  <td className={cn('max-w-[420px]', !canSelect && '!pl-6')}>
                     <div className="flex min-w-0 items-center gap-2.5">
                       {status ? (
                         <span
@@ -499,7 +506,7 @@ export function KeystoneListTable({
       {/* Phone: one card row per item */}
       <div className="md:hidden">
         <div className="flex h-9 items-center gap-3 border-b border-[var(--ks-line)] bg-[var(--ks-surface-2)] px-4">
-          {canBulkDelete ? (
+          {canSelect ? (
             <Checkbox
               aria-label={`Select all ${list.label.toLowerCase()}`}
               checked={selectAllChecked}
@@ -526,7 +533,7 @@ export function KeystoneListTable({
                     className="absolute inset-y-0 left-0 w-0.5 bg-[var(--ks-accent)]"
                   />
                 ) : null}
-                {canBulkDelete ? (
+                {canSelect ? (
                   <div className="pt-0.5">
                     <Checkbox
                       aria-label={`Select ${titleOf(item)}`}
@@ -590,7 +597,7 @@ export function KeystoneListTable({
         total={data.count || 0}
         pageSize={data.pageSize}
         list={{ singular: list.singular, plural: list.plural }}
-        selectedItems={canBulkDelete ? selected : new Set<string>()}
+        selectedItems={canSelect ? selected : new Set<string>()}
         selectionActions={
           canBulkDelete ? (
             <ListPageActions
@@ -619,12 +626,20 @@ export function KeystoneListTable({
             />
           ) : undefined
         }
-        onResetSelection={
-          canBulkDelete ? () => setSelected(new Set()) : undefined
-        }
+        onResetSelection={canSelect ? () => setSelected(new Set()) : undefined}
         onDelete={canBulkDelete ? () => void deleteSelectedItems() : undefined}
+        onEdit={canBulkEdit ? () => setBulkEditOpen(true) : undefined}
         isDeleteLoading={deleting}
       />
+      {canBulkEdit ? (
+        <BulkEditDialog
+          list={list}
+          ids={Array.from(selected)}
+          open={bulkEditOpen}
+          onOpenChange={setBulkEditOpen}
+          onDone={() => setSelected(new Set())}
+        />
+      ) : null}
     </div>
   )
 }
