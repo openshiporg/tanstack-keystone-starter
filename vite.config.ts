@@ -17,6 +17,8 @@ const config = defineConfig({
   resolve: { tsconfigPaths: true },
   // Proxies such as portless pass PORT/HOST; honour them so the app is reachable on 127.0.0.1.
   server: {
+    // Dev only: let a Tailscale serve mapping (phone on the tailnet) reach the dev server.
+    allowedHosts: ['.ts.net'],
     ...(process.env.HOST ? { host: process.env.HOST } : {}),
     ...(process.env.PORT ? { port: Number(process.env.PORT), strictPort: true } : {}),
   },
