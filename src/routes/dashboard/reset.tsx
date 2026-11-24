@@ -1,14 +1,17 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import type { SearchSchemaInput } from '@tanstack/react-router'
-import { Eye, EyeOff, Loader2Icon } from 'lucide-react'
-import { useActionState, useState } from 'react'
-import { useFormStatus } from 'react-dom'
+import { useActionState } from 'react'
 
-import { Logo } from '@/components/dashboard/logo'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import {
+  AuthField,
+  AuthMessage,
+  AuthNotConfigured,
+  AuthShell,
+  AuthSubmit,
+  PasswordInput,
+  authLinkClass,
+} from '@/components/dashboard/auth-shell'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import {
   buildDashboardPublicAuthOperations,
   executeDashboardGraphQL,
@@ -51,11 +54,7 @@ type DynamicResetResult = Record<
 function ResetRoute() {
   const auth = Route.useLoaderData()
   if (!auth) {
-    return (
-      <div className="flex min-h-svh items-center justify-center p-6">
-        <p>Dashboard authentication is not configured.</p>
-      </div>
-    )
+    return <AuthNotConfigured />
   }
   return <ConfiguredReset auth={auth} />
 }
@@ -63,7 +62,6 @@ function ResetRoute() {
 function ConfiguredReset({ auth }: { auth: DashboardPasswordAuthMeta }) {
   const search = Route.useSearch()
   const contract = buildDashboardPublicAuthOperations(auth)
-  const [showPassword, setShowPassword] = useState(false)
   const redeemMode = Boolean(search.token)
   const [formState, formAction] = useActionState(
     async (
@@ -132,123 +130,59 @@ function ConfiguredReset({ auth }: { auth: DashboardPasswordAuthMeta }) {
   const identityLabel = humanize(contract.identityField)
   const secretLabel = humanize(contract.secretField)
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-      <div className="w-full max-w-sm">
-        <div className="flex items-center space-x-1.5">
-          <Logo className="h-8 w-fit" aria-hidden="true" />
-        </div>
-        <h3 className="mt-6 text-lg font-semibold text-foreground">
-          {redeemMode ? 'Reset your password' : 'Reset password'}
-        </h3>
-        <p className="mt-2 text-sm text-muted-foreground">
-          {redeemMode
-            ? 'Enter your new password below.'
-            : `Enter your ${identityLabel.toLowerCase()} and we'll send you a link to reset your password.`}
-        </p>
+    <AuthShell
+      title={redeemMode ? 'New password' : 'Reset password'}
+      description={
+        redeemMode
+          ? undefined
+          : `We'll send a reset link to your ${identityLabel.toLowerCase()}.`
+      }
+      foot={
+        <Link to="/dashboard/signin" className={authLinkClass}>
+          Back to sign in
+        </Link>
+      }
+    >
+      <form className="flex flex-col gap-4" action={formAction}>
+        <AuthField id="reset-identity" label={identityLabel}>
+          <Input
+            id="reset-identity"
+            name={contract.identityField}
+            type={
+              contract.identityField.toLowerCase().includes('email')
+                ? 'email'
+                : 'text'
+            }
+            autoComplete="username"
+            className="h-9"
+            defaultValue={formState.formData.identity}
+            aria-invalid={formState.message ? true : undefined}
+            required
+          />
+        </AuthField>
 
-        <form className="mt-8 space-y-4" action={formAction}>
-          <div>
-            <Label
-              htmlFor="reset-identity"
-              className="text-sm font-medium text-foreground"
-            >
-              {identityLabel}
-            </Label>
-            <Input
-              id="reset-identity"
-              name={contract.identityField}
-              type="text"
-              autoComplete="username"
-              className="mt-2 bg-muted/40"
-              defaultValue={formState.formData.identity}
+        {redeemMode ? (
+          <AuthField id="reset-secret" label={`New ${secretLabel.toLowerCase()}`}>
+            <PasswordInput
+              id="reset-secret"
+              name={contract.secretField}
+              autoComplete="new-password"
+              defaultValue={formState.formData.secret}
+              aria-invalid={formState.message ? true : undefined}
               required
             />
-          </div>
-
-          {redeemMode ? (
-            <div>
-              <Label
-                htmlFor="reset-secret"
-                className="text-sm font-medium text-foreground"
-              >
-                New {secretLabel}
-              </Label>
-              <div className="relative mt-2">
-                <Input
-                  id="reset-secret"
-                  name={contract.secretField}
-                  type={showPassword ? 'text' : 'password'}
-                  autoComplete="new-password"
-                  className="bg-muted/40 pr-10"
-                  defaultValue={formState.formData.secret}
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((previous) => !previous)}
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-500"
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" aria-hidden="true" />
-                  ) : (
-                    <Eye className="h-4 w-4" aria-hidden="true" />
-                  )}
-                </button>
-              </div>
-            </div>
-          ) : null}
-
-          <ResetSubmitButton redeemMode={redeemMode} />
-        </form>
-
-        {formState.message ? (
-          <Badge
-            variant="destructive"
-            className="mt-4 flex items-start gap-2 rounded-sm border border-destructive/50 bg-destructive/5 p-4 text-base hover:bg-destructive/10"
-          >
-            <div className="flex flex-col gap-1">
-              <h2 className="text-sm font-semibold tracking-wider uppercase">
-                Error
-              </h2>
-              <span className="break-all text-sm font-normal opacity-75">
-                {formState.message}
-              </span>
-            </div>
-          </Badge>
+          </AuthField>
         ) : null}
-        {formState.success ? (
-          <Badge className="mt-4 flex items-start gap-2 rounded-sm bg-emerald-500/10 p-4 text-base text-emerald-700 hover:bg-emerald-500/10 dark:text-emerald-300">
-            <div className="flex flex-col gap-1">
-              <h2 className="text-sm font-semibold tracking-wider uppercase">
-                Success
-              </h2>
-              <span className="break-all text-sm font-normal opacity-75">
-                {formState.success}
-              </span>
-            </div>
-          </Badge>
-        ) : null}
-      </div>
-    </div>
-  )
-}
 
-function ResetSubmitButton({ redeemMode }: { redeemMode: boolean }) {
-  const { pending } = useFormStatus()
-  return (
-    <Button
-      className="w-full py-2 font-medium"
-      type="submit"
-      disabled={pending}
-    >
-      {pending ? (
-        <Loader2Icon className="size-4 shrink-0 animate-spin" />
-      ) : redeemMode ? (
-        'Reset password'
-      ) : (
-        'Send reset link'
-      )}
-    </Button>
+        <AuthSubmit pendingLabel={redeemMode ? 'Saving' : 'Sending'}>
+          {redeemMode ? 'Reset password' : 'Send reset link'}
+        </AuthSubmit>
+      </form>
+
+      {formState.message ? <AuthMessage>{formState.message}</AuthMessage> : null}
+      {formState.success ? (
+        <AuthMessage tone="success">{formState.success}</AuthMessage>
+      ) : null}
+    </AuthShell>
   )
 }

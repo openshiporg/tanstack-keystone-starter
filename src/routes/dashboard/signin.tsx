@@ -1,14 +1,18 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import type { SearchSchemaInput } from '@tanstack/react-router'
-import { Eye, EyeOff, Loader2Icon } from 'lucide-react'
-import { useActionState, useState } from 'react'
-import { useFormStatus } from 'react-dom'
+import { useActionState } from 'react'
 
-import { Logo } from '@/components/dashboard/logo'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import {
+  AuthField,
+  AuthMessage,
+  AuthNotConfigured,
+  AuthShell,
+  AuthSubmit,
+  PasswordInput,
+  authLinkClass,
+} from '@/components/dashboard/auth-shell'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { getPublicSignupsAllowed } from '@/features/cms/public-signups.functions'
 import { safeDashboardRedirectPath } from '@/features/cms/dashboard-route-guards'
 import {
   buildDashboardPasswordAuthContract,
@@ -22,7 +26,13 @@ export const Route = createFileRoute('/dashboard/signin')({
   validateSearch: (search: SearchSchemaInput & { from?: unknown }) => ({
     from: typeof search.from === 'string' ? search.from : undefined,
   }),
-  loader: () => fetchDashboardPublicAuthMeta(),
+  loader: async () => {
+    const [auth, signupsAllowed] = await Promise.all([
+      fetchDashboardPublicAuthMeta(),
+      getPublicSignupsAllowed(),
+    ])
+    return { auth, signupsAllowed }
+  },
   component: SignInRoute,
 })
 
@@ -67,26 +77,29 @@ export async function authenticateDashboardWithPassword({
 
 function SignInRoute() {
   const search = Route.useSearch()
-  const auth = Route.useLoaderData()
+  const { auth, signupsAllowed } = Route.useLoaderData()
   if (!auth) {
-    return (
-      <div className="flex min-h-svh items-center justify-center p-6">
-        <p>Dashboard authentication is not configured.</p>
-      </div>
-    )
+    return <AuthNotConfigured />
   }
-  return <ConfiguredSignIn auth={auth} from={search.from} />
+  return (
+    <ConfiguredSignIn
+      auth={auth}
+      from={search.from}
+      signupsAllowed={signupsAllowed}
+    />
+  )
 }
 
 function ConfiguredSignIn({
   auth,
   from,
+  signupsAllowed,
 }: {
   auth: DashboardPasswordAuthMeta
   from?: string
+  signupsAllowed: boolean
 }) {
   const contract = buildDashboardPasswordAuthContract(auth)
-  const [showPassword, setShowPassword] = useState(false)
   const [formState, formAction] = useActionState(
     async (
       _previous: AuthFormState,
@@ -114,108 +127,67 @@ function ConfiguredSignIn({
   const identityLabel = humanize(contract.identityField)
   const secretLabel = humanize(contract.secretField)
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-      <div className="w-full max-w-sm">
-        <div className="flex items-center space-x-1.5">
-          <Logo className="h-8 w-fit" aria-hidden="true" />
-        </div>
-        <h3 className="mt-6 text-lg font-semibold text-foreground">
-          Sign in to your account
-        </h3>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Don&apos;t have an account?
-          <Link
-            to="/dashboard/signup"
-            className="ml-1 font-medium text-primary hover:text-primary/90"
-          >
-            Sign up
-          </Link>
-        </p>
-        <form className="mt-8 space-y-4" action={formAction}>
-          <input type="hidden" name="from" value={from ?? '/dashboard'} />
-          <div>
-            <Label
-              htmlFor={contract.identityField}
-              className="text-sm font-medium text-foreground"
-            >
-              {identityLabel}
-            </Label>
-            <Input
-              id={contract.identityField}
-              name={contract.identityField}
-              type={
-                contract.identityField.toLowerCase().includes('email')
-                  ? 'email'
-                  : 'text'
-              }
-              autoComplete="username"
-              placeholder={`Enter ${identityLabel.toLowerCase()}`}
-              className="mt-2 bg-muted/40"
-              defaultValue={formState.formData.identity}
-              required
-            />
-          </div>
-          <div>
-            <Label
-              htmlFor={contract.secretField}
-              className="text-sm font-medium text-foreground"
-            >
-              {secretLabel}
-            </Label>
-            <div className="relative mt-2">
-              <Input
-                id={contract.secretField}
-                name={contract.secretField}
-                type={showPassword ? 'text' : 'password'}
-                autoComplete="current-password"
-                placeholder={`Enter ${secretLabel.toLowerCase()}`}
-                className="bg-muted/40 pr-10"
-                defaultValue={formState.formData.secret}
-                required
-              />
-              <button
-                type="button"
-                className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-500"
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
-                onClick={() => setShowPassword((previous) => !previous)}
-              >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4" aria-hidden="true" />
-                ) : (
-                  <Eye className="h-4 w-4" aria-hidden="true" />
-                )}
-              </button>
-            </div>
-          </div>
-          <SignInSubmitButton />
-        </form>
-
-        {formState.message ? (
-          <Badge
-            variant="destructive"
-            className="mt-4 flex items-start gap-2 rounded-sm border border-destructive/50 bg-destructive/5 p-4 text-base hover:bg-destructive/10"
-          >
-            <span className="font-semibold">Error:</span>
-            <span className="break-all text-sm font-normal opacity-75">
-              {formState.message}
-            </span>
-          </Badge>
-        ) : null}
-      </div>
-    </div>
-  )
-}
-
-function SignInSubmitButton() {
-  const { pending } = useFormStatus()
-  return (
-    <Button
-      type="submit"
-      className="w-full py-2 font-medium"
-      disabled={pending}
+    <AuthShell
+      title="Sign in"
+      foot={
+        signupsAllowed ? (
+          <>
+            No account?{' '}
+            <Link to="/dashboard/signup" className={authLinkClass}>
+              Sign up
+            </Link>
+          </>
+        ) : undefined
+      }
     >
-      {pending ? <Loader2Icon className="mr-2 size-4 animate-spin" /> : null}
-      Sign in
-    </Button>
+      <form className="flex flex-col gap-4" action={formAction}>
+        <input type="hidden" name="from" value={from ?? '/dashboard'} />
+        <AuthField id={contract.identityField} label={identityLabel}>
+          <Input
+            id={contract.identityField}
+            name={contract.identityField}
+            type={
+              contract.identityField.toLowerCase().includes('email')
+                ? 'email'
+                : 'text'
+            }
+            autoComplete="username"
+            placeholder={
+              contract.identityField.toLowerCase().includes('email')
+                ? 'you@company.com'
+                : undefined
+            }
+            className="h-9"
+            defaultValue={formState.formData.identity}
+            aria-invalid={formState.message ? true : undefined}
+            required
+          />
+        </AuthField>
+        <AuthField
+          id={contract.secretField}
+          label={secretLabel}
+          aside={
+            <Link
+              to="/dashboard/reset"
+              className="text-[12px] text-[var(--ks-dim)] hover:text-[var(--ks-ink)]"
+            >
+              Forgot?
+            </Link>
+          }
+        >
+          <PasswordInput
+            id={contract.secretField}
+            name={contract.secretField}
+            autoComplete="current-password"
+            defaultValue={formState.formData.secret}
+            aria-invalid={formState.message ? true : undefined}
+            required
+          />
+        </AuthField>
+        <AuthSubmit pendingLabel="Signing in">Sign in</AuthSubmit>
+      </form>
+
+      {formState.message ? <AuthMessage>{formState.message}</AuthMessage> : null}
+    </AuthShell>
   )
 }

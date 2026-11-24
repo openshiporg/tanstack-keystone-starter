@@ -10,6 +10,8 @@ import {
 import type { SearchSchemaInput } from '@tanstack/react-router'
 import { Plus, RotateCw, SearchX, TriangleAlert } from 'lucide-react'
 
+import { PageSkeleton } from '@/components/dashboard/page-skeleton'
+import { DashboardNotFound } from '@/components/dashboard/not-found'
 import { FilterBar } from '@/components/dashboard/filter-bar'
 import { hasAnyDashboardFilters } from '@/components/dashboard/filter-param-compat'
 import { KeystoneListTable } from '@/components/dashboard/keystone-list-table'
@@ -87,6 +89,7 @@ export const Route = createFileRoute('/dashboard/$listKey')({
     }
   },
   component: ListRoute,
+  pendingComponent: PageSkeleton,
   notFoundComponent: DashboardListNotFound,
 })
 
@@ -222,37 +225,7 @@ function ListRoute() {
 }
 
 function DashboardListNotFound() {
-  const { listKey } = Route.useParams()
-  const title = 'Model not found'
-
-  return (
-    <PageContainer
-      title={title}
-      header={
-        <div>
-          <h1 className="text-[18px] leading-7 font-semibold text-[var(--ks-ink)] md:text-[20px]">
-            {title}
-          </h1>
-          <p className="text-[13px] text-[var(--ks-dim)]">
-            The model “{listKey}” is not available in this dashboard.
-          </p>
-        </div>
-      }
-      breadcrumbs={[
-        { type: 'link', label: 'Overview', href: '/dashboard' },
-        { type: 'page', label: title },
-      ]}
-    >
-      <div className="px-4 md:px-6">
-        <Link
-          to="/dashboard"
-          className="text-[13px] font-medium text-[var(--ks-accent-ink)] underline-offset-4 hover:underline"
-        >
-          Back to dashboard
-        </Link>
-      </div>
-    </PageContainer>
-  )
+  return <DashboardNotFound />
 }
 
 function toPositiveInteger(value: unknown, fallback?: number) {

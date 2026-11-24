@@ -1,13 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Eye, EyeOff, Loader2Icon } from 'lucide-react'
-import { useActionState, useState } from 'react'
-import { useFormStatus } from 'react-dom'
+import { useActionState } from 'react'
 
-import { Logo } from '@/components/dashboard/logo'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import {
+  AuthField,
+  AuthMessage,
+  AuthNotConfigured,
+  AuthShell,
+  AuthSubmit,
+  PasswordInput,
+} from '@/components/dashboard/auth-shell'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import {
   buildDashboardPasswordAuthContract,
   executeDashboardGraphQL,
@@ -83,17 +85,12 @@ export async function createInitialUserAndSignIn({
 function InitRoute() {
   const auth = Route.useLoaderData()
   if (!auth) {
-    return (
-      <div className="flex min-h-svh items-center justify-center p-6">
-        <p>Dashboard authentication is not configured.</p>
-      </div>
-    )
+    return <AuthNotConfigured />
   }
   return <ConfiguredInit auth={auth} />
 }
 
 function ConfiguredInit({ auth }: { auth: DashboardPasswordAuthMeta }) {
-  const [showPassword, setShowPassword] = useState(false)
   const contract = buildDashboardPasswordAuthContract(auth)
   const initialValues = Object.fromEntries(
     contract.initFirstItemFields.map((field) => [field, '']),
@@ -126,110 +123,46 @@ function ConfiguredInit({ auth }: { auth: DashboardPasswordAuthMeta }) {
   )
 
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-      <div className="w-full max-w-sm">
-        <div className="flex items-center space-x-1.5">
-          <Logo className="h-8 w-fit" aria-hidden="true" />
-        </div>
-        <h3 className="mt-6 text-lg font-semibold text-foreground">
-          Create admin account
-        </h3>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Set up your admin account to get started.
-        </p>
-
-        <form action={formAction} className="mt-8 space-y-4">
-          {contract.initFirstItemFields.map((field) => {
-            const isSecret = field === contract.secretField
-            const isIdentity = field === contract.identityField
-            return (
-              <div key={field}>
-                <Label
-                  htmlFor={field}
-                  className="text-sm font-medium text-foreground"
-                >
-                  {humanize(field)}
-                </Label>
-                <div className={isSecret ? 'relative mt-2' : undefined}>
-                  <Input
-                    id={field}
-                    name={field}
-                    type={
-                      isSecret
-                        ? showPassword
-                          ? 'text'
-                          : 'password'
-                        : isIdentity && field.toLowerCase().includes('email')
-                          ? 'email'
-                          : 'text'
-                    }
-                    autoComplete={
-                      isSecret
-                        ? 'new-password'
-                        : isIdentity
-                          ? 'username'
-                          : 'name'
-                    }
-                    placeholder={`Enter ${humanize(field).toLowerCase()}`}
-                    className={
-                      isSecret ? 'bg-muted/40 pr-10' : 'mt-2 bg-muted/40'
-                    }
-                    defaultValue={formState.formData[field] ?? ''}
-                    required
-                  />
-                  {isSecret ? (
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword((previous) => !previous)}
-                      className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-500"
-                      aria-label={
-                        showPassword ? 'Hide password' : 'Show password'
-                      }
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4" aria-hidden="true" />
-                      ) : (
-                        <Eye className="h-4 w-4" aria-hidden="true" />
-                      )}
-                    </button>
-                  ) : null}
-                </div>
-              </div>
-            )
-          })}
-          <InitSubmitButton />
-        </form>
-
-        {formState.message ? (
-          <Badge
-            variant="destructive"
-            className="mt-4 flex items-start gap-2 rounded-sm border border-destructive/50 bg-destructive/5 p-4 text-base hover:bg-destructive/10"
-          >
-            <div className="flex flex-col gap-1">
-              <h2 className="text-sm font-semibold tracking-wider uppercase">
-                Error
-              </h2>
-              <span className="break-all text-sm font-normal opacity-75">
-                {formState.message}
-              </span>
-            </div>
-          </Badge>
-        ) : null}
-      </div>
-    </div>
-  )
-}
-
-function InitSubmitButton() {
-  const { pending } = useFormStatus()
-  return (
-    <Button
-      type="submit"
-      className="w-full py-2 font-medium"
-      disabled={pending}
+    <AuthShell
+      title="Create admin account"
+      description="First run. This account gets full access."
     >
-      {pending ? <Loader2Icon className="mr-2 size-4 animate-spin" /> : null}
-      Create account
-    </Button>
+      <form action={formAction} className="flex flex-col gap-4">
+        {contract.initFirstItemFields.map((field) => {
+          const isSecret = field === contract.secretField
+          const isIdentity = field === contract.identityField
+          return (
+            <AuthField key={field} id={field} label={humanize(field)}>
+              {isSecret ? (
+                <PasswordInput
+                  id={field}
+                  name={field}
+                  autoComplete="new-password"
+                  defaultValue={formState.formData[field] ?? ''}
+                  required
+                />
+              ) : (
+                <Input
+                  id={field}
+                  name={field}
+                  type={
+                    isIdentity && field.toLowerCase().includes('email')
+                      ? 'email'
+                      : 'text'
+                  }
+                  autoComplete={isIdentity ? 'username' : 'name'}
+                  className="h-9"
+                  defaultValue={formState.formData[field] ?? ''}
+                  required
+                />
+              )}
+            </AuthField>
+          )
+        })}
+        <AuthSubmit pendingLabel="Creating account">Create account</AuthSubmit>
+      </form>
+
+      {formState.message ? <AuthMessage>{formState.message}</AuthMessage> : null}
+    </AuthShell>
   )
 }

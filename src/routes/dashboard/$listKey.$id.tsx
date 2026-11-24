@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+import { PageSkeleton } from '@/components/dashboard/page-skeleton'
 import { enhanceFields } from '@/components/dashboard/enhance-fields'
 import {
   EnhancedFormFields,
@@ -91,6 +92,7 @@ export const Route = createFileRoute('/dashboard/$listKey/$id')({
     }
   },
   component: DashboardItemRoute,
+  pendingComponent: PageSkeleton,
 })
 
 function DashboardItemRoute() {

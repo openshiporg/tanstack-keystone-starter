@@ -2,6 +2,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { ArrowUpRight, Database, Plus, Search } from 'lucide-react'
 
+import { PageSkeleton } from '@/components/dashboard/page-skeleton'
 import { useCommandPalette } from '@/components/dashboard/command-palette'
 import { PageContainer } from '@/components/dashboard/page-container'
 import { buttonVariants } from '@/components/ui/button'
@@ -19,6 +20,7 @@ export const Route = createFileRoute('/dashboard/')({
       queryFn: () => fetchDashboardOverview(),
     }),
   component: DashboardIndexRoute,
+  pendingComponent: PageSkeleton,
 })
 
 function DashboardIndexRoute() {

@@ -8,6 +8,7 @@ import {
 import { X } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+import { PageSkeleton } from '@/components/dashboard/page-skeleton'
 import { enhanceFields } from '@/components/dashboard/enhance-fields'
 import {
   EnhancedFormFields,
@@ -66,6 +67,7 @@ export const Route = createFileRoute('/dashboard/$listKey/create')({
     })
   },
   component: CreateRoute,
+  pendingComponent: PageSkeleton,
 })
 
 function CreateRoute() {

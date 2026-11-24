@@ -5,6 +5,7 @@ import {
   useLocation,
 } from '@tanstack/react-router'
 
+import { DashboardNotFound } from '@/components/dashboard/not-found'
 import { DashboardShell } from '@/components/dashboard/dashboard-shell'
 import { DashboardErrorFallback } from '@/components/dashboard/error-boundary'
 import { getDashboardAuthStateForCurrentRequest } from '@/features/cms/dashboard-auth.functions'
@@ -42,6 +43,7 @@ export const Route = createFileRoute('/dashboard')({
     if (decision) dashboardRedirect(decision.to, decision.search?.from)
   },
   component: DashboardLayoutRoute,
+  notFoundComponent: () => <DashboardNotFound />,
   errorComponent: ({ error, reset }) => (
     <DashboardErrorFallback error={error} reset={reset} />
   ),
