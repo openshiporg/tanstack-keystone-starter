@@ -1,0 +1,658 @@
+{
+  "version": 1,
+  "classifications": [
+    {
+      "path": "cms.config.ts",
+      "category": "expected-demo",
+      "reason": "Replaceable starter demo configuration, model, or seed data; intentionally domain-specific.",
+      "expectedMatchCount": 6,
+      "matchFingerprint": "1eb9025e58bd43bff308fb62c9764b2eb0a7ecd6b3a5edf79f1901ee0887aa6c",
+      "sourceFingerprint": "0c268a02d8098c8f5935cf38fadd8f1cea77eedb77fa310c074b2d503374d766"
+    },
+    {
+      "path": "cms.seed.ts",
+      "category": "expected-demo",
+      "reason": "Replaceable starter demo configuration, model, or seed data; intentionally domain-specific.",
+      "expectedMatchCount": 29,
+      "matchFingerprint": "479920780144f89b94aa0f8663bd28637425d7d6f95a8b753ed41c930496c1f4",
+      "sourceFingerprint": "541febf5e92a8c1f58916a7283b831b395a2c23ea6e1fba44b8e3436493523a2"
+    },
+    {
+      "path": "prisma/seed.ts",
+      "category": "expected-demo",
+      "reason": "Replaceable starter demo configuration, model, or seed data; intentionally domain-specific.",
+      "expectedMatchCount": 11,
+      "matchFingerprint": "f7498150b32e385e32668e11b0ba706ab6243c628861d1c1989c2b81d49251df",
+      "sourceFingerprint": "2288c1ee67b5e690ca4c94ed8081129975b5469836f5113a5a4e0bfa9c2c274a"
+    },
+    {
+      "path": "scripts/audit-next-model-portability.mjs",
+      "category": "expected-source-oracle",
+      "reason": "Read-only sibling or consumer source-oracle names; never a generic runtime default.",
+      "expectedMatchCount": 4,
+      "matchFingerprint": "75c81b30b2f3b2b1be761facd598a1a9318ef867cab225ef3e48a23614a0c1fd",
+      "sourceFingerprint": "d40658778a907e940b71c3a5b943319eaa383c24a893f72e9e716212926bd728"
+    },
+    {
+      "path": "scripts/fixtures/os-org-real-consumer-worker.ts",
+      "category": "expected-source-oracle",
+      "reason": "Exact real-consumer source-oracle fixture retained to verify os.org policy and cutover compatibility.",
+      "expectedMatchCount": 22,
+      "matchFingerprint": "c1dd4d9d66a4cc51f6adb08305cd24a5d66cd8f78d23a81239c6f1ab16effab9",
+      "sourceFingerprint": "b7303041444c25e4543df654c346969977c27a6ce8ca2f1b4da18236a9dead0c"
+    },
+    {
+      "path": "scripts/validate-cms-admin-meta.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 31,
+      "matchFingerprint": "b3e8c71e07c3a70b75f5263ff1c52fdeb5027be0db01c54636f544593fa49ca9",
+      "sourceFingerprint": "232df7f0dc28b4c6da9c093de3f71441d196e3ff8b8ece98a2e9955ce586e3be"
+    },
+    {
+      "path": "scripts/validate-cms-auth-continuity-worker.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 31,
+      "matchFingerprint": "d54667a94814e691088eb1ea07f1809f8a73e1158ef879bf062dea54744cbec1",
+      "sourceFingerprint": "0643f90b03a6afe57e70539f7b146e7a0c4b1f0b11711c20f23e82bc9f6c4220"
+    },
+    {
+      "path": "scripts/fixtures/cms-access-parity-worker.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema adversarial access regression fixture; intentionally demo-specific, not a generic runtime default.",
+      "expectedMatchCount": 7,
+      "matchFingerprint": "2b38f20559ebf6a2fcbc6ea768f5e6be039f1d41f99c7c8d5e1877dfdfe1e71d",
+      "sourceFingerprint": "390e0470f3e74f1f194c08b7901ac1066735f0fa03599213fc8d9e52fa20b430"
+    },
+    {
+      "path": "scripts/validate-cms-auth-continuity.mjs",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 2,
+      "matchFingerprint": "73b9f88d0667f5a4aae5fb7f4db2e6f92aca6181212d71a9aab606f310747b80",
+      "sourceFingerprint": "73a032ac67b86c41de6834e91aadb46e877f21f06a722c5b279836159ab229db"
+    },
+    {
+      "path": "scripts/validate-cms-auth.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 73,
+      "matchFingerprint": "69f4d56ae673cf634f3fa30b57774581875d5fe865397d82ceed87a56e2b7d28",
+      "sourceFingerprint": "55bd1bcc2dcf197b138c6d3c615821cb8de70eb0a8c3994ddd95caecfa71f5fb"
+    },
+    {
+      "path": "scripts/validate-cms-config.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 41,
+      "matchFingerprint": "e1391f21b0704ce9517e260f6ff3f0e605aa15f6da709298f73d9ccdeb173554",
+      "sourceFingerprint": "45ab1bba189b770fb8104e3c5b57186ad8a8bd7210398820471099a67b1e1377"
+    },
+    {
+      "path": "scripts/validate-cms-crud.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 125,
+      "matchFingerprint": "53ff1d212d2d18a794074b24302489e3a8a86f1df597fad18a2fcb4e81170038",
+      "sourceFingerprint": "3926db8b120613be1f24690568d9c21cd6be8a4a35f00917eb2ea7e93fc82dab"
+    },
+    {
+      "path": "scripts/validate-cms-document-fields.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 3,
+      "matchFingerprint": "1562ba8e76a14fbe64019807547ea13bd5b6357c00ba08a208844efa670be24c",
+      "sourceFingerprint": "d2f04872727c219fcc63c549665773a4ab6e36a110727f71fce61291adbf4cb7"
+    },
+    {
+      "path": "scripts/validate-cms-document-runtime.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 50,
+      "matchFingerprint": "f52ed2da073992178e1cd3aa87b583cea486adabf1652aa1aaf836ceec33300e",
+      "sourceFingerprint": "a427f35b2ab927df44b2ed7a81ecaa8367cbe11dccc939e2bcd391eb83d0309a"
+    },
+    {
+      "path": "scripts/validate-cms-graphql-upload-http.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 2,
+      "matchFingerprint": "100adeb2ea204b16a5d336cf44ba33557a4ac0feda6a1f020d2e9ebe76d4b02f",
+      "sourceFingerprint": "d479b1e1737b76e498c08988781248aca627ee5e03f6d4e5ac5f6abb02c2f92f"
+    },
+    {
+      "path": "scripts/validate-cms-graphql-upload.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 4,
+      "matchFingerprint": "0cd10ccf5e2c6ce831e1034b8a174df33066d7a70d688e8e6e789e367bf835cd",
+      "sourceFingerprint": "097272d2e70b8dac810b7355efd9bbef040eb55d3e1547d13a7152a0ff0ae12d"
+    },
+    {
+      "path": "scripts/validate-cms-prisma-adapter-metadata.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 1,
+      "matchFingerprint": "4c778900c72783cad9745d45006e8b05ccb51ab50fc6b0a4ddaf9729a7442674",
+      "sourceFingerprint": "ff054a260108aba365ca7035816a10901db9a4fe96123e49c71cd0a649fd92a6"
+    },
+    {
+      "path": "scripts/validate-cms-prisma-auth.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 8,
+      "matchFingerprint": "ff0fd9fefb49be20fef77ac53f8ebaaac9890efa5ea880df51078ba2114dce85",
+      "sourceFingerprint": "47cd8ca51899c90aa8a1359b37ce72ea59c123d83e9493ac947c6b19b2b37d21"
+    },
+    {
+      "path": "scripts/validate-cms-prisma-preflight.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 2,
+      "matchFingerprint": "5b364f33eecf69f4f67f7023cb00f603316ee63d5a0944e12dc89cc4d9faa391",
+      "sourceFingerprint": "d3257dcd54bf357b8e83dbca10d810dd5895f89c4a4ea9fca800aa8a5d0418b3"
+    },
+    {
+      "path": "scripts/validate-cms-prisma-schema.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 2,
+      "matchFingerprint": "bc71a1606023d0a47ae10f472cac2ed4509049f82525d28407d1ba049749555b",
+      "sourceFingerprint": "b927fd2cc902152e76fcd31ac0decf95ceaafc8f168a541de854ffcd42906aca"
+    },
+    {
+      "path": "scripts/validate-cms-prisma.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 91,
+      "matchFingerprint": "b807b20694346bf6d6d9b6cfa7eab43e11f658756ba93f8dc4a35546cbc813a2",
+      "sourceFingerprint": "0b90a2467d065e2811a4c7005a399868a5074c9b3d210df08429ee4607ca3ae8"
+    },
+    {
+      "path": "scripts/validate-dashboard-browser.mjs",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 25,
+      "matchFingerprint": "9e95a3061b288e95be34ebf9cbb2581b0e94b797800c612a7136e455f7d20fe0",
+      "sourceFingerprint": "8fb84246341a735adaf34a2bb6387035043abfe5fd411704e3080a419aa28051"
+    },
+    {
+      "path": "scripts/validate-dashboard-completion.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 12,
+      "matchFingerprint": "aed3c6430349fde1f9426145740715d8587a74794ce3b628dceeaceffe4702a5",
+      "sourceFingerprint": "6b888a8ac26fa55b6c14c0f82430d8ebeb96eeb79d53c6d1a033e4713a92fd0b"
+    },
+    {
+      "path": "scripts/validate-dashboard-http.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 12,
+      "matchFingerprint": "67af51824e9ff8c7d2e80023e61a91877a48ed343a214cf8688f32bef6ce224e",
+      "sourceFingerprint": "6a18019671ce849f7213593d0992c000d00fe92d19f10d58e89e851956e30b99"
+    },
+    {
+      "path": "scripts/validate-gap10-provider-continuity.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 4,
+      "matchFingerprint": "296348e298db44324d882d9c1477032eff3acae63c32553dd5578493ccdaebd4",
+      "sourceFingerprint": "4cf44cf8c9c748de684f9dae6aece8e9b9ea48796452d330472a8eedc624d0e1"
+    },
+    {
+      "path": "scripts/validate-nitro-error-runtime.mjs",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 8,
+      "matchFingerprint": "2baf2ab9f2f11123c244461f1cfa549268334f83dd77c28fa1438bb708556047",
+      "sourceFingerprint": "bc2f8a28a9816146ea66034110671864e040371269e91210bb5fe254eb07db9b"
+    },
+    {
+      "path": "scripts/validate-openfront-consumers.mjs",
+      "category": "expected-source-oracle",
+      "reason": "Read-only sibling or consumer source-oracle names; never a generic runtime default.",
+      "expectedMatchCount": 1,
+      "matchFingerprint": "8d420dd01ed0db0fdfe92511a73d4d3b8a7932afe6be00603da1464f7946f0cc",
+      "sourceFingerprint": "cb69f847badb9cd84342190f8776039bfe93ebc67338edb7ccccf07196f1c1e4"
+    },
+    {
+      "path": "scripts/validate-openfront-runtime-canary.mjs",
+      "category": "expected-source-oracle",
+      "reason": "Read-only sibling or consumer source-oracle names; never a generic runtime default.",
+      "expectedMatchCount": 15,
+      "matchFingerprint": "d4ca195f75e185700f145e1d42ce30d5d9a23c0e3c81ef223b9e7054baa6a395",
+      "sourceFingerprint": "87314143ecc75419472c607d17d60759eed0dcb21367e8ab888813c0310434ec"
+    },
+    {
+      "path": "scripts/validate-os-org-real-consumer-canary.mjs",
+      "category": "expected-source-oracle",
+      "reason": "Exact real-consumer source-oracle fixture retained to verify os.org policy and cutover compatibility.",
+      "expectedMatchCount": 2,
+      "matchFingerprint": "81cebe154ba09ed86db9dc87ea894ae5739441b2ec07a463d603342ad1b83046",
+      "sourceFingerprint": "a860b2ab25ef0dc30f4ae93d4d3c1a73cca6d8f26201aa830606d0299a869237"
+    },
+    {
+      "path": "scripts/validate-runtime-dependencies.ts",
+      "category": "expected-source-oracle",
+      "reason": "Static source-audit oracle intentionally carries the forbidden starter vocabulary it detects; never a runtime default.",
+      "expectedMatchCount": 3,
+      "matchFingerprint": "1cb00f18ba7e2fe00c2e4b5bd2a23ad54b9fcefba212e4cdd9e278ae74ed8a6e",
+      "sourceFingerprint": "8582890248e336d20381b00661c4b1b6093b78bcca1029c288a325567d413edc"
+    },
+    {
+      "path": "scripts/validate-sibling-oracle.mjs",
+      "category": "expected-source-oracle",
+      "reason": "Read-only sibling or consumer source-oracle names; never a generic runtime default.",
+      "expectedMatchCount": 7,
+      "matchFingerprint": "bdd151dd1262b6cf94c26a3e5dd50790aa7e121937511c1a0dd8e6ae97fd95c3",
+      "sourceFingerprint": "3f1e82a6a87ca69a288eda2ddfc44b9cdcacf97d16b5a3360cff5676bb884e0c"
+    },
+    {
+      "path": "scripts/validate-source-cutover-runtime.ts",
+      "category": "expected-source-oracle",
+      "reason": "Read-only sibling or consumer source-oracle names; never a generic runtime default.",
+      "expectedMatchCount": 1,
+      "matchFingerprint": "11b69f15532bd8e2eac8a1f1d89c7114f0ba20cb565b29d2f0883c444208da37",
+      "sourceFingerprint": "a5a6b1c8d16cf3e04c2044a34ad838cf01a8f9ff947e478afbdc6bc10fd3bdd0"
+    },
+    {
+      "path": "scripts/validate-source-cutover.mjs",
+      "category": "expected-source-oracle",
+      "reason": "Read-only sibling or consumer source-oracle names; never a generic runtime default.",
+      "expectedMatchCount": 4,
+      "matchFingerprint": "92a3b10b8ad7e94cc151884af41e3fcf433753d78b5f6750d15f65c84581fc0c",
+      "sourceFingerprint": "32132fa22f6f0c12a2e6569f7bd9559011cc40f5142222b9d718d8a5a951e247"
+    },
+    {
+      "path": "src/features/cms/models/index.ts",
+      "category": "expected-demo",
+      "reason": "Replaceable starter demo configuration, model, or seed data; intentionally domain-specific.",
+      "expectedMatchCount": 12,
+      "matchFingerprint": "97efd6bb35c48552aff1ae28785453e65fadd82e5bfa82e26f0fe9800907f5d4",
+      "sourceFingerprint": "9cb2492b0d4a118893d1d65b315ffacbc01a21092b13657db9089f153c9f5594"
+    },
+    {
+      "path": "src/features/cms/models/Role.ts",
+      "category": "expected-demo",
+      "reason": "Replaceable starter demo configuration, model, or seed data; intentionally domain-specific.",
+      "expectedMatchCount": 2,
+      "matchFingerprint": "216fcd1ad830a6ebe652e4dcdcdf82cf4f6e500ecedf1e276949dcf7aff8bd23",
+      "sourceFingerprint": "7ea4250c132fcdc2b78ff3c2203c12ec152277f7196992b1247d229e2756b338"
+    },
+    {
+      "path": "src/features/cms/models/Todo.ts",
+      "category": "expected-demo",
+      "reason": "Replaceable starter demo configuration, model, or seed data; intentionally domain-specific.",
+      "expectedMatchCount": 4,
+      "matchFingerprint": "4b78a5662ce2e8a3cc288cf986c1a87b94c7b00f90e0246e82cd76e263c4d912",
+      "sourceFingerprint": "ae97d002fd2d1558ea8402c411d341018ab804d3cd3ad6242015c42e4adc8143"
+    },
+    {
+      "path": "src/features/cms/models/TodoImage.ts",
+      "category": "expected-demo",
+      "reason": "Replaceable starter demo configuration, model, or seed data; intentionally domain-specific.",
+      "expectedMatchCount": 3,
+      "matchFingerprint": "40680a5dc9eee880b6958fd6abc53b6354dac7659eafa6a97ee54208085575e4",
+      "sourceFingerprint": "5f987a1332047f9f6da58f78019b7383599198b1c4b41082aaf21cb909afd278"
+    },
+    {
+      "path": "src/features/cms/models/User.ts",
+      "category": "expected-demo",
+      "reason": "Replaceable starter demo configuration, model, or seed data; intentionally domain-specific.",
+      "expectedMatchCount": 3,
+      "matchFingerprint": "28cd969b4bf262a1dfd53697e10d2a0a0459811e2e8cdfb0ae9b286086659951",
+      "sourceFingerprint": "15ffbcfa712a6c2ec559f83d089fb41c1d3fad1ffcb7f8a592dee2c4df98e08a"
+    },
+    {
+      "path": "tests/cms-password-reset-mail.test.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 3,
+      "matchFingerprint": "b84dcec69ea8cf7224a555914df52186d7fb9a727ddf38e2f225e0a2f1384122",
+      "sourceFingerprint": "070083c72f648a997cfd66fc14d8efc51195c742805de9079607f8bc7ee551b1"
+    },
+    {
+      "path": "tests/dashboard-bulk-delete.test.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 4,
+      "matchFingerprint": "cccca51a417f028e619436b719ec71f6f73decbb0c2fef9dd1aafe2964ef9c79",
+      "sourceFingerprint": "7ceb7d091bf505d0bc12bf1c8e5317d7ac4c7c8e42eea159549240ce038c403e"
+    },
+    {
+      "path": "tests/dashboard-create-page-contract.test.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 2,
+      "matchFingerprint": "0d99864dae7f85e02d68b7ee4820d911f087e026fd5a4e962ddb7ad9a721528c",
+      "sourceFingerprint": "a40bfa55126d5e9955a5ab00c46764599331750d2d1913c2d5870eb92083ec74"
+    },
+    {
+      "path": "tests/dashboard-field-state-contracts.test.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 5,
+      "matchFingerprint": "372c5c146846fce394002609199098571b8f20a430da8235d3f0b608ecce9e35",
+      "sourceFingerprint": "deea22d2513a35e540bc21049b8ae704875d398620ef5d06ea68662ce1abfb29"
+    },
+    {
+      "path": "tests/dashboard-filter-param-compat.test.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 2,
+      "matchFingerprint": "73b9f88d0667f5a4aae5fb7f4db2e6f92aca6181212d71a9aab606f310747b80",
+      "sourceFingerprint": "ab5a01134de0d28ea18c486ffb8519d01fe0390a6339c224851651fab11b0a65"
+    },
+    {
+      "path": "tests/dashboard-graphql-error-details.test.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 1,
+      "matchFingerprint": "11b69f15532bd8e2eac8a1f1d89c7114f0ba20cb565b29d2f0883c444208da37",
+      "sourceFingerprint": "dac6f63c28b6db6fa37ab036790234892c1291c36b04a0c61621f10f20009614"
+    },
+    {
+      "path": "tests/dashboard-init-route.test.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 3,
+      "matchFingerprint": "948f2610891036d63ec3de8ed4308a4ba9158433d84b9683119f3396f5c9a7c8",
+      "sourceFingerprint": "8ccd233738ef7b186e7268a4152a5d25b598c6d3547c11ce57576dec2469f2e4"
+    },
+    {
+      "path": "tests/dashboard-list-state-persistence.test.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 2,
+      "matchFingerprint": "0d99864dae7f85e02d68b7ee4820d911f087e026fd5a4e962ddb7ad9a721528c",
+      "sourceFingerprint": "1cc25268b8166a5fa881e9ae00cea3465fcce36a1f49ed85f3cf5a6f6d0cef6a"
+    },
+    {
+      "path": "tests/dashboard-relationship-view-contract.test.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 2,
+      "matchFingerprint": "001e5298e39b1c19eeff4189797258f9b0b77f59a17d24c74bbfad77074cbdde",
+      "sourceFingerprint": "ed9080759e0fc362306460d2251220b89c018db79098633c2ad82baa200cf45b"
+    },
+    {
+      "path": "tests/dashboard-required-indicators.test.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 1,
+      "matchFingerprint": "3c10c70ecd4834e4bf0b70b8347315a1df85f4dc11531b53dfaf4e0cf4d7e7f7",
+      "sourceFingerprint": "977aa5d22b9838aef592ba8cf84f5fddf09a4007fc10809e8d44601a88066369"
+    },
+    {
+      "path": "tests/dashboard-route-guards.test.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 10,
+      "matchFingerprint": "b7aa07de03167505e68b86d83a96ba84f33bb4780dbe9eda68b88cfb56beb184",
+      "sourceFingerprint": "c2c8980cc9ce956472a730547368e7e02c43fc8cdc30e141f685263485fb901d"
+    },
+    {
+      "path": "tests/dashboard-specialized-controller-wiring.test.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 2,
+      "matchFingerprint": "31a7f5229a4de33460d3c68294b466fe26eac394f113c789da835c92b18e238d",
+      "sourceFingerprint": "3033bd7562df784320767b0822bfc44d0cc32c1dd64816034fca2acc805cb1e7"
+    },
+    {
+      "path": "tests/gap08-relationship-matrix.test.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 1,
+      "matchFingerprint": "4c778900c72783cad9745d45006e8b05ccb51ab50fc6b0a4ddaf9729a7442674",
+      "sourceFingerprint": "a6d393f343ef985b739cb6a3d7e803e6a183ab913fe297df58374084dc774386"
+    },
+    {
+      "path": "tests/mcp-security-worker.ts",
+      "category": "expected-demo",
+      "reason": "Starter-schema regression fixture inputs and assertions; intentionally demo-specific, not a generic infrastructure default.",
+      "expectedMatchCount": 24,
+      "matchFingerprint": "b9474ced195b9cc85c5e364c89dafafed3614a5c6e23fc49db57a3d8e95d9ffd",
+      "sourceFingerprint": "49d413cf4fbf32e1103f14f38fc98918e12c43dd9ca54c019b91a9eff2634fff"
+    },
+    {
+      "path": "tests/os-org-real-consumer-canary.test.ts",
+      "category": "expected-source-oracle",
+      "reason": "Exact real-consumer source-oracle fixture retained to verify os.org policy and cutover compatibility.",
+      "expectedMatchCount": 1,
+      "matchFingerprint": "8d420dd01ed0db0fdfe92511a73d4d3b8a7932afe6be00603da1464f7946f0cc",
+      "sourceFingerprint": "176b0e798ebe3f793cc2690ec62a7a09eeaebbffed6d1ba50b00124c09ec4fbd"
+    }
+  ],
+  "evidenceBindings": [
+    {
+      "id": "gap01-adminmeta-arbitrary-shapes",
+      "evidenceKind": "external-browser-evidence",
+      "browserScope": "external-memory-adminmeta-two-shape",
+      "claimBoundary": "Externally accepted checkpoint-028 memory-browser source binds two AdminMeta-discovered auth/create shapes; this static scanner does not run Firefox, broaden those two shapes, or claim realistic IDs.",
+      "markers": [
+        {
+          "path": "scripts/gap01-contract.mjs",
+          "text": "export const GAP01_SHAPES = Object.freeze([",
+          "expectedCount": 1,
+          "role": "executable-code",
+          "sourceFingerprint": "ec7d46fa27904a72e941e1ef7d78cf21e34ac0fd008b677e8fe6c3d807fc534d"
+        },
+        {
+          "path": "scripts/gap01-contract.mjs",
+          "text": "id: 'staff-inventory'",
+          "expectedCount": 1,
+          "role": "executable-code",
+          "sourceFingerprint": "ec7d46fa27904a72e941e1ef7d78cf21e34ac0fd008b677e8fe6c3d807fc534d"
+        },
+        {
+          "path": "scripts/gap01-contract.mjs",
+          "text": "id: 'operator-article'",
+          "expectedCount": 1,
+          "role": "executable-code",
+          "sourceFingerprint": "ec7d46fa27904a72e941e1ef7d78cf21e34ac0fd008b677e8fe6c3d807fc534d"
+        },
+        {
+          "path": "scripts/gap01-contract.mjs",
+          "text": "export const GAP01_ID_PROVENANCE = Object.freeze({",
+          "expectedCount": 1,
+          "role": "executable-code",
+          "sourceFingerprint": "ec7d46fa27904a72e941e1ef7d78cf21e34ac0fd008b677e8fe6c3d807fc534d"
+        },
+        {
+          "path": "scripts/gap01-contract.mjs",
+          "text": "classification: 'synthetic'",
+          "expectedCount": 1,
+          "role": "executable-code",
+          "sourceFingerprint": "ec7d46fa27904a72e941e1ef7d78cf21e34ac0fd008b677e8fe6c3d807fc534d"
+        },
+        {
+          "path": "scripts/validate-gap01-arbitrary-shapes.mjs",
+          "text": "Firefox dashboard arbitrary-model acceptance passed: AdminMeta discovered and persisted",
+          "expectedCount": 1,
+          "role": "executed-regex",
+          "sourceFingerprint": "3893d3f93f36b53bf3fd9208cd1b6523d0e60d4ef8708fffd3ff802145a5cab8"
+        },
+        {
+          "path": "scripts/validate-gap01-arbitrary-shapes.mjs",
+          "text": "for (const shape of GAP01_SHAPES)",
+          "expectedCount": 1,
+          "role": "executable-code",
+          "sourceFingerprint": "3893d3f93f36b53bf3fd9208cd1b6523d0e60d4ef8708fffd3ff802145a5cab8"
+        },
+        {
+          "path": "tests/gap01-arbitrary-shapes.test.ts",
+          "text": "covers materially different nonstandard auth and create shapes",
+          "expectedCount": 1,
+          "role": "executed-string",
+          "sourceFingerprint": "7391508ad406a84e32ecccc6d712422eba040840e735c37cb37fe015f89de81f"
+        },
+        {
+          "path": "tests/gap01-arbitrary-shapes.test.ts",
+          "text": "expect(GAP01_SHAPES).toHaveLength(2)",
+          "expectedCount": 1,
+          "role": "executable-code",
+          "sourceFingerprint": "7391508ad406a84e32ecccc6d712422eba040840e735c37cb37fe015f89de81f"
+        }
+      ],
+      "externalEvidence": {
+        "checkpoint": "checkpoint-028",
+        "checkpointSourceAggregate": "67cde5df31d2db955247db1845800c204c347a755b83ad747d25944842f767e4",
+        "acceptedPrismaCuidAggregate": "418884314c5dff970a8fc5c2ed10f175fd411669fbc7c8a7fe2118e6f3e94e4d",
+        "copiedSourceFingerprint": "68a2f8bdd26df91651798de54ce2135b0fe10524305cf478fc9c7bc3aec6c00b",
+        "artifactHashes": [
+          "ea355cf828134ba4e068d8e52b80b77c8d03e790a78fec20b3b1c1e18edfd210",
+          "7b24a3458247381f91d3cff5b47cee78d9e865c193ad3a555c8972e97bcc1c0c",
+          "aa5102898c1d7b1e371b24a4ae37c2eff5a7360c5da54c4eb6accd649466b823",
+          "81f8d81078f170e14ff849bb9dd02ea5ee9618a1de1dce38d4e553ed3374ba84"
+        ]
+      }
+    },
+    {
+      "id": "uuid-schema-fixture",
+      "evidenceKind": "static-fixture",
+      "browserScope": "none",
+      "claimBoundary": "Positive UUID Prisma-schema source fixture only; this scanner neither executes the fixture nor claims runtime or browser UUID coverage.",
+      "markers": [
+        {
+          "path": "scripts/validate-cms-prisma-schema.ts",
+          "text": "db: { idField: { kind: 'uuid' } }",
+          "expectedCount": 1,
+          "role": "executable-code",
+          "sourceFingerprint": "b927fd2cc902152e76fcd31ac0decf95ceaafc8f168a541de854ffcd42906aca"
+        },
+        {
+          "path": "scripts/validate-cms-prisma-schema.ts",
+          "text": "id String @id @default(uuid())",
+          "expectedCount": 1,
+          "role": "executed-string",
+          "sourceFingerprint": "b927fd2cc902152e76fcd31ac0decf95ceaafc8f168a541de854ffcd42906aca"
+        },
+        {
+          "path": "scripts/validate-cms-prisma-schema.ts",
+          "text": "generated Prisma schema should honor db.idField.kind=uuid",
+          "expectedCount": 1,
+          "role": "executed-string",
+          "sourceFingerprint": "b927fd2cc902152e76fcd31ac0decf95ceaafc8f168a541de854ffcd42906aca"
+        }
+      ]
+    },
+    {
+      "id": "autoincrement-schema-fixture",
+      "evidenceKind": "static-fixture",
+      "browserScope": "none",
+      "claimBoundary": "Positive autoincrement Prisma-schema source fixture only; this scanner neither executes it nor claims runtime or browser autoincrement coverage.",
+      "markers": [
+        {
+          "path": "scripts/validate-cms-prisma-schema.ts",
+          "text": "const autoincrementLists = initialiseLists(",
+          "expectedCount": 1,
+          "role": "executable-code",
+          "sourceFingerprint": "b927fd2cc902152e76fcd31ac0decf95ceaafc8f168a541de854ffcd42906aca"
+        },
+        {
+          "path": "scripts/validate-cms-prisma-schema.ts",
+          "text": "id Int @id @default(autoincrement())",
+          "expectedCount": 3,
+          "role": "executed-string",
+          "sourceFingerprint": "b927fd2cc902152e76fcd31ac0decf95ceaafc8f168a541de854ffcd42906aca"
+        },
+        {
+          "path": "scripts/validate-cms-prisma-schema.ts",
+          "text": "generated Prisma schema should honor db.idField.kind=autoincrement",
+          "expectedCount": 1,
+          "role": "executed-string",
+          "sourceFingerprint": "b927fd2cc902152e76fcd31ac0decf95ceaafc8f168a541de854ffcd42906aca"
+        }
+      ]
+    },
+    {
+      "id": "mapped-schema-fixture",
+      "evidenceKind": "static-fixture",
+      "browserScope": "none",
+      "claimBoundary": "Positive list/field mapping schema and focused-test source fixtures; this static binding does not execute them or claim mapped-model browser coverage.",
+      "markers": [
+        {
+          "path": "scripts/validate-cms-prisma-schema.ts",
+          "text": "const mappedLists = initialiseLists(",
+          "expectedCount": 1,
+          "role": "executable-code",
+          "sourceFingerprint": "b927fd2cc902152e76fcd31ac0decf95ceaafc8f168a541de854ffcd42906aca"
+        },
+        {
+          "path": "scripts/validate-cms-prisma-schema.ts",
+          "text": "db: { map: 'blog_posts' }",
+          "expectedCount": 1,
+          "role": "executable-code",
+          "sourceFingerprint": "b927fd2cc902152e76fcd31ac0decf95ceaafc8f168a541de854ffcd42906aca"
+        },
+        {
+          "path": "scripts/validate-cms-prisma-schema.ts",
+          "text": "@@map(\"blog_posts\")",
+          "expectedCount": 1,
+          "role": "executed-string",
+          "sourceFingerprint": "b927fd2cc902152e76fcd31ac0decf95ceaafc8f168a541de854ffcd42906aca"
+        },
+        {
+          "path": "tests/cms-prisma-map.test.ts",
+          "text": "db: { map: 'priority' }",
+          "expectedCount": 1,
+          "role": "executable-code",
+          "sourceFingerprint": "4ad645d2fe6c8aad91fbfa20fef7c66d526f4f33df9c864a81f93fcf5577961a"
+        },
+        {
+          "path": "tests/cms-prisma-map.test.ts",
+          "text": "rank String @default(\"\") @map(\"priority\")",
+          "expectedCount": 1,
+          "role": "executed-string",
+          "sourceFingerprint": "4ad645d2fe6c8aad91fbfa20fef7c66d526f4f33df9c864a81f93fcf5577961a"
+        }
+      ]
+    },
+    {
+      "id": "singleton-memory-graphql-fixture",
+      "evidenceKind": "memory-graphql-fixture",
+      "browserScope": "none",
+      "claimBoundary": "Package-wired singleton memory/GraphQL fixture source; this scanner verifies markers and wiring only and makes no singleton browser claim.",
+      "markers": [
+        {
+          "path": "scripts/validate-cms-singleton.ts",
+          "text": "const singletonConfig = config({",
+          "expectedCount": 1,
+          "role": "executable-code",
+          "sourceFingerprint": "a1f45640480d7d4fe1e8a2f3bfb8085886c90e51e92be104b8bd5c65484eac7e"
+        },
+        {
+          "path": "scripts/validate-cms-singleton.ts",
+          "text": "isSingleton: true",
+          "expectedCount": 1,
+          "role": "executable-code",
+          "sourceFingerprint": "a1f45640480d7d4fe1e8a2f3bfb8085886c90e51e92be104b8bd5c65484eac7e"
+        },
+        {
+          "path": "scripts/validate-cms-singleton.ts",
+          "text": "ValidateSingletonCreate",
+          "expectedCount": 1,
+          "role": "executed-string",
+          "sourceFingerprint": "a1f45640480d7d4fe1e8a2f3bfb8085886c90e51e92be104b8bd5c65484eac7e"
+        },
+        {
+          "path": "scripts/validate-cms-singleton.ts",
+          "text": "CMS singleton validation passed.",
+          "expectedCount": 1,
+          "role": "executed-string",
+          "sourceFingerprint": "a1f45640480d7d4fe1e8a2f3bfb8085886c90e51e92be104b8bd5c65484eac7e"
+        },
+        {
+          "path": "package.json",
+          "text": "tsx scripts/validate-cms-singleton.ts",
+          "expectedCount": 1,
+          "role": "package-script",
+          "sourceFingerprint": "f9bf98ca2bf699304a2dd9b15217d27b8bbd87f57a1436ce2ae39b1507a7f06d"
+        }
+      ]
+    }
+  ]
+}

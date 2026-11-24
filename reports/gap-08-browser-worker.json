@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "startedAt": "2026-08-14T02:50:25.796Z",
+  "endpointIds": [
+    "Aster.links",
+    "Aster.members",
+    "Aster.partner",
+    "Rook.aster",
+    "Sable.aster",
+    "Tag.asters"
+  ],
+  "created": [
+    {
+      "endpointId": "Aster.links",
+      "listKey": "Aster",
+      "returnedId": "cmsscnpbh0001euuzvp0b1sm5",
+      "routeId": "cmsscnpbh0001euuzvp0b1sm5",
+      "value": "g8-browser-0-1786675829247"
+    },
+    {
+      "endpointId": "Rook.aster",
+      "listKey": "Rook",
+      "returnedId": "cmsscnpya0002euuzjlpfpz7e",
+      "routeId": "cmsscnpya0002euuzjlpfpz7e",
+      "value": "g8-browser-1-1786675830271"
+    },
+    {
+      "endpointId": "Tag.asters",
+      "listKey": "Tag",
+      "returnedId": "cmsscnqg00003euuzylec6pie",
+      "routeId": "cmsscnqg00003euuzylec6pie",
+      "value": "g8-browser-2-1786675830957"
+    }
+  ],
+  "eventCount": 301,
+  "failures": [],
+  "expectedNavigationAborts": 9,
+  "finalizedAt": "2026-08-14T02:50:31.596Z"
+}

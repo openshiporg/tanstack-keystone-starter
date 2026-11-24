@@ -1,0 +1,4 @@
+Error: Timed out waiting for GAP-08 Firefox BiDi readiness
+    at waitFor (file:///private/var/folders/cl/hn3xfghd7gg2m5fr8vb1mxz80000gn/T/tks-gap08-heavy-7ZRRVb/fixture/scripts/gap08-heavy-lifecycle.mjs:333:9)
+    at async main (file:///private/var/folders/cl/hn3xfghd7gg2m5fr8vb1mxz80000gn/T/tks-gap08-heavy-7ZRRVb/fixture/scripts/fixtures/gap08-browser-worker.mjs:206:5)
+    at async file:///private/var/folders/cl/hn3xfghd7gg2m5fr8vb1mxz80000gn/T/tks-gap08-heavy-7ZRRVb/fixture/scripts/fixtures/gap08-browser-worker.mjs:461:3

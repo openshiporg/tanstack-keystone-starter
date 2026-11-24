@@ -1,0 +1,2128 @@
+{
+  "status": "PASS",
+  "startedAt": "2026-08-14T02:50:19.622Z",
+  "currentScenario": null,
+  "generated": {
+    "provenance": "generated-adminmeta-plus-prisma-schema",
+    "adminMetaSha256": "6d8a02581960fa5ea290fe60cab490ac727f114d0bed405bb4e4de125ddc5696",
+    "prismaSchemaSha256": "a1f3f16c95ea47c98523e1edba1c014be0a7596c75a8eb3a2533a9a21c58bb76",
+    "endpointIds": [
+      "Aster.links",
+      "Aster.members",
+      "Aster.partner",
+      "Rook.aster",
+      "Sable.aster",
+      "Tag.asters"
+    ],
+    "scenarioIds": [
+      "Aster.links:connect",
+      "Aster.links:nested-create",
+      "Aster.links:invalid-id",
+      "Aster.links:invalid-selector",
+      "Aster.links:cross-list-id",
+      "Aster.links:duplicate-write",
+      "Aster.links:conflicting-write",
+      "Aster.links:atomic-rollback",
+      "Aster.links:unchanged-state",
+      "Aster.links:set",
+      "Aster.links:disconnect",
+      "Aster.links:delete-local",
+      "Aster.links:delete-related",
+      "Aster.members:connect",
+      "Aster.members:nested-create",
+      "Aster.members:invalid-id",
+      "Aster.members:invalid-selector",
+      "Aster.members:cross-list-id",
+      "Aster.members:duplicate-write",
+      "Aster.members:conflicting-write",
+      "Aster.members:atomic-rollback",
+      "Aster.members:unchanged-state",
+      "Aster.members:opposite-required-set",
+      "Aster.members:opposite-required-disconnect",
+      "Aster.members:opposite-required-delete-local",
+      "Aster.members:delete-related",
+      "Aster.partner:connect",
+      "Aster.partner:nested-create",
+      "Aster.partner:invalid-id",
+      "Aster.partner:invalid-selector",
+      "Aster.partner:cross-list-id",
+      "Aster.partner:duplicate-write",
+      "Aster.partner:conflicting-write",
+      "Aster.partner:atomic-rollback",
+      "Aster.partner:unchanged-state",
+      "Aster.partner:disconnect",
+      "Aster.partner:delete-local",
+      "Aster.partner:delete-related",
+      "Rook.aster:connect",
+      "Rook.aster:nested-create",
+      "Rook.aster:invalid-id",
+      "Rook.aster:invalid-selector",
+      "Rook.aster:cross-list-id",
+      "Rook.aster:duplicate-write",
+      "Rook.aster:conflicting-write",
+      "Rook.aster:atomic-rollback",
+      "Rook.aster:unchanged-state",
+      "Rook.aster:disconnect",
+      "Rook.aster:delete-local",
+      "Rook.aster:delete-related",
+      "Sable.aster:connect",
+      "Sable.aster:nested-create",
+      "Sable.aster:invalid-id",
+      "Sable.aster:invalid-selector",
+      "Sable.aster:cross-list-id",
+      "Sable.aster:duplicate-write",
+      "Sable.aster:conflicting-write",
+      "Sable.aster:atomic-rollback",
+      "Sable.aster:unchanged-state",
+      "Sable.aster:required-disconnect",
+      "Sable.aster:delete-local",
+      "Sable.aster:required-delete-related",
+      "Sable.aster:required-create",
+      "Tag.asters:connect",
+      "Tag.asters:nested-create",
+      "Tag.asters:invalid-id",
+      "Tag.asters:invalid-selector",
+      "Tag.asters:cross-list-id",
+      "Tag.asters:duplicate-write",
+      "Tag.asters:conflicting-write",
+      "Tag.asters:atomic-rollback",
+      "Tag.asters:unchanged-state",
+      "Tag.asters:set",
+      "Tag.asters:disconnect",
+      "Tag.asters:delete-local",
+      "Tag.asters:delete-related"
+    ]
+  },
+  "catalog": [
+    {
+      "tableName": "_Gap08MappedTagLink",
+      "columns": [
+        "A",
+        "B"
+      ],
+      "foreignKeys": [
+        {
+          "column": "A",
+          "referencesTableName": "gap08_aster_rows",
+          "referencesColumnName": "id"
+        },
+        {
+          "column": "B",
+          "referencesTableName": "gap08_tag_rows",
+          "referencesColumnName": "id"
+        }
+      ],
+      "uniqueIndexes": [
+        {
+          "relname": "_Gap08MappedTagLink_AB_pkey",
+          "array_agg": "{A,B}"
+        }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "Aster.links:connect",
+      "endpointId": "Aster.links",
+      "kind": "connect",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "2ae9bce9ab3ef7cdd2d4066cc322da93be97206cceb65cf9ca8c18f590769d22",
+        "scalarHash": "c3ee82bfaaef196e0864efa2fbd9fe78fce8794bc7d4680a64e2996fd5204d36",
+        "storageHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "2ae9bce9ab3ef7cdd2d4066cc322da93be97206cceb65cf9ca8c18f590769d22",
+        "scalarHash": "c3ee82bfaaef196e0864efa2fbd9fe78fce8794bc7d4680a64e2996fd5204d36",
+        "storageHash": "81f8dd00a2c1f93d2961733d41f2bb64e7a6e2dbc8b1718e0aabfdb5325ee8e5"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.links:nested-create",
+      "endpointId": "Aster.links",
+      "kind": "nested-create",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "d926c295230c2c9d3fb9ad483db22810946da0d592c0eebc2eeffe76f161cb66",
+        "scalarHash": "86336c8a1d69667f89360495238e3015a818e930167e48d13f291c3b052dc55c",
+        "storageHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 4,
+        "edgeCount": 1,
+        "sentinelHash": "d926c295230c2c9d3fb9ad483db22810946da0d592c0eebc2eeffe76f161cb66",
+        "scalarHash": "86336c8a1d69667f89360495238e3015a818e930167e48d13f291c3b052dc55c",
+        "storageHash": "9177e79bc7454663cfe7932fda87193d93a1cb3d0569824ea591a6549a9a0282"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.links:invalid-id",
+      "endpointId": "Aster.links",
+      "kind": "invalid-id",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "835811fdd458b71dfab409fb1b0b37572858c6710bfcecbb54792008b9e26c9c",
+        "scalarHash": "6b085c49f0421aa5e7659729faddcac8c1e448c923c52142096ee5c2a6d32362",
+        "storageHash": "bb6e28feb19aeb3847b4057bbd1862c23e3ce45c6b08424e6c0b92573f6ba386"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "835811fdd458b71dfab409fb1b0b37572858c6710bfcecbb54792008b9e26c9c",
+        "scalarHash": "6b085c49f0421aa5e7659729faddcac8c1e448c923c52142096ee5c2a6d32362",
+        "storageHash": "bb6e28feb19aeb3847b4057bbd1862c23e3ce45c6b08424e6c0b92573f6ba386"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Tag.relationship.connect: Cannot connect Tag missing-2-1786675820593: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Aster.links:invalid-selector",
+      "endpointId": "Aster.links",
+      "kind": "invalid-selector",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "2587a42b1044466506268010a940694dca714f253b87724c6a2d6879ce7923de",
+        "scalarHash": "2195dbd7ef4e4ce9cb841dd0c481ba6159f2299befe0a9bb288a251625e4a0de",
+        "storageHash": "f275c6e68e705e0761154770792f9e99e1220e03aa8e68d25da33c486bd2bcd6"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "2587a42b1044466506268010a940694dca714f253b87724c6a2d6879ce7923de",
+        "scalarHash": "2195dbd7ef4e4ce9cb841dd0c481ba6159f2299befe0a9bb288a251625e4a0de",
+        "storageHash": "f275c6e68e705e0761154770792f9e99e1220e03aa8e68d25da33c486bd2bcd6"
+      },
+      "errors": [
+        {
+          "message": "Variable \"$data\" got invalid value { gap08InvalidSelector: \"3-1786675820658\" } at \"data.links.connect[0]\"; Field \"gap08InvalidSelector\" is not defined by type \"TagWhereUniqueInput\".",
+          "code": null
+        }
+      ]
+    },
+    {
+      "id": "Aster.links:cross-list-id",
+      "endpointId": "Aster.links",
+      "kind": "cross-list-id",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "7cb137b0b4212a190723e8629f2b3e8b70b0e3a24149b1b8c2167c4ecda50323",
+        "scalarHash": "a1dc2d6d35496d42ec0a47345ba2ba02123b7894c62c2629b7221030f270b7e9",
+        "storageHash": "98f70fe1917f4f2ce3d687f5c7af8ae4b430b0feba578a18a08a3bbe07c61a80"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "7cb137b0b4212a190723e8629f2b3e8b70b0e3a24149b1b8c2167c4ecda50323",
+        "scalarHash": "a1dc2d6d35496d42ec0a47345ba2ba02123b7894c62c2629b7221030f270b7e9",
+        "storageHash": "98f70fe1917f4f2ce3d687f5c7af8ae4b430b0feba578a18a08a3bbe07c61a80"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Tag.relationship.connect: Cannot connect Tag cmsscnidf0014enuziywmxzgi: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Aster.links:duplicate-write",
+      "endpointId": "Aster.links",
+      "kind": "duplicate-write",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "a08df2a99651b03d8819bcbb5f5b32a38f391f6e9bdd36bdd96099012882afc2",
+        "scalarHash": "19578a24529d618e845336419525bc8bbbf25d74a17f7cf60e00ffc2442d06b8",
+        "storageHash": "a04ee347876ac5f9d78666886a6dad689174aa9dcdf00cda9bacf795de553922"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "a08df2a99651b03d8819bcbb5f5b32a38f391f6e9bdd36bdd96099012882afc2",
+        "scalarHash": "19578a24529d618e845336419525bc8bbbf25d74a17f7cf60e00ffc2442d06b8",
+        "storageHash": "a04ee347876ac5f9d78666886a6dad689174aa9dcdf00cda9bacf795de553922"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.links:conflicting-write",
+      "endpointId": "Aster.links",
+      "kind": "conflicting-write",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "bf240390224a998e7e51e54844afbb924454a5ebac00764611aa53264c66fe5b",
+        "scalarHash": "935c27f39ee57b13dabb51ee15540d6a6a1a7b768fb315db4e52cdc83d31a7d1",
+        "storageHash": "b354eedbc03b3eeda0a45d24b28179aa3b4067163e0777bd0946997046066ce5"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "bf240390224a998e7e51e54844afbb924454a5ebac00764611aa53264c66fe5b",
+        "scalarHash": "935c27f39ee57b13dabb51ee15540d6a6a1a7b768fb315db4e52cdc83d31a7d1",
+        "storageHash": "b354eedbc03b3eeda0a45d24b28179aa3b4067163e0777bd0946997046066ce5"
+      },
+      "errors": [
+        {
+          "message": "The \"set\" and \"disconnect\" fields cannot both be provided to to-many relationship inputs for \"update\" operations.",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Aster.links:atomic-rollback",
+      "endpointId": "Aster.links",
+      "kind": "atomic-rollback",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "33ceb4231e0e0170da527ad0ecd8b325e41f2a5cad98483def7283970f9eed07",
+        "scalarHash": "bbad0c8e5b9ae9faa6580037badbdaec6d9b6cd6f4bb6f9c9df2e07421467754",
+        "storageHash": "216b9996cfe1ffc0421d38ce44ed85da58183d38db68354dfca031ed9bb7c921"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "33ceb4231e0e0170da527ad0ecd8b325e41f2a5cad98483def7283970f9eed07",
+        "scalarHash": "bbad0c8e5b9ae9faa6580037badbdaec6d9b6cd6f4bb6f9c9df2e07421467754",
+        "storageHash": "216b9996cfe1ffc0421d38ce44ed85da58183d38db68354dfca031ed9bb7c921"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Tag.relationship.connect: Cannot connect Tag missing-rollback-7-1786675821283: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Aster.links:unchanged-state",
+      "endpointId": "Aster.links",
+      "kind": "unchanged-state",
+      "expectedOutcome": "assertion",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "74b29f0f0612e66acb17c860d4ae9420db65562b847dfd3f8fa9e6054ef4666e",
+        "scalarHash": "3bf6e0299a5ec8dbb337677fc66e10d162a6e56ea38aea92122946b564347b5a",
+        "storageHash": "68709d06a687ae8eb154db16b5a4eaa49bcea3976d67731b77e66929fb0c2a6b"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "74b29f0f0612e66acb17c860d4ae9420db65562b847dfd3f8fa9e6054ef4666e",
+        "scalarHash": "3bf6e0299a5ec8dbb337677fc66e10d162a6e56ea38aea92122946b564347b5a",
+        "storageHash": "68709d06a687ae8eb154db16b5a4eaa49bcea3976d67731b77e66929fb0c2a6b"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.links:set",
+      "endpointId": "Aster.links",
+      "kind": "set",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "c18821dda803f458234ef8fdf610887f8dad1006af362eb4fbae28d9439af884",
+        "scalarHash": "30464f6dbd036a2b5f05806101317c1754562cd4f2e423e34348be20414750ab",
+        "storageHash": "07d41f4b6486e28864af6f9a7114da99819be180cbc6c6e3016ecf255419c985"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "c18821dda803f458234ef8fdf610887f8dad1006af362eb4fbae28d9439af884",
+        "scalarHash": "30464f6dbd036a2b5f05806101317c1754562cd4f2e423e34348be20414750ab",
+        "storageHash": "5258c2b84d1a08e9628885179a670bc875fcb717eec196a9976cf0453c731687"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.links:disconnect",
+      "endpointId": "Aster.links",
+      "kind": "disconnect",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "cab47d78bec4980b732d88237caac63f44b908fcdea11e43168f6a5a1624988d",
+        "scalarHash": "173e09bba1fb42e01cfffba27fd7d0bca6449bc437a0d7a8dc2acdcbbe3fb0d2",
+        "storageHash": "5d66a692af1262399b6f9ede643b53637d234eda6837d7e2be9b13172147c042"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "cab47d78bec4980b732d88237caac63f44b908fcdea11e43168f6a5a1624988d",
+        "scalarHash": "173e09bba1fb42e01cfffba27fd7d0bca6449bc437a0d7a8dc2acdcbbe3fb0d2",
+        "storageHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.links:delete-local",
+      "endpointId": "Aster.links",
+      "kind": "delete-local",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "4e65c3b03576e6deda4bc2ff974b6b0c94aa6c1e7dc25db5206fc759843cdbc8",
+        "scalarHash": "6a091b713be50710af37d6d88d69c9e055e52908c628fedf7fc78720e1acc47c",
+        "storageHash": "c083c4088c1e83d062e14db16ac28adfebdfa20e2dd67fd326a1b5e14fe352b3"
+      },
+      "after": {
+        "parentCount": 1,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "4e65c3b03576e6deda4bc2ff974b6b0c94aa6c1e7dc25db5206fc759843cdbc8",
+        "scalarHash": "d99040fbf63677e0baf3cd9e3c8dec5b7e88da4e405c719f0f01ee830b6e63fa",
+        "storageHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.links:delete-related",
+      "endpointId": "Aster.links",
+      "kind": "delete-related",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "814484bef38d05743f0f3008a6aa3eb24b6c2f3f878b87d22bf6cd0cdb0f27fb",
+        "scalarHash": "c5be8e253658f3207089eb50aae91aac7504fe078fdaf49c2a18f37ef1df94e8",
+        "storageHash": "4e3131c5d702ae536b0007c4281a12893da3fd7f2b3dfef0fd2ddaa9171bf366"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 2,
+        "edgeCount": 0,
+        "sentinelHash": "814484bef38d05743f0f3008a6aa3eb24b6c2f3f878b87d22bf6cd0cdb0f27fb",
+        "scalarHash": "c5be8e253658f3207089eb50aae91aac7504fe078fdaf49c2a18f37ef1df94e8",
+        "storageHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.members:connect",
+      "endpointId": "Aster.members",
+      "kind": "connect",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "d057a39cae5c30310e18c50913ae7548e52c00b4c4bbe34a6ee2409f2c18fcef",
+        "scalarHash": "3a7cd63cdaa2d8dd5e4857c2c9569f248321e8406a17e3994fab038d21958dce",
+        "storageHash": "ca1a7a5f4f7ea5a76e2554d3d4a16b1003eab897240cd22ca3a494533acabb01"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "d057a39cae5c30310e18c50913ae7548e52c00b4c4bbe34a6ee2409f2c18fcef",
+        "scalarHash": "3a7cd63cdaa2d8dd5e4857c2c9569f248321e8406a17e3994fab038d21958dce",
+        "storageHash": "ae42b924f5a7cc52d26c574ce9966fc56e7b49a6966c4eb625d2f2c730a17f90"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.members:nested-create",
+      "endpointId": "Aster.members",
+      "kind": "nested-create",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "3f14754a5df8eea347ed5f0d2a9af2af9b1db893eac203657fcbe54046975d55",
+        "scalarHash": "f73e044873d0faffc969bc2e5a3271d6ffd52e3dd29033cc20661f771cd694d7",
+        "storageHash": "ca1a7a5f4f7ea5a76e2554d3d4a16b1003eab897240cd22ca3a494533acabb01"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 4,
+        "edgeCount": 1,
+        "sentinelHash": "3f14754a5df8eea347ed5f0d2a9af2af9b1db893eac203657fcbe54046975d55",
+        "scalarHash": "f73e044873d0faffc969bc2e5a3271d6ffd52e3dd29033cc20661f771cd694d7",
+        "storageHash": "ca1a7a5f4f7ea5a76e2554d3d4a16b1003eab897240cd22ca3a494533acabb01"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.members:invalid-id",
+      "endpointId": "Aster.members",
+      "kind": "invalid-id",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "3def806063e15a707e4bb54040114ce0c42f49945638e69bd0055deb73a876c6",
+        "scalarHash": "20be2ac38d582caead1703b74ea4c2c7c9596d844267dac8b5a936a5ddf85e9e",
+        "storageHash": "f560787443b7d894f985bb4288fd8884791aff5eec68d947dd5dd9a173d46205"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "3def806063e15a707e4bb54040114ce0c42f49945638e69bd0055deb73a876c6",
+        "scalarHash": "20be2ac38d582caead1703b74ea4c2c7c9596d844267dac8b5a936a5ddf85e9e",
+        "storageHash": "f560787443b7d894f985bb4288fd8884791aff5eec68d947dd5dd9a173d46205"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Sable.relationship.connect: Cannot connect Sable missing-15-1786675821715: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Aster.members:invalid-selector",
+      "endpointId": "Aster.members",
+      "kind": "invalid-selector",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "7804a3ff5ac3bd143614097dca7eab6bd5cf1fbe1924262f9c9fabcc8a2d5964",
+        "scalarHash": "9a7f91a9f64e48223e25a67d8a63d09669bcab8be00389e9b06e2a0581bfa675",
+        "storageHash": "41e032e3d5251e623a50fa1c2577489440403f189d12b4285ec04c02a0b50b1c"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "7804a3ff5ac3bd143614097dca7eab6bd5cf1fbe1924262f9c9fabcc8a2d5964",
+        "scalarHash": "9a7f91a9f64e48223e25a67d8a63d09669bcab8be00389e9b06e2a0581bfa675",
+        "storageHash": "41e032e3d5251e623a50fa1c2577489440403f189d12b4285ec04c02a0b50b1c"
+      },
+      "errors": [
+        {
+          "message": "Variable \"$data\" got invalid value { gap08InvalidSelector: \"16-1786675821757\" } at \"data.members.connect[0]\"; Field \"gap08InvalidSelector\" is not defined by type \"SableWhereUniqueInput\".",
+          "code": null
+        }
+      ]
+    },
+    {
+      "id": "Aster.members:cross-list-id",
+      "endpointId": "Aster.members",
+      "kind": "cross-list-id",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "db8426a17329a8c48c45673417b00ec34b62f4633ae3fc1299fa3ae8f31347c2",
+        "scalarHash": "56132d08f662048faf011ab6e4c5f2973eaf1b066b7237abac3154bcf84539e1",
+        "storageHash": "d067c3e9a95e925268487ad215e4e72147a3f5612d8457c381232ef8ef5b6bd2"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "db8426a17329a8c48c45673417b00ec34b62f4633ae3fc1299fa3ae8f31347c2",
+        "scalarHash": "56132d08f662048faf011ab6e4c5f2973eaf1b066b7237abac3154bcf84539e1",
+        "storageHash": "d067c3e9a95e925268487ad215e4e72147a3f5612d8457c381232ef8ef5b6bd2"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Sable.relationship.connect: Cannot connect Sable cmsscnj6v0041enuzoba2vspn: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Aster.members:duplicate-write",
+      "endpointId": "Aster.members",
+      "kind": "duplicate-write",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "826a73c45508dc427961b7bcde7baf5dc0b53465b7f1366ff26aaa27e0a106d6",
+        "scalarHash": "6b14dd53e91b804215ef1a4c3f27cb91cec44f376d2d4939480b4bc20a06ca80",
+        "storageHash": "15ac96788962c83e8d8e291f24f25ff56ce2b8f4c2c53236924a9df92d78a710"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "826a73c45508dc427961b7bcde7baf5dc0b53465b7f1366ff26aaa27e0a106d6",
+        "scalarHash": "6b14dd53e91b804215ef1a4c3f27cb91cec44f376d2d4939480b4bc20a06ca80",
+        "storageHash": "15ac96788962c83e8d8e291f24f25ff56ce2b8f4c2c53236924a9df92d78a710"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.members:conflicting-write",
+      "endpointId": "Aster.members",
+      "kind": "conflicting-write",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "cc2269f3e78f2298eb85ac34095c6d3e34914b59894ec6565307f3e202e597a3",
+        "scalarHash": "22f2637ad86b7171c2363470ce498d26c51c121892ae5db5801ae9f4322669f5",
+        "storageHash": "14378619e3624ed199c5e412fd104db121688ccf0e068c05f9738ce6a2b0a6f7"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "cc2269f3e78f2298eb85ac34095c6d3e34914b59894ec6565307f3e202e597a3",
+        "scalarHash": "22f2637ad86b7171c2363470ce498d26c51c121892ae5db5801ae9f4322669f5",
+        "storageHash": "14378619e3624ed199c5e412fd104db121688ccf0e068c05f9738ce6a2b0a6f7"
+      },
+      "errors": [
+        {
+          "message": "Sable.aster is required",
+          "code": "KS_VALIDATION_FAILURE"
+        }
+      ]
+    },
+    {
+      "id": "Aster.members:atomic-rollback",
+      "endpointId": "Aster.members",
+      "kind": "atomic-rollback",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "704ec12934d99c771a7c0e8f90ee26ebd2858ade7c4002fe5806b90e22f0aba7",
+        "scalarHash": "2183b6b1ce6e91a37fad6942ced1ccc3c77162a899ab647848c70e381fc75fee",
+        "storageHash": "979559a331bf84f3f240dcbbc69acc2458046841eb9fae9dc2295e4b79ee8362"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "704ec12934d99c771a7c0e8f90ee26ebd2858ade7c4002fe5806b90e22f0aba7",
+        "scalarHash": "2183b6b1ce6e91a37fad6942ced1ccc3c77162a899ab647848c70e381fc75fee",
+        "storageHash": "979559a331bf84f3f240dcbbc69acc2458046841eb9fae9dc2295e4b79ee8362"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Sable.relationship.connect: Cannot connect Sable missing-rollback-20-1786675821913: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Aster.members:unchanged-state",
+      "endpointId": "Aster.members",
+      "kind": "unchanged-state",
+      "expectedOutcome": "assertion",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "2a364f03f99b94b954efbb19fca37e0f5b8b664b0f19f69b0376e89369e2e7ee",
+        "scalarHash": "ec1cc16144dee8c8fa390ce598b0e34f335cfc87f7040a7410ed3c21211741db",
+        "storageHash": "d9fb7af5a7266e2f786e8d818247db26219f0a25e953e146e34aeb1e9f582342"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "2a364f03f99b94b954efbb19fca37e0f5b8b664b0f19f69b0376e89369e2e7ee",
+        "scalarHash": "ec1cc16144dee8c8fa390ce598b0e34f335cfc87f7040a7410ed3c21211741db",
+        "storageHash": "d9fb7af5a7266e2f786e8d818247db26219f0a25e953e146e34aeb1e9f582342"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.members:opposite-required-set",
+      "endpointId": "Aster.members",
+      "kind": "opposite-required-set",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "ebe62e7d7c3a0410b9a602378aa16fc694f85d0536305d3b92e0f23cd08d8bb0",
+        "scalarHash": "181abc2494b7762b2db356543abf954e75b5dc8512928758e7d09067447211ef",
+        "storageHash": "1187f575ef506f14fac6b999146287026d604a60e4b3d8e2281df525491ca949"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "ebe62e7d7c3a0410b9a602378aa16fc694f85d0536305d3b92e0f23cd08d8bb0",
+        "scalarHash": "181abc2494b7762b2db356543abf954e75b5dc8512928758e7d09067447211ef",
+        "storageHash": "1187f575ef506f14fac6b999146287026d604a60e4b3d8e2281df525491ca949"
+      },
+      "errors": [
+        {
+          "message": "Sable.aster is required",
+          "code": "KS_VALIDATION_FAILURE"
+        }
+      ]
+    },
+    {
+      "id": "Aster.members:opposite-required-disconnect",
+      "endpointId": "Aster.members",
+      "kind": "opposite-required-disconnect",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "7d84e273bccf6e5b71a9a25848fc5bc7aaba620788a23b9724650b1de0c792e3",
+        "scalarHash": "edaf7fa40ab7bb0cf9f634c6c7a4aa5fdef79ad096f5be34b58cca68a9fa15cb",
+        "storageHash": "8438a4e5e7aa330e05cb6b712bf789e5251de933700056c06f2d82ec25a3f332"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "7d84e273bccf6e5b71a9a25848fc5bc7aaba620788a23b9724650b1de0c792e3",
+        "scalarHash": "edaf7fa40ab7bb0cf9f634c6c7a4aa5fdef79ad096f5be34b58cca68a9fa15cb",
+        "storageHash": "8438a4e5e7aa330e05cb6b712bf789e5251de933700056c06f2d82ec25a3f332"
+      },
+      "errors": [
+        {
+          "message": "Sable.aster is required",
+          "code": "KS_VALIDATION_FAILURE"
+        }
+      ]
+    },
+    {
+      "id": "Aster.members:opposite-required-delete-local",
+      "endpointId": "Aster.members",
+      "kind": "opposite-required-delete-local",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "ca799fa72b8959c309ac2deae418f53244ddfd291c789f9c401e2f31cf9aa123",
+        "scalarHash": "a3bab95d2604e3ca9ea598e5baf5e35b590d701b0c6d99749c31482e4ef2fa64",
+        "storageHash": "cb896f2da10672e18ed54c1ea1b8fd95e74e53cf72f43a5a6d2e2224b114f8e1"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "ca799fa72b8959c309ac2deae418f53244ddfd291c789f9c401e2f31cf9aa123",
+        "scalarHash": "a3bab95d2604e3ca9ea598e5baf5e35b590d701b0c6d99749c31482e4ef2fa64",
+        "storageHash": "cb896f2da10672e18ed54c1ea1b8fd95e74e53cf72f43a5a6d2e2224b114f8e1"
+      },
+      "errors": [
+        {
+          "message": "Sable.aster is required",
+          "code": "KS_VALIDATION_FAILURE"
+        }
+      ]
+    },
+    {
+      "id": "Aster.members:delete-related",
+      "endpointId": "Aster.members",
+      "kind": "delete-related",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "9536815a0d0c4eb8cf6eafd6a2c2d7e76a8586d12502ee7b1ebc67da228ab7a3",
+        "scalarHash": "9f9f07f745c6d1c3323fbf4b9e263fa44b2a28dbbbf4418ad4aa027a09bf39ae",
+        "storageHash": "831c9df96405d6c831d66e5ea88c30b8354e437b28f6519163e05ba7d04609cc"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 2,
+        "edgeCount": 0,
+        "sentinelHash": "9536815a0d0c4eb8cf6eafd6a2c2d7e76a8586d12502ee7b1ebc67da228ab7a3",
+        "scalarHash": "9f9f07f745c6d1c3323fbf4b9e263fa44b2a28dbbbf4418ad4aa027a09bf39ae",
+        "storageHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.partner:connect",
+      "endpointId": "Aster.partner",
+      "kind": "connect",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "54a73edc7145eda4304570df7a7a55066603a04c2f2c29ebb87efec3314049da",
+        "scalarHash": "8f2c15b7c041c66a1106ea6e02639fd5f517a85bafd12a8497a68bf5c2b6253d",
+        "storageHash": "a99f28d8cfc8ef77be96f34dcc910312b4430c9c75397f2915ca8b6a5ce32266"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "54a73edc7145eda4304570df7a7a55066603a04c2f2c29ebb87efec3314049da",
+        "scalarHash": "8f2c15b7c041c66a1106ea6e02639fd5f517a85bafd12a8497a68bf5c2b6253d",
+        "storageHash": "7a700812162f005ef05738523cb270b7049529d071510d00ce2de1355140689b"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.partner:nested-create",
+      "endpointId": "Aster.partner",
+      "kind": "nested-create",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "2ba61a74abf40a5db73e80e30a0159a26df110c8a2085cb50ecd426f409b4d37",
+        "scalarHash": "f3accdfa70447c26370efa44a2ab902bc92428ca7c208e1335b77daef3e02bff",
+        "storageHash": "a99f28d8cfc8ef77be96f34dcc910312b4430c9c75397f2915ca8b6a5ce32266"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 4,
+        "edgeCount": 1,
+        "sentinelHash": "2ba61a74abf40a5db73e80e30a0159a26df110c8a2085cb50ecd426f409b4d37",
+        "scalarHash": "f3accdfa70447c26370efa44a2ab902bc92428ca7c208e1335b77daef3e02bff",
+        "storageHash": "3845ee636a650be3fb1ceda755a6353b55ae93ac336b88c2be0e673aebffd43a"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.partner:invalid-id",
+      "endpointId": "Aster.partner",
+      "kind": "invalid-id",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "4b3bb118eb9d14b475b6acfa5568fc84547611039f55721627fb803642ce9b25",
+        "scalarHash": "e8775dc6bd43e97b50019bc37fbd797165147b9457a7798ec0021e1d2acfcfe9",
+        "storageHash": "071f81180038f90f273dc644d91e62ed7428016d7d65a11f40f5d4c0a2c08f16"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "4b3bb118eb9d14b475b6acfa5568fc84547611039f55721627fb803642ce9b25",
+        "scalarHash": "e8775dc6bd43e97b50019bc37fbd797165147b9457a7798ec0021e1d2acfcfe9",
+        "storageHash": "071f81180038f90f273dc644d91e62ed7428016d7d65a11f40f5d4c0a2c08f16"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Rook.relationship.connect: Cannot connect Rook missing-28-1786675822434: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Aster.partner:invalid-selector",
+      "endpointId": "Aster.partner",
+      "kind": "invalid-selector",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "ed0267129c45da4f76dc9a87dcb6967ffd22f3cb35cf2fe1924a6758cdf4dbe9",
+        "scalarHash": "0c77a5c6fbb8f705ef58fb6fd2dd9e4a94956a67ccd3b7fd7ce771a52f7e772e",
+        "storageHash": "3c5212fa938a0ce4a8fce27cc19fa040ce16e19527efe8f5e4c729b92046d09e"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "ed0267129c45da4f76dc9a87dcb6967ffd22f3cb35cf2fe1924a6758cdf4dbe9",
+        "scalarHash": "0c77a5c6fbb8f705ef58fb6fd2dd9e4a94956a67ccd3b7fd7ce771a52f7e772e",
+        "storageHash": "3c5212fa938a0ce4a8fce27cc19fa040ce16e19527efe8f5e4c729b92046d09e"
+      },
+      "errors": [
+        {
+          "message": "Variable \"$data\" got invalid value { gap08InvalidSelector: \"29-1786675822472\" } at \"data.partner.connect\"; Field \"gap08InvalidSelector\" is not defined by type \"RookWhereUniqueInput\".",
+          "code": null
+        }
+      ]
+    },
+    {
+      "id": "Aster.partner:cross-list-id",
+      "endpointId": "Aster.partner",
+      "kind": "cross-list-id",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "0e54d92873083fdd6721f9552e89721a4ef4251689d69d85a42f24adc1e33036",
+        "scalarHash": "9dcb68f130e8af2e3e90a66f6d087456ffdb905efd39767d147e62909412db6d",
+        "storageHash": "f1c98c5aeb85afc75c0283fef8eec0ca84418552f1a48e56a9ea0ab39350299a"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "0e54d92873083fdd6721f9552e89721a4ef4251689d69d85a42f24adc1e33036",
+        "scalarHash": "9dcb68f130e8af2e3e90a66f6d087456ffdb905efd39767d147e62909412db6d",
+        "storageHash": "f1c98c5aeb85afc75c0283fef8eec0ca84418552f1a48e56a9ea0ab39350299a"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Rook.relationship.connect: Cannot connect Rook cmsscnjqw006yenuzei75x5cv: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Aster.partner:duplicate-write",
+      "endpointId": "Aster.partner",
+      "kind": "duplicate-write",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "29ec57125facc723c85d163bbcd0136917ded80d67a05e137fffa1a86af1891c",
+        "scalarHash": "85819351385f98d11cdc3fd2e877ccb6a68496bd23277023d2e903d9d234f89d",
+        "storageHash": "25cf538a26452e5f18648b799e7d7a41ebcdc997fd1485f17621694c5996bd34"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "29ec57125facc723c85d163bbcd0136917ded80d67a05e137fffa1a86af1891c",
+        "scalarHash": "85819351385f98d11cdc3fd2e877ccb6a68496bd23277023d2e903d9d234f89d",
+        "storageHash": "25cf538a26452e5f18648b799e7d7a41ebcdc997fd1485f17621694c5996bd34"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.partner:conflicting-write",
+      "endpointId": "Aster.partner",
+      "kind": "conflicting-write",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "c8bd0030a6b26945fde5d94ed441a3a099eb19c7c72024714dd9da9a83eaf8fd",
+        "scalarHash": "48c3f3727f36dab5c7e9d7fc579213d951f67de84837759a7ebf9c0c83d3e1c7",
+        "storageHash": "4abb58d159a5ebc492085bccdeb60abaa1587397b4457838eedd4b45b2f7ab8f"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "c8bd0030a6b26945fde5d94ed441a3a099eb19c7c72024714dd9da9a83eaf8fd",
+        "scalarHash": "48c3f3727f36dab5c7e9d7fc579213d951f67de84837759a7ebf9c0c83d3e1c7",
+        "storageHash": "4abb58d159a5ebc492085bccdeb60abaa1587397b4457838eedd4b45b2f7ab8f"
+      },
+      "errors": [
+        {
+          "message": "You must provide one of \"connect\", \"create\" or \"disconnect\" in to-one relationship inputs for \"update\" operations.",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Aster.partner:atomic-rollback",
+      "endpointId": "Aster.partner",
+      "kind": "atomic-rollback",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "9c571a44b74494732772e455968dc143aadd884fb33aae3d228d773d961963f3",
+        "scalarHash": "b9a2130809e5350d96fa72a40e851dda61d5107520b7da16aeb14c7e49167b53",
+        "storageHash": "ba346a54e3b1aa106e57ee00395344241d7dbab0b06e16cb608ee3d30759414a"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "9c571a44b74494732772e455968dc143aadd884fb33aae3d228d773d961963f3",
+        "scalarHash": "b9a2130809e5350d96fa72a40e851dda61d5107520b7da16aeb14c7e49167b53",
+        "storageHash": "ba346a54e3b1aa106e57ee00395344241d7dbab0b06e16cb608ee3d30759414a"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Rook.relationship.connect: Cannot connect Rook missing-rollback-33-1786675822595: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Aster.partner:unchanged-state",
+      "endpointId": "Aster.partner",
+      "kind": "unchanged-state",
+      "expectedOutcome": "assertion",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "f2f7fd99e7c91331ea6f7a7db893f8398b4102d293727ff0f406cd96853366b3",
+        "scalarHash": "2b34545bfc7370e048d4174333320fd933e6a4aee5c13549dc2ae76921d5066f",
+        "storageHash": "e572bf5dc7d6cd9884c25081385f47860604a4f95b947ab18d30e50568c3f1f4"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "f2f7fd99e7c91331ea6f7a7db893f8398b4102d293727ff0f406cd96853366b3",
+        "scalarHash": "2b34545bfc7370e048d4174333320fd933e6a4aee5c13549dc2ae76921d5066f",
+        "storageHash": "e572bf5dc7d6cd9884c25081385f47860604a4f95b947ab18d30e50568c3f1f4"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.partner:disconnect",
+      "endpointId": "Aster.partner",
+      "kind": "disconnect",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "301c4ce1f1df07e27e473eceb6224a3249f44bad7b3b2d24cbf4b18c1f2104fe",
+        "scalarHash": "779382bbd2676deb902ecdbc0b6d35efe998663461c26ff83aa215a37393fa03",
+        "storageHash": "32d4d0e61ea3f6e851a870c2c4a5958cdf6e548bdbc4a2a7f53f9eee63ecd683"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "301c4ce1f1df07e27e473eceb6224a3249f44bad7b3b2d24cbf4b18c1f2104fe",
+        "scalarHash": "779382bbd2676deb902ecdbc0b6d35efe998663461c26ff83aa215a37393fa03",
+        "storageHash": "a99f28d8cfc8ef77be96f34dcc910312b4430c9c75397f2915ca8b6a5ce32266"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.partner:delete-local",
+      "endpointId": "Aster.partner",
+      "kind": "delete-local",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "acbc506e08adccd42017ee4062512360f0e407dc7e523ae1354750d47dff4bf5",
+        "scalarHash": "2600bdc740c79307fc01abac46c2437d6fadc62eb421a0420e264d509692e382",
+        "storageHash": "3e302db9fee863199b2480f3a4f93be3676d2bf0a1d5a20cc2bc07b060701d65"
+      },
+      "after": {
+        "parentCount": 1,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "acbc506e08adccd42017ee4062512360f0e407dc7e523ae1354750d47dff4bf5",
+        "scalarHash": "d99040fbf63677e0baf3cd9e3c8dec5b7e88da4e405c719f0f01ee830b6e63fa",
+        "storageHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "errors": []
+    },
+    {
+      "id": "Aster.partner:delete-related",
+      "endpointId": "Aster.partner",
+      "kind": "delete-related",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "1ef675e104ef4fab75b30148103bf9072fd080aacab138bad062932dbbbb209d",
+        "scalarHash": "c18d1eac6de5cdfa13a5489b12caa9c37b83242f0d24b7f4afa8b342586066d2",
+        "storageHash": "64ceaf4af6e0eed2dbe06cf2fa767ca81e88c725220239ff4c5a7ee8d29fabb1"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 2,
+        "edgeCount": 0,
+        "sentinelHash": "1ef675e104ef4fab75b30148103bf9072fd080aacab138bad062932dbbbb209d",
+        "scalarHash": "c18d1eac6de5cdfa13a5489b12caa9c37b83242f0d24b7f4afa8b342586066d2",
+        "storageHash": "a99f28d8cfc8ef77be96f34dcc910312b4430c9c75397f2915ca8b6a5ce32266"
+      },
+      "errors": []
+    },
+    {
+      "id": "Rook.aster:connect",
+      "endpointId": "Rook.aster",
+      "kind": "connect",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "5ac1573a76e58c52c05fdb087ca97a4ec4c898ba98c0dd19464145ee5dfb9096",
+        "scalarHash": "17e0745f84d7e5d27e20ba7cb99be36c233fe12b8330b50eaea6b0dae59f32f1",
+        "storageHash": "a99f28d8cfc8ef77be96f34dcc910312b4430c9c75397f2915ca8b6a5ce32266"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "5ac1573a76e58c52c05fdb087ca97a4ec4c898ba98c0dd19464145ee5dfb9096",
+        "scalarHash": "17e0745f84d7e5d27e20ba7cb99be36c233fe12b8330b50eaea6b0dae59f32f1",
+        "storageHash": "43010333cd9307cc11205d22b6ef778571b3f5f6089d8f32b1562f6aceb9e2da"
+      },
+      "errors": []
+    },
+    {
+      "id": "Rook.aster:nested-create",
+      "endpointId": "Rook.aster",
+      "kind": "nested-create",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "a03c51bbcd9bbac1912b3da9968492afc73977c165382b1e9612c416d280b230",
+        "scalarHash": "6f7c5b93d75cf9598ba54b49f4a50aa1493e752dbed606f9b9584cc03fcdbcc5",
+        "storageHash": "a99f28d8cfc8ef77be96f34dcc910312b4430c9c75397f2915ca8b6a5ce32266"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 4,
+        "edgeCount": 1,
+        "sentinelHash": "a03c51bbcd9bbac1912b3da9968492afc73977c165382b1e9612c416d280b230",
+        "scalarHash": "6f7c5b93d75cf9598ba54b49f4a50aa1493e752dbed606f9b9584cc03fcdbcc5",
+        "storageHash": "a99f28d8cfc8ef77be96f34dcc910312b4430c9c75397f2915ca8b6a5ce32266"
+      },
+      "errors": []
+    },
+    {
+      "id": "Rook.aster:invalid-id",
+      "endpointId": "Rook.aster",
+      "kind": "invalid-id",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "5f84d03553a39cbf77da4a0cd8058b210bd0871da9b9d606532d2d8ff1668b7c",
+        "scalarHash": "471908a6446a9f2d62e6686d76c5bd8d1608e551af797527c9fdaea520009cbc",
+        "storageHash": "a151f3ba6e9f843f5866961209279b3db3b6290cf5f14dd91534356b1421c7c5"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "5f84d03553a39cbf77da4a0cd8058b210bd0871da9b9d606532d2d8ff1668b7c",
+        "scalarHash": "471908a6446a9f2d62e6686d76c5bd8d1608e551af797527c9fdaea520009cbc",
+        "storageHash": "a151f3ba6e9f843f5866961209279b3db3b6290cf5f14dd91534356b1421c7c5"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Aster.relationship.connect: Cannot connect Aster missing-40-1786675823491: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Rook.aster:invalid-selector",
+      "endpointId": "Rook.aster",
+      "kind": "invalid-selector",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "a936ac1ce3c7c94bbf60ce2c320fd9e271839c0ef6f6641a2ca74223215be632",
+        "scalarHash": "05b0d4c1b0fac7276be6248f538ace2fdc8566285123fa6a1a5361350659fc38",
+        "storageHash": "86ae9daf94fdad1e5aae923392bdd8526b52bf2383302a4c2d5edac0ecf5db92"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "a936ac1ce3c7c94bbf60ce2c320fd9e271839c0ef6f6641a2ca74223215be632",
+        "scalarHash": "05b0d4c1b0fac7276be6248f538ace2fdc8566285123fa6a1a5361350659fc38",
+        "storageHash": "86ae9daf94fdad1e5aae923392bdd8526b52bf2383302a4c2d5edac0ecf5db92"
+      },
+      "errors": [
+        {
+          "message": "Variable \"$data\" got invalid value { gap08InvalidSelector: \"41-1786675823529\" } at \"data.aster.connect\"; Field \"gap08InvalidSelector\" is not defined by type \"AsterWhereUniqueInput\".",
+          "code": null
+        }
+      ]
+    },
+    {
+      "id": "Rook.aster:cross-list-id",
+      "endpointId": "Rook.aster",
+      "kind": "cross-list-id",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "f7cba851a07d3290f8af324cfb2166b5506900fb145c3eaf2980856b0f901ac4",
+        "scalarHash": "88134199631604aca30352a4e1a8a5dd3503552b2220cc09a84cdd4b4e85e358",
+        "storageHash": "4b8a4e8ca2ae7d64d6cec2316ae35a261bd431c693c57731d463ff70d67e01b7"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "f7cba851a07d3290f8af324cfb2166b5506900fb145c3eaf2980856b0f901ac4",
+        "scalarHash": "88134199631604aca30352a4e1a8a5dd3503552b2220cc09a84cdd4b4e85e358",
+        "storageHash": "4b8a4e8ca2ae7d64d6cec2316ae35a261bd431c693c57731d463ff70d67e01b7"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Aster.relationship.connect: Cannot connect Aster cmsscnkk8009nenuzqxte8gl6: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Rook.aster:duplicate-write",
+      "endpointId": "Rook.aster",
+      "kind": "duplicate-write",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "8d55d3453a87fa0683db89b97a332c939f672e61e6cbb94aaf0362536b3d385a",
+        "scalarHash": "c107efa58913e0b5bdea6babc40fae41c741de06d9ccb15e1bf11b54046000a1",
+        "storageHash": "6262cd75502830b1b04d3ff85f1bafa2940ff0ce64ba162e47ca3b03b34226d9"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "8d55d3453a87fa0683db89b97a332c939f672e61e6cbb94aaf0362536b3d385a",
+        "scalarHash": "c107efa58913e0b5bdea6babc40fae41c741de06d9ccb15e1bf11b54046000a1",
+        "storageHash": "6262cd75502830b1b04d3ff85f1bafa2940ff0ce64ba162e47ca3b03b34226d9"
+      },
+      "errors": []
+    },
+    {
+      "id": "Rook.aster:conflicting-write",
+      "endpointId": "Rook.aster",
+      "kind": "conflicting-write",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "9e0324283c3baedb81996e7d83cf628fc9de7ef2595f144455d2c223fb111f9c",
+        "scalarHash": "8532193d4fd9686346d7b4528e31066538926815e8ec8c9c7c7dcdc1a2e7d20a",
+        "storageHash": "0867043298c98502afccf3f555e4b913b4c8973a1d10eea6112eb9b1089f6bd8"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "9e0324283c3baedb81996e7d83cf628fc9de7ef2595f144455d2c223fb111f9c",
+        "scalarHash": "8532193d4fd9686346d7b4528e31066538926815e8ec8c9c7c7dcdc1a2e7d20a",
+        "storageHash": "0867043298c98502afccf3f555e4b913b4c8973a1d10eea6112eb9b1089f6bd8"
+      },
+      "errors": [
+        {
+          "message": "You must provide one of \"connect\", \"create\" or \"disconnect\" in to-one relationship inputs for \"update\" operations.",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Rook.aster:atomic-rollback",
+      "endpointId": "Rook.aster",
+      "kind": "atomic-rollback",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "a91b3876e3af98a6f9c94bd52d152015356587e93f1499f736c0e2d3b8154e75",
+        "scalarHash": "4a65ed79af471de24f5a02704963d7210c3947be36e17f150e2943b759522dfb",
+        "storageHash": "b48ef849bba4c1af1cc11cbe380c89285fc940434873bcda9f939bad0d3dd6a4"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "a91b3876e3af98a6f9c94bd52d152015356587e93f1499f736c0e2d3b8154e75",
+        "scalarHash": "4a65ed79af471de24f5a02704963d7210c3947be36e17f150e2943b759522dfb",
+        "storageHash": "b48ef849bba4c1af1cc11cbe380c89285fc940434873bcda9f939bad0d3dd6a4"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Aster.relationship.connect: Cannot connect Aster missing-rollback-45-1786675823665: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Rook.aster:unchanged-state",
+      "endpointId": "Rook.aster",
+      "kind": "unchanged-state",
+      "expectedOutcome": "assertion",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "3e24927b2fe69078bccc1d16167a99b3b302fe20cce923422d6d4b3b916f21aa",
+        "scalarHash": "a582a8b2f8f44459b2d59e4a02473b6fd7ace31a830e1f39f04f20628f1b014b",
+        "storageHash": "f7263c57b450ba6f4285bf3b8aff11f0ebe5723b5cc53d9d38129358eed4d5ec"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "3e24927b2fe69078bccc1d16167a99b3b302fe20cce923422d6d4b3b916f21aa",
+        "scalarHash": "a582a8b2f8f44459b2d59e4a02473b6fd7ace31a830e1f39f04f20628f1b014b",
+        "storageHash": "f7263c57b450ba6f4285bf3b8aff11f0ebe5723b5cc53d9d38129358eed4d5ec"
+      },
+      "errors": []
+    },
+    {
+      "id": "Rook.aster:disconnect",
+      "endpointId": "Rook.aster",
+      "kind": "disconnect",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "312a893dba541b8a590e1a581d45597706d66cc5f14d2d556ee4df7b15d922bb",
+        "scalarHash": "176c853cd6ee9f9f8c81e3dbaa2756c3fab1acc0083b6774f5bc94e6af0e426c",
+        "storageHash": "7bd03f6dac50921dea380ab6026564c058b36787be483209a50f7da3936292ed"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "312a893dba541b8a590e1a581d45597706d66cc5f14d2d556ee4df7b15d922bb",
+        "scalarHash": "176c853cd6ee9f9f8c81e3dbaa2756c3fab1acc0083b6774f5bc94e6af0e426c",
+        "storageHash": "a99f28d8cfc8ef77be96f34dcc910312b4430c9c75397f2915ca8b6a5ce32266"
+      },
+      "errors": []
+    },
+    {
+      "id": "Rook.aster:delete-local",
+      "endpointId": "Rook.aster",
+      "kind": "delete-local",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "d1d14727723caf0cef601c94529c258fbdb10e3f6b679eedcca26920561b9053",
+        "scalarHash": "f860fa618d7c659afdb5fa91f444cd42a433b4382d7c86b5dc1ebe12d1f290bc",
+        "storageHash": "64bd06582d1ece34763832d5f185f9e491b099e5c5c7be44ef57a35064dbb014"
+      },
+      "after": {
+        "parentCount": 1,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "d1d14727723caf0cef601c94529c258fbdb10e3f6b679eedcca26920561b9053",
+        "scalarHash": "d99040fbf63677e0baf3cd9e3c8dec5b7e88da4e405c719f0f01ee830b6e63fa",
+        "storageHash": "a99f28d8cfc8ef77be96f34dcc910312b4430c9c75397f2915ca8b6a5ce32266"
+      },
+      "errors": []
+    },
+    {
+      "id": "Rook.aster:delete-related",
+      "endpointId": "Rook.aster",
+      "kind": "delete-related",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "abfc8b43d38a41832ee5c9e502b741aa85e53f83761243ca685b347a5bebe1d5",
+        "scalarHash": "ee76790bcd467cb06ae40823fc50e22127a49a289f36e7316a3c070eae615360",
+        "storageHash": "9029d86a9156e9f357203b957ab4d4b731c8e87166641242a81fdeab631115c9"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 2,
+        "edgeCount": 0,
+        "sentinelHash": "abfc8b43d38a41832ee5c9e502b741aa85e53f83761243ca685b347a5bebe1d5",
+        "scalarHash": "ee76790bcd467cb06ae40823fc50e22127a49a289f36e7316a3c070eae615360",
+        "storageHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "errors": []
+    },
+    {
+      "id": "Sable.aster:connect",
+      "endpointId": "Sable.aster",
+      "kind": "connect",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "65b29970ae350a054991b09e18d2448a7cf984b0554f3cf27805e2c7e5a9fe6a",
+        "scalarHash": "b468daaa85e15d8cf3d23dd4ac32566387baa3d7cbb2b25d81582a49218f80e6",
+        "storageHash": "ca1a7a5f4f7ea5a76e2554d3d4a16b1003eab897240cd22ca3a494533acabb01"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "65b29970ae350a054991b09e18d2448a7cf984b0554f3cf27805e2c7e5a9fe6a",
+        "scalarHash": "b468daaa85e15d8cf3d23dd4ac32566387baa3d7cbb2b25d81582a49218f80e6",
+        "storageHash": "fb5f65bf4c9df1b128b21ff90243f2bf6cf216ca3962db0fa9ead6c0622ac1ae"
+      },
+      "errors": []
+    },
+    {
+      "id": "Sable.aster:nested-create",
+      "endpointId": "Sable.aster",
+      "kind": "nested-create",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "d41bd48cd413f55243ee236f98ea29914c7ce2f08d2d917a869a7dfe41484594",
+        "scalarHash": "0fdcda2fd40cfd512d752dd541533a27efb679df335cbb2cf69b1f374a8cdd02",
+        "storageHash": "ca1a7a5f4f7ea5a76e2554d3d4a16b1003eab897240cd22ca3a494533acabb01"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 4,
+        "edgeCount": 1,
+        "sentinelHash": "d41bd48cd413f55243ee236f98ea29914c7ce2f08d2d917a869a7dfe41484594",
+        "scalarHash": "0fdcda2fd40cfd512d752dd541533a27efb679df335cbb2cf69b1f374a8cdd02",
+        "storageHash": "530ea4c30ecf0276b4541b97c67c6763951360aeb7ccc4d98f518e7f50d5d1ff"
+      },
+      "errors": []
+    },
+    {
+      "id": "Sable.aster:invalid-id",
+      "endpointId": "Sable.aster",
+      "kind": "invalid-id",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "3b52863653da5fc42920198156f2df741492e8a0a615d5bcd7511b9fc08dae83",
+        "scalarHash": "f2f9b4b495384fb8ac8c0ceafb7468127914cc3fb6b8cd72ef8339a3944f3d41",
+        "storageHash": "3db157046982c1fd37a635e72c4a45b73ccd790d0c616abd2dd9ab589a0f83f0"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "3b52863653da5fc42920198156f2df741492e8a0a615d5bcd7511b9fc08dae83",
+        "scalarHash": "f2f9b4b495384fb8ac8c0ceafb7468127914cc3fb6b8cd72ef8339a3944f3d41",
+        "storageHash": "3db157046982c1fd37a635e72c4a45b73ccd790d0c616abd2dd9ab589a0f83f0"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Aster.relationship.connect: Cannot connect Aster missing-52-1786675823973: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Sable.aster:invalid-selector",
+      "endpointId": "Sable.aster",
+      "kind": "invalid-selector",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "09822e50cd1b2ffe6cacad6407fad523e1b339e4b1d66296ada2eff151bc944e",
+        "scalarHash": "e38fe9ef24b6b2e3da8e987219c0581a23a61f918ff831589c98f8e301aee2e2",
+        "storageHash": "ee3176bca507bfbc16b0873425881600ef6eab442d4adbc2b16f1ecf33b226c7"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "09822e50cd1b2ffe6cacad6407fad523e1b339e4b1d66296ada2eff151bc944e",
+        "scalarHash": "e38fe9ef24b6b2e3da8e987219c0581a23a61f918ff831589c98f8e301aee2e2",
+        "storageHash": "ee3176bca507bfbc16b0873425881600ef6eab442d4adbc2b16f1ecf33b226c7"
+      },
+      "errors": [
+        {
+          "message": "Variable \"$data\" got invalid value { gap08InvalidSelector: \"53-1786675824028\" } at \"data.aster.connect\"; Field \"gap08InvalidSelector\" is not defined by type \"AsterWhereUniqueInput\".",
+          "code": null
+        }
+      ]
+    },
+    {
+      "id": "Sable.aster:cross-list-id",
+      "endpointId": "Sable.aster",
+      "kind": "cross-list-id",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "57b8160c4a4a3d3feeb68b525e9dba63178d6d5c9dcf9a0036b8ff0b552002d2",
+        "scalarHash": "7115f8887e929d6716170ebb705d8b879fff9bb88751b553810c277bcdeb136f",
+        "storageHash": "86c371fe149d2b3f4135347df47a28a42903efb4ef3bf4682106401359c7cbbc"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "57b8160c4a4a3d3feeb68b525e9dba63178d6d5c9dcf9a0036b8ff0b552002d2",
+        "scalarHash": "7115f8887e929d6716170ebb705d8b879fff9bb88751b553810c277bcdeb136f",
+        "storageHash": "86c371fe149d2b3f4135347df47a28a42903efb4ef3bf4682106401359c7cbbc"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Aster.relationship.connect: Cannot connect Aster cmsscnkyt00ccenuzraq977w0: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Sable.aster:duplicate-write",
+      "endpointId": "Sable.aster",
+      "kind": "duplicate-write",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "849d6fb834581bd26001fc805339623b514ba6c0657532bf680d0c70c213814a",
+        "scalarHash": "3ed9e86ed5e60426b1481c2e697baa361af3403213af4717f18ce06358ebecbb",
+        "storageHash": "12328c6e4e09f7670718ace7ef0a7dc687d2a3e301d30dffede77b89f0dcd3ff"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "849d6fb834581bd26001fc805339623b514ba6c0657532bf680d0c70c213814a",
+        "scalarHash": "3ed9e86ed5e60426b1481c2e697baa361af3403213af4717f18ce06358ebecbb",
+        "storageHash": "12328c6e4e09f7670718ace7ef0a7dc687d2a3e301d30dffede77b89f0dcd3ff"
+      },
+      "errors": []
+    },
+    {
+      "id": "Sable.aster:conflicting-write",
+      "endpointId": "Sable.aster",
+      "kind": "conflicting-write",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "536366a326e01d8cba2fa95fc6c3ee80bd2b4fd6570a49140e83f03e7b8c7de3",
+        "scalarHash": "e34e423ce3d7ef0cde76148210cdb35db3783f493abebebb53acb56e6d24fbc7",
+        "storageHash": "209d9a2de473f5adb557a0d6ecf235a9316442bd84bceb5f8e0d1177de60ef1e"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "536366a326e01d8cba2fa95fc6c3ee80bd2b4fd6570a49140e83f03e7b8c7de3",
+        "scalarHash": "e34e423ce3d7ef0cde76148210cdb35db3783f493abebebb53acb56e6d24fbc7",
+        "storageHash": "209d9a2de473f5adb557a0d6ecf235a9316442bd84bceb5f8e0d1177de60ef1e"
+      },
+      "errors": [
+        {
+          "message": "You must provide one of \"connect\", \"create\" or \"disconnect\" in to-one relationship inputs for \"update\" operations.",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Sable.aster:atomic-rollback",
+      "endpointId": "Sable.aster",
+      "kind": "atomic-rollback",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "865a0149aa1a56a7a318e800d6ef9bd3da3073292515f88871c30e6ebaa13b57",
+        "scalarHash": "3cd5c35f19eeb5f95e378233bb501ec723e6aba51474e0c12ea6cfeb2c01bfe3",
+        "storageHash": "a06c0a97d3e3679eb1bef8546bd825a55fa8d54768753561e6821c65edb8694d"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "865a0149aa1a56a7a318e800d6ef9bd3da3073292515f88871c30e6ebaa13b57",
+        "scalarHash": "3cd5c35f19eeb5f95e378233bb501ec723e6aba51474e0c12ea6cfeb2c01bfe3",
+        "storageHash": "a06c0a97d3e3679eb1bef8546bd825a55fa8d54768753561e6821c65edb8694d"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Aster.relationship.connect: Cannot connect Aster missing-rollback-57-1786675824542: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Sable.aster:unchanged-state",
+      "endpointId": "Sable.aster",
+      "kind": "unchanged-state",
+      "expectedOutcome": "assertion",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "1fa2435c754755be462aa470785f73ba53235251dd6bcfc9aad512d25ecf35eb",
+        "scalarHash": "666265cbf3a847d19756e32473b5f04ca5370b849b3638a97d60fecbd5e9b65c",
+        "storageHash": "be057b77c042c02b518cf5c6cb8eedfaf1bdb876a68abd63e126822cf4dcbaaa"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "1fa2435c754755be462aa470785f73ba53235251dd6bcfc9aad512d25ecf35eb",
+        "scalarHash": "666265cbf3a847d19756e32473b5f04ca5370b849b3638a97d60fecbd5e9b65c",
+        "storageHash": "be057b77c042c02b518cf5c6cb8eedfaf1bdb876a68abd63e126822cf4dcbaaa"
+      },
+      "errors": []
+    },
+    {
+      "id": "Sable.aster:required-disconnect",
+      "endpointId": "Sable.aster",
+      "kind": "required-disconnect",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "f596ad7a8136a80d7a171e7afbb0e1408d1a3dcf204c45ead01f6de2f207692e",
+        "scalarHash": "0fa53f785fc03d424b609afec42dfc0cd99b9c34c45fe86e775e2b8866982aea",
+        "storageHash": "a5a00122685b736767271b1dd84741163f5a7393f8b54a256b91036ceeb7aae4"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "f596ad7a8136a80d7a171e7afbb0e1408d1a3dcf204c45ead01f6de2f207692e",
+        "scalarHash": "0fa53f785fc03d424b609afec42dfc0cd99b9c34c45fe86e775e2b8866982aea",
+        "storageHash": "a5a00122685b736767271b1dd84741163f5a7393f8b54a256b91036ceeb7aae4"
+      },
+      "errors": [
+        {
+          "message": "Sable.aster is required",
+          "code": "KS_VALIDATION_FAILURE"
+        }
+      ]
+    },
+    {
+      "id": "Sable.aster:delete-local",
+      "endpointId": "Sable.aster",
+      "kind": "delete-local",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "5348b69ac81e56e4528430b6f18114b47325006e8e60a232a013c0c6fe3de2bd",
+        "scalarHash": "767c31fdf6fea3f23877961c723172dd6f530b87ce27107918961ac979db264a",
+        "storageHash": "b3ae999a59c7dc29389d3afa1ef4951d6d7b7035b504b6914a78f2743bc36286"
+      },
+      "after": {
+        "parentCount": 1,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "5348b69ac81e56e4528430b6f18114b47325006e8e60a232a013c0c6fe3de2bd",
+        "scalarHash": "d99040fbf63677e0baf3cd9e3c8dec5b7e88da4e405c719f0f01ee830b6e63fa",
+        "storageHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "errors": []
+    },
+    {
+      "id": "Sable.aster:required-delete-related",
+      "endpointId": "Sable.aster",
+      "kind": "required-delete-related",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "0540f7d6259be536aac0d563bf3ff7cc2a8f707d75e7b67df79fbef600e9d24b",
+        "scalarHash": "e223368261ee7ff500b2f3e990cbe6e2872243dedf61cb54a723931a1aee7faf",
+        "storageHash": "536bda134af8c443392c411d5a9e3fa9b88d4af86657885c191c5bcfcbb51ad3"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "0540f7d6259be536aac0d563bf3ff7cc2a8f707d75e7b67df79fbef600e9d24b",
+        "scalarHash": "e223368261ee7ff500b2f3e990cbe6e2872243dedf61cb54a723931a1aee7faf",
+        "storageHash": "536bda134af8c443392c411d5a9e3fa9b88d4af86657885c191c5bcfcbb51ad3"
+      },
+      "errors": [
+        {
+          "message": "Sable.aster is required",
+          "code": "KS_VALIDATION_FAILURE"
+        }
+      ]
+    },
+    {
+      "id": "Sable.aster:required-create",
+      "endpointId": "Sable.aster",
+      "kind": "required-create",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "7616ae71092a5d09b2639977e481d66e8ff2185c3a27acf45b2218cc59fd2f43",
+        "scalarHash": "0b0837cbc5f9fe7f467398abf3b22324e1533e7f1385afade285296c7e79b13a",
+        "storageHash": "ca1a7a5f4f7ea5a76e2554d3d4a16b1003eab897240cd22ca3a494533acabb01"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "7616ae71092a5d09b2639977e481d66e8ff2185c3a27acf45b2218cc59fd2f43",
+        "scalarHash": "0b0837cbc5f9fe7f467398abf3b22324e1533e7f1385afade285296c7e79b13a",
+        "storageHash": "ca1a7a5f4f7ea5a76e2554d3d4a16b1003eab897240cd22ca3a494533acabb01"
+      },
+      "errors": [
+        {
+          "message": "Sable.aster is required",
+          "code": "KS_VALIDATION_FAILURE"
+        }
+      ]
+    },
+    {
+      "id": "Tag.asters:connect",
+      "endpointId": "Tag.asters",
+      "kind": "connect",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "2b5a0324aecc8608cb48ca2c1c6702e85b84c108fffbdd3e7b9d0da2ae4cc518",
+        "scalarHash": "39497b7ccab02da32857dcdb79735916b0d5149ebea7ce8914ad5f6f086d88ff",
+        "storageHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "2b5a0324aecc8608cb48ca2c1c6702e85b84c108fffbdd3e7b9d0da2ae4cc518",
+        "scalarHash": "39497b7ccab02da32857dcdb79735916b0d5149ebea7ce8914ad5f6f086d88ff",
+        "storageHash": "a9e0fbe8dde8fa3494da7b042e658fdc5179fae8ce7326b088735764abb0aac0"
+      },
+      "errors": []
+    },
+    {
+      "id": "Tag.asters:nested-create",
+      "endpointId": "Tag.asters",
+      "kind": "nested-create",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "f5792a6d1405e8d5a896c998a2c19f43ad7681d074bb40dd6782c43935deb9a5",
+        "scalarHash": "ce09e2bd391cd0fefe4b07eee2c4466b621f78cca34b5f08b171383e1d851f36",
+        "storageHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 4,
+        "edgeCount": 1,
+        "sentinelHash": "f5792a6d1405e8d5a896c998a2c19f43ad7681d074bb40dd6782c43935deb9a5",
+        "scalarHash": "ce09e2bd391cd0fefe4b07eee2c4466b621f78cca34b5f08b171383e1d851f36",
+        "storageHash": "6d01de8a83cc0ca0671b0c9c3afff1f3baa30fdc338e526e3a065576c0062d9e"
+      },
+      "errors": []
+    },
+    {
+      "id": "Tag.asters:invalid-id",
+      "endpointId": "Tag.asters",
+      "kind": "invalid-id",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "ba989e20545888c16470bb1f8ff1ab49f9d2a20410031db872f9f623544167d4",
+        "scalarHash": "6c4071d9080e00ea459d31b233cdc254738f17a65bf5f68895430f562981b8de",
+        "storageHash": "1d8cd7a0f496e43a90394caf1eee3b08353606981719016ffb6df3be7d26ef37"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "ba989e20545888c16470bb1f8ff1ab49f9d2a20410031db872f9f623544167d4",
+        "scalarHash": "6c4071d9080e00ea459d31b233cdc254738f17a65bf5f68895430f562981b8de",
+        "storageHash": "1d8cd7a0f496e43a90394caf1eee3b08353606981719016ffb6df3be7d26ef37"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Aster.relationship.connect: Cannot connect Aster missing-65-1786675824849: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Tag.asters:invalid-selector",
+      "endpointId": "Tag.asters",
+      "kind": "invalid-selector",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "2ba5f41f6e601728c82b1aa53cf559f9fc51ad7278d75c0d2e3d543ced64fbc5",
+        "scalarHash": "e49cfbcac03f11d521e0d1b61ed30ecd6b2cb44295fa72a0ccaaa7c84eecc218",
+        "storageHash": "84a31fe443522fbc494051cabb297e5da88ea8301c5b017ae5bd2366b3651db7"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "2ba5f41f6e601728c82b1aa53cf559f9fc51ad7278d75c0d2e3d543ced64fbc5",
+        "scalarHash": "e49cfbcac03f11d521e0d1b61ed30ecd6b2cb44295fa72a0ccaaa7c84eecc218",
+        "storageHash": "84a31fe443522fbc494051cabb297e5da88ea8301c5b017ae5bd2366b3651db7"
+      },
+      "errors": [
+        {
+          "message": "Variable \"$data\" got invalid value { gap08InvalidSelector: \"66-1786675824882\" } at \"data.asters.connect[0]\"; Field \"gap08InvalidSelector\" is not defined by type \"AsterWhereUniqueInput\".",
+          "code": null
+        }
+      ]
+    },
+    {
+      "id": "Tag.asters:cross-list-id",
+      "endpointId": "Tag.asters",
+      "kind": "cross-list-id",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "d4cd590728f2566b8800999b6ec0d1231bb96609d51e08e6e5a88010bc0fd32e",
+        "scalarHash": "d595665ac6e9f0005b35d5a02e8f0cf8144858cf42352372747c6029b186258f",
+        "storageHash": "ea5fb9209a0f3e14d014aeea8b7315e529cef8a997cb75d6a5a08a57140fad34"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "d4cd590728f2566b8800999b6ec0d1231bb96609d51e08e6e5a88010bc0fd32e",
+        "scalarHash": "d595665ac6e9f0005b35d5a02e8f0cf8144858cf42352372747c6029b186258f",
+        "storageHash": "ea5fb9209a0f3e14d014aeea8b7315e529cef8a997cb75d6a5a08a57140fad34"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Aster.relationship.connect: Cannot connect Aster cmsscnlmi00f9enuz08c2wvzq: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Tag.asters:duplicate-write",
+      "endpointId": "Tag.asters",
+      "kind": "duplicate-write",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "657ea2d2e5acf1e4f7fdeb401087eec0d431786a18297740adfa2c0c660cf9d4",
+        "scalarHash": "2e75eb82f2b045ac052c957768c0e626af69aa641cb19607f62308e35c2ba997",
+        "storageHash": "9804ac6eb9577461f8a18b45982c18898ad801387b3b6388b9f8a5a5103a2bca"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "657ea2d2e5acf1e4f7fdeb401087eec0d431786a18297740adfa2c0c660cf9d4",
+        "scalarHash": "2e75eb82f2b045ac052c957768c0e626af69aa641cb19607f62308e35c2ba997",
+        "storageHash": "9804ac6eb9577461f8a18b45982c18898ad801387b3b6388b9f8a5a5103a2bca"
+      },
+      "errors": []
+    },
+    {
+      "id": "Tag.asters:conflicting-write",
+      "endpointId": "Tag.asters",
+      "kind": "conflicting-write",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "5443b5325d9404a52a8a90251601b528893b9ef864b69ce2511925125830ae35",
+        "scalarHash": "cc3b9b5a4cc737a41112a5d54863ee6cf95b5d83f4a655755ddeaf2f8deba208",
+        "storageHash": "f27cfbde8165f63e27b9fef683241bbd2cee99e365bebe1aef0a0d445d3e9b1f"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "5443b5325d9404a52a8a90251601b528893b9ef864b69ce2511925125830ae35",
+        "scalarHash": "cc3b9b5a4cc737a41112a5d54863ee6cf95b5d83f4a655755ddeaf2f8deba208",
+        "storageHash": "f27cfbde8165f63e27b9fef683241bbd2cee99e365bebe1aef0a0d445d3e9b1f"
+      },
+      "errors": [
+        {
+          "message": "The \"set\" and \"disconnect\" fields cannot both be provided to to-many relationship inputs for \"update\" operations.",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Tag.asters:atomic-rollback",
+      "endpointId": "Tag.asters",
+      "kind": "atomic-rollback",
+      "expectedOutcome": "rejection",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "b166c36aadbb766183268089a29dcfd5e3a2a491bced3c9082e5c7c8ffc774ea",
+        "scalarHash": "6fbf9a8950b5a36b4e7755d2609ffadba4c308cc10da161055cb4e5cb42cb1c4",
+        "storageHash": "dcc1c269da963ea753447fedc446735be3918d820348fc12346eba92ddd87d1e"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "b166c36aadbb766183268089a29dcfd5e3a2a491bced3c9082e5c7c8ffc774ea",
+        "scalarHash": "6fbf9a8950b5a36b4e7755d2609ffadba4c308cc10da161055cb4e5cb42cb1c4",
+        "storageHash": "dcc1c269da963ea753447fedc446735be3918d820348fc12346eba92ddd87d1e"
+      },
+      "errors": [
+        {
+          "message": "An error occurred while resolving relationship fields.\n  - Aster.relationship.connect: Cannot connect Aster missing-rollback-70-1786675825108: item does not exist or is not accessible",
+          "code": "KS_RELATIONSHIP_ERROR"
+        }
+      ]
+    },
+    {
+      "id": "Tag.asters:unchanged-state",
+      "endpointId": "Tag.asters",
+      "kind": "unchanged-state",
+      "expectedOutcome": "assertion",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "ab9358bd273948c0d1b909da68eca6776acf5702c2f12fb5e339844985b95120",
+        "scalarHash": "c4f32f4b8834d5f40c3c4222b74cab2b7d718893209bd9ef7425f04cc045e779",
+        "storageHash": "41d61bd809e2f5cbfe41a9949a430ddec7ee94a8e5da1cc1251863c60e65eb50"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "ab9358bd273948c0d1b909da68eca6776acf5702c2f12fb5e339844985b95120",
+        "scalarHash": "c4f32f4b8834d5f40c3c4222b74cab2b7d718893209bd9ef7425f04cc045e779",
+        "storageHash": "41d61bd809e2f5cbfe41a9949a430ddec7ee94a8e5da1cc1251863c60e65eb50"
+      },
+      "errors": []
+    },
+    {
+      "id": "Tag.asters:set",
+      "endpointId": "Tag.asters",
+      "kind": "set",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "01b58a36e12f51d1fe368ff425f51686c654dc8842f6b49d2b516a4a36d6a05c",
+        "scalarHash": "e6827cf3fabb0dc2948fb76f10ec8588cfa030227519c4d5ce1d7af3446121ae",
+        "storageHash": "0a4ec4d0af842d0c12bed9ea5038ea86901eab050b25a93a62e149524570814c"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "01b58a36e12f51d1fe368ff425f51686c654dc8842f6b49d2b516a4a36d6a05c",
+        "scalarHash": "e6827cf3fabb0dc2948fb76f10ec8588cfa030227519c4d5ce1d7af3446121ae",
+        "storageHash": "f9c99e15ef7bfb88cc43e5728bbf0c47f31169981c837f665b301743be4a7d30"
+      },
+      "errors": []
+    },
+    {
+      "id": "Tag.asters:disconnect",
+      "endpointId": "Tag.asters",
+      "kind": "disconnect",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "f521591b2bd37e30fd0a1619692f78564004337fba38086d26bf204d497f9e05",
+        "scalarHash": "2201de3b7b822dc37226dbc5997f192a4983450de9f41d5e434359ad6ff31ee8",
+        "storageHash": "da85a59efb35aaaa3647fe825831c97e92f6e3103a998dc4acbb043f87cc5cc3"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "f521591b2bd37e30fd0a1619692f78564004337fba38086d26bf204d497f9e05",
+        "scalarHash": "2201de3b7b822dc37226dbc5997f192a4983450de9f41d5e434359ad6ff31ee8",
+        "storageHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "errors": []
+    },
+    {
+      "id": "Tag.asters:delete-local",
+      "endpointId": "Tag.asters",
+      "kind": "delete-local",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "abec9bd84bb3607444627ea9e0338334116f1fb9bb5ba3a06045f43811f47d14",
+        "scalarHash": "b4f040bf923967f1af47a920c798efd821150477550a5de26e46483843955c4c",
+        "storageHash": "94d2317eb8fb8e554ca07aa7d68bb309a80f8f03bf2c8e8a4eb551ba3ea2d36f"
+      },
+      "after": {
+        "parentCount": 1,
+        "relatedCount": 3,
+        "edgeCount": 0,
+        "sentinelHash": "abec9bd84bb3607444627ea9e0338334116f1fb9bb5ba3a06045f43811f47d14",
+        "scalarHash": "d99040fbf63677e0baf3cd9e3c8dec5b7e88da4e405c719f0f01ee830b6e63fa",
+        "storageHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "errors": []
+    },
+    {
+      "id": "Tag.asters:delete-related",
+      "endpointId": "Tag.asters",
+      "kind": "delete-related",
+      "expectedOutcome": "success",
+      "before": {
+        "parentCount": 2,
+        "relatedCount": 3,
+        "edgeCount": 1,
+        "sentinelHash": "c488feb6dcb4c1eb0926d9398100b3cb6b7ba2fe763a9f92888e8bd04125d240",
+        "scalarHash": "2a62cf73a79920cdb70a0cb5b32d1819f83dd4b1b25c5f43e343077625f12754",
+        "storageHash": "6e5a54330aa26cb5d19b5f24eb986d393eada06406065f0a4070079ccf2fbee2"
+      },
+      "after": {
+        "parentCount": 2,
+        "relatedCount": 2,
+        "edgeCount": 0,
+        "sentinelHash": "c488feb6dcb4c1eb0926d9398100b3cb6b7ba2fe763a9f92888e8bd04125d240",
+        "scalarHash": "2a62cf73a79920cdb70a0cb5b32d1819f83dd4b1b25c5f43e343077625f12754",
+        "storageHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "errors": []
+    }
+  ],
+  "rollbackProbes": [
+    {
+      "kind": "access-after-partial-nested-write",
+      "countsBefore": {
+        "Aster": 0,
+        "Rook": 0,
+        "Sable": 0,
+        "Tag": 1
+      },
+      "countsAfter": {
+        "Aster": 0,
+        "Rook": 0,
+        "Sable": 0,
+        "Tag": 1
+      }
+    },
+    {
+      "kind": "hook-after-partial-nested-write",
+      "countsBefore": {
+        "Aster": 0,
+        "Rook": 0,
+        "Sable": 0,
+        "Tag": 1
+      },
+      "countsAfter": {
+        "Aster": 0,
+        "Rook": 0,
+        "Sable": 0,
+        "Tag": 1
+      }
+    },
+    {
+      "kind": "missing-selector-after-partial-nested-write",
+      "countsBefore": {
+        "Aster": 0,
+        "Rook": 0,
+        "Sable": 0,
+        "Tag": 1
+      },
+      "countsAfter": {
+        "Aster": 0,
+        "Rook": 0,
+        "Sable": 0,
+        "Tag": 1
+      }
+    }
+  ],
+  "concurrency": {
+    "endpointId": "Aster.partner",
+    "actors": "two-cms-graphql-adapter-mutations",
+    "lockGraph": {
+      "blocked_pid": 24246,
+      "blocker_pid": 24248,
+      "wait_event_type": "Lock",
+      "wait_event": "transactionid",
+      "blocked_state": "active",
+      "blocker_state": "idle in transaction",
+      "blocked_query": "UPDATE \"public\".\"gap08_aster_rows\" SET \"g8_partner_fk\" = $1 WHERE (\"public\".\"gap08_aster_rows\".\"id\" IN ($2) AND 1=1)"
+    },
+    "loserErrors": [
+      {
+        "message": "\nInvalid `listKey).update()` invocation in\n/private/var/folders/cl/hn3xfghd7gg2m5fr8vb1mxz80000gn/T/tks-gap08-heavy-NSlaDx/fixture/src/features/cms/adapters/prisma.ts:1020:44\n\n  1017 )\n  1018 const updated = mapPrismaItemForList(\n  1019   list,\n→ 1020   await delegateFor(prisma, listKey).update(\nUnique constraint failed on the fields: (`g8_partner_fk`)",
+        "code": null
+      }
+    ],
+    "final": {
+      "winnerId": "cmsscnm0f00h8enuz655grlsq",
+      "loserId": "cmsscnm0j00h9enuz92t7txp9",
+      "targetId": "cmsscnm0k00haenuzdqjnzx0c",
+      "edgeCount": 1,
+      "openTransactions": 0
+    }
+  },
+  "failure": null,
+  "finalizedAt": "2026-08-14T02:50:25.614Z"
+}

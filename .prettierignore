@@ -1,0 +1,18 @@
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Deterministic/generated output is checked by cms:check and prisma generate.
+.cms/
+.output/
+src/generated/prisma/
+
+# Historical audit evidence is preserved verbatim; current guidance is formatted.
+*.md
+!README.md
+!READINESS.md
+reports/
+subagent-artifacts/
+
+# Bounded diagnostics are not part of the maintained formatting surface.
+tmp-*

@@ -1,0 +1,73 @@
+{
+  "runId": "gap08-13179-1786675808944",
+  "status": "PASS",
+  "startedAt": "2026-08-14T02:50:08.944Z",
+  "finalizedAt": "2026-08-14T02:50:34.485Z",
+  "phases": [
+    {
+      "phase": "source-verified",
+      "details": {
+        "acceptedAggregate": "55f0b916771efaf82b4de885615c98328d29e2574e5c9dac0e6ad8b81ad92e2c",
+        "frozenAggregate": "272aa3d0c7140f36b613a296f4f5b1d651b3b4b897e69a815b06cb0534c4bd2c",
+        "sourceFingerprint": {
+          ".cms": "5d29cb48a91d649016a5d26bac92879caba7b0824a08ecbbe0c45ff9b5f7fa47",
+          "node_modules/.cache/jiti": "2741765d506c734bdc1dd334f34d273b24ac0f376cd7b3b44ec7fdaf7a3ec1cb",
+          "node_modules/.nitro": "a230e93c54c04626c891570f56b18c66fe87645c94d89d6d7c1967d97b363f2a",
+          "node_modules/.vite": "652635b02abc57d1d780991dcd6ad0a37594693c07d62f7c9d6ab97f1106e4a1",
+          "node_modules/.vite-temp": "b8d368b009fe5c67d81f55b7dd4ffeab834649ed28b8beb5cfc9072371b58c91",
+          ".tanstack": "8e5e6e08c80d283feeb73f8e91530d80060ebbae28b1df1f116efef10d6d7d17"
+        }
+      },
+      "at": "2026-08-14T02:50:08.977Z"
+    },
+    {
+      "phase": "generated-plan-verified",
+      "details": {
+        "endpointCount": 6,
+        "scenarioCount": 76,
+        "adminMetaSha256": "6d8a02581960fa5ea290fe60cab490ac727f114d0bed405bb4e4de125ddc5696",
+        "prismaSchemaSha256": "a1f3f16c95ea47c98523e1edba1c014be0a7596c75a8eb3a2533a9a21c58bb76"
+      },
+      "at": "2026-08-14T02:50:19.500Z"
+    },
+    {
+      "phase": "gate-completed",
+      "details": {
+        "scenarioCount": 76,
+        "browserCreateCount": 3,
+        "browserEventCount": 301,
+        "rollbackProbeCount": 3,
+        "concurrencyEndpoint": "Aster.partner"
+      },
+      "at": "2026-08-14T02:50:32.658Z"
+    },
+    {
+      "phase": "cleanup-completed",
+      "details": {
+        "steps": [
+          "terminate-process-groups",
+          "close-database-clients",
+          "terminate-exact-database-sessions",
+          "drop-and-verify-exact-database",
+          "remove-and-verify-profile",
+          "remove-and-verify-fixture-root",
+          "restore-postgresql-container-state",
+          "verify-no-process-database-path-or-cache-marker-residue",
+          "verify-source-output-and-cache-fingerprints",
+          "verify-accepted-and-frozen-hashes"
+        ]
+      },
+      "at": "2026-08-14T02:50:34.485Z"
+    },
+    {
+      "phase": "post-cleanup-verified",
+      "details": {
+        "sourceRestored": true,
+        "acceptedAggregate": "55f0b916771efaf82b4de885615c98328d29e2574e5c9dac0e6ad8b81ad92e2c",
+        "frozenAggregate": "272aa3d0c7140f36b613a296f4f5b1d651b3b4b897e69a815b06cb0534c4bd2c"
+      },
+      "at": "2026-08-14T02:50:34.485Z"
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,1493 @@
+{
+  "provenance": "generated-adminmeta-plus-prisma-schema",
+  "adminMetaSha256": "6d8a02581960fa5ea290fe60cab490ac727f114d0bed405bb4e4de125ddc5696",
+  "prismaSchemaSha256": "a1f3f16c95ea47c98523e1edba1c014be0a7596c75a8eb3a2533a9a21c58bb76",
+  "endpointCount": 6,
+  "scenarioCount": 76,
+  "endpointIds": [
+    "Aster.links",
+    "Aster.members",
+    "Aster.partner",
+    "Rook.aster",
+    "Sable.aster",
+    "Tag.asters"
+  ],
+  "scenarioIds": [
+    "Aster.links:connect",
+    "Aster.links:nested-create",
+    "Aster.links:invalid-id",
+    "Aster.links:invalid-selector",
+    "Aster.links:cross-list-id",
+    "Aster.links:duplicate-write",
+    "Aster.links:conflicting-write",
+    "Aster.links:atomic-rollback",
+    "Aster.links:unchanged-state",
+    "Aster.links:set",
+    "Aster.links:disconnect",
+    "Aster.links:delete-local",
+    "Aster.links:delete-related",
+    "Aster.members:connect",
+    "Aster.members:nested-create",
+    "Aster.members:invalid-id",
+    "Aster.members:invalid-selector",
+    "Aster.members:cross-list-id",
+    "Aster.members:duplicate-write",
+    "Aster.members:conflicting-write",
+    "Aster.members:atomic-rollback",
+    "Aster.members:unchanged-state",
+    "Aster.members:opposite-required-set",
+    "Aster.members:opposite-required-disconnect",
+    "Aster.members:opposite-required-delete-local",
+    "Aster.members:delete-related",
+    "Aster.partner:connect",
+    "Aster.partner:nested-create",
+    "Aster.partner:invalid-id",
+    "Aster.partner:invalid-selector",
+    "Aster.partner:cross-list-id",
+    "Aster.partner:duplicate-write",
+    "Aster.partner:conflicting-write",
+    "Aster.partner:atomic-rollback",
+    "Aster.partner:unchanged-state",
+    "Aster.partner:disconnect",
+    "Aster.partner:delete-local",
+    "Aster.partner:delete-related",
+    "Rook.aster:connect",
+    "Rook.aster:nested-create",
+    "Rook.aster:invalid-id",
+    "Rook.aster:invalid-selector",
+    "Rook.aster:cross-list-id",
+    "Rook.aster:duplicate-write",
+    "Rook.aster:conflicting-write",
+    "Rook.aster:atomic-rollback",
+    "Rook.aster:unchanged-state",
+    "Rook.aster:disconnect",
+    "Rook.aster:delete-local",
+    "Rook.aster:delete-related",
+    "Sable.aster:connect",
+    "Sable.aster:nested-create",
+    "Sable.aster:invalid-id",
+    "Sable.aster:invalid-selector",
+    "Sable.aster:cross-list-id",
+    "Sable.aster:duplicate-write",
+    "Sable.aster:conflicting-write",
+    "Sable.aster:atomic-rollback",
+    "Sable.aster:unchanged-state",
+    "Sable.aster:required-disconnect",
+    "Sable.aster:delete-local",
+    "Sable.aster:required-delete-related",
+    "Sable.aster:required-create",
+    "Tag.asters:connect",
+    "Tag.asters:nested-create",
+    "Tag.asters:invalid-id",
+    "Tag.asters:invalid-selector",
+    "Tag.asters:cross-list-id",
+    "Tag.asters:duplicate-write",
+    "Tag.asters:conflicting-write",
+    "Tag.asters:atomic-rollback",
+    "Tag.asters:unchanged-state",
+    "Tag.asters:set",
+    "Tag.asters:disconnect",
+    "Tag.asters:delete-local",
+    "Tag.asters:delete-related"
+  ],
+  "matrix": [
+    {
+      "id": "Aster.links",
+      "pairId": "Aster.links<->Tag.asters",
+      "oppositeId": "Tag.asters",
+      "listKey": "Aster",
+      "listPath": "asters",
+      "fieldPath": "links",
+      "labelField": "code",
+      "many": true,
+      "oppositeMany": true,
+      "cardinality": "many-to-many",
+      "ownership": "shared",
+      "required": {
+        "create": false,
+        "update": false,
+        "opposite": {
+          "create": false,
+          "update": false
+        }
+      },
+      "graphql": {
+        "createInputName": "AsterCreateInput",
+        "createMutationName": "createAster",
+        "deleteMutationName": "deleteAster",
+        "itemQueryName": "aster",
+        "listQueryName": "asters",
+        "updateInputName": "AsterUpdateInput",
+        "updateMutationName": "updateAster",
+        "whereUniqueInputName": "AsterWhereUniqueInput"
+      },
+      "related": {
+        "listKey": "Tag",
+        "listPath": "tags",
+        "fieldPath": "asters",
+        "labelField": "code",
+        "uniqueSelectors": [
+          "code",
+          "id"
+        ]
+      },
+      "storage": {
+        "modelName": "gap08_aster_rows",
+        "relatedModelName": "gap08_tag_rows",
+        "relationKind": "manyToMany",
+        "relationName": "Gap08MappedTagLink",
+        "joinTableName": "Gap08MappedTagLink",
+        "relationNearFieldName": "links",
+        "relationFarFieldName": "asters",
+        "physicalJoinTable": {
+          "derivation": "prisma-implicit-many-to-many-v2",
+          "tableName": "_Gap08MappedTagLink",
+          "localColumn": "A",
+          "relatedColumn": "B",
+          "columns": [
+            {
+              "name": "A",
+              "listKey": "Aster",
+              "referencesTableName": "gap08_aster_rows",
+              "referencesColumnName": "id"
+            },
+            {
+              "name": "B",
+              "listKey": "Tag",
+              "referencesTableName": "gap08_tag_rows",
+              "referencesColumnName": "id"
+            }
+          ],
+          "requiredCatalogForeignKeys": 2,
+          "requiredUniqueColumns": [
+            "A",
+            "B"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Aster.members",
+      "pairId": "Aster.members<->Sable.aster",
+      "oppositeId": "Sable.aster",
+      "listKey": "Aster",
+      "listPath": "asters",
+      "fieldPath": "members",
+      "labelField": "code",
+      "many": true,
+      "oppositeMany": false,
+      "cardinality": "one-to-many",
+      "ownership": "inverse",
+      "required": {
+        "create": false,
+        "update": false,
+        "opposite": {
+          "create": true,
+          "update": true
+        }
+      },
+      "graphql": {
+        "createInputName": "AsterCreateInput",
+        "createMutationName": "createAster",
+        "deleteMutationName": "deleteAster",
+        "itemQueryName": "aster",
+        "listQueryName": "asters",
+        "updateInputName": "AsterUpdateInput",
+        "updateMutationName": "updateAster",
+        "whereUniqueInputName": "AsterWhereUniqueInput"
+      },
+      "related": {
+        "listKey": "Sable",
+        "listPath": "sables",
+        "fieldPath": "aster",
+        "labelField": "code",
+        "uniqueSelectors": [
+          "code",
+          "id"
+        ]
+      },
+      "storage": {
+        "modelName": "gap08_aster_rows",
+        "relatedModelName": "gap08_sable_rows",
+        "relationKind": "many",
+        "relationName": "Sable_aster"
+      }
+    },
+    {
+      "id": "Aster.partner",
+      "pairId": "Aster.partner<->Rook.aster",
+      "oppositeId": "Rook.aster",
+      "listKey": "Aster",
+      "listPath": "asters",
+      "fieldPath": "partner",
+      "labelField": "code",
+      "many": false,
+      "oppositeMany": false,
+      "cardinality": "one-to-one",
+      "ownership": "own",
+      "required": {
+        "create": false,
+        "update": false,
+        "opposite": {
+          "create": false,
+          "update": false
+        }
+      },
+      "graphql": {
+        "createInputName": "AsterCreateInput",
+        "createMutationName": "createAster",
+        "deleteMutationName": "deleteAster",
+        "itemQueryName": "aster",
+        "listQueryName": "asters",
+        "updateInputName": "AsterUpdateInput",
+        "updateMutationName": "updateAster",
+        "whereUniqueInputName": "AsterWhereUniqueInput"
+      },
+      "related": {
+        "listKey": "Rook",
+        "listPath": "rooks",
+        "fieldPath": "aster",
+        "labelField": "code",
+        "uniqueSelectors": [
+          "code",
+          "id"
+        ]
+      },
+      "storage": {
+        "modelName": "gap08_aster_rows",
+        "relatedModelName": "gap08_rook_rows",
+        "relationKind": "one",
+        "relationName": "Aster_partner",
+        "foreignKeyFieldName": "partnerId",
+        "foreignKeyColumnName": "g8_partner_fk",
+        "foreignKeyScalarType": "String",
+        "foreignKeyTableName": "gap08_aster_rows",
+        "foreignKeyReferencedTableName": "gap08_rook_rows",
+        "foreignKeyReferencedColumnName": "id",
+        "onDelete": "SetNull",
+        "onUpdate": "Cascade"
+      }
+    },
+    {
+      "id": "Rook.aster",
+      "pairId": "Aster.partner<->Rook.aster",
+      "oppositeId": "Aster.partner",
+      "listKey": "Rook",
+      "listPath": "rooks",
+      "fieldPath": "aster",
+      "labelField": "code",
+      "many": false,
+      "oppositeMany": false,
+      "cardinality": "one-to-one",
+      "ownership": "inverse",
+      "required": {
+        "create": false,
+        "update": false,
+        "opposite": {
+          "create": false,
+          "update": false
+        }
+      },
+      "graphql": {
+        "createInputName": "RookCreateInput",
+        "createMutationName": "createRook",
+        "deleteMutationName": "deleteRook",
+        "itemQueryName": "rook",
+        "listQueryName": "rooks",
+        "updateInputName": "RookUpdateInput",
+        "updateMutationName": "updateRook",
+        "whereUniqueInputName": "RookWhereUniqueInput"
+      },
+      "related": {
+        "listKey": "Aster",
+        "listPath": "asters",
+        "fieldPath": "partner",
+        "labelField": "code",
+        "uniqueSelectors": [
+          "code",
+          "id"
+        ]
+      },
+      "storage": {
+        "modelName": "gap08_rook_rows",
+        "relatedModelName": "gap08_aster_rows",
+        "relationKind": "one",
+        "relationName": "Aster_partner"
+      }
+    },
+    {
+      "id": "Sable.aster",
+      "pairId": "Aster.members<->Sable.aster",
+      "oppositeId": "Aster.members",
+      "listKey": "Sable",
+      "listPath": "sables",
+      "fieldPath": "aster",
+      "labelField": "code",
+      "many": false,
+      "oppositeMany": true,
+      "cardinality": "many-to-one",
+      "ownership": "own",
+      "required": {
+        "create": true,
+        "update": true,
+        "opposite": {
+          "create": false,
+          "update": false
+        }
+      },
+      "graphql": {
+        "createInputName": "SableCreateInput",
+        "createMutationName": "createSable",
+        "deleteMutationName": "deleteSable",
+        "itemQueryName": "sable",
+        "listQueryName": "sables",
+        "updateInputName": "SableUpdateInput",
+        "updateMutationName": "updateSable",
+        "whereUniqueInputName": "SableWhereUniqueInput"
+      },
+      "related": {
+        "listKey": "Aster",
+        "listPath": "asters",
+        "fieldPath": "members",
+        "labelField": "code",
+        "uniqueSelectors": [
+          "code",
+          "id"
+        ]
+      },
+      "storage": {
+        "modelName": "gap08_sable_rows",
+        "relatedModelName": "gap08_aster_rows",
+        "relationKind": "many",
+        "relationName": "Sable_aster",
+        "foreignKeyFieldName": "asterId",
+        "foreignKeyColumnName": "g8_aster_fk",
+        "foreignKeyScalarType": "String",
+        "foreignKeyTableName": "gap08_sable_rows",
+        "foreignKeyReferencedTableName": "gap08_aster_rows",
+        "foreignKeyReferencedColumnName": "id",
+        "onDelete": "SetNull",
+        "onUpdate": "Cascade"
+      }
+    },
+    {
+      "id": "Tag.asters",
+      "pairId": "Aster.links<->Tag.asters",
+      "oppositeId": "Aster.links",
+      "listKey": "Tag",
+      "listPath": "tags",
+      "fieldPath": "asters",
+      "labelField": "code",
+      "many": true,
+      "oppositeMany": true,
+      "cardinality": "many-to-many",
+      "ownership": "shared",
+      "required": {
+        "create": false,
+        "update": false,
+        "opposite": {
+          "create": false,
+          "update": false
+        }
+      },
+      "graphql": {
+        "createInputName": "TagCreateInput",
+        "createMutationName": "createTag",
+        "deleteMutationName": "deleteTag",
+        "itemQueryName": "tag",
+        "listQueryName": "tags",
+        "updateInputName": "TagUpdateInput",
+        "updateMutationName": "updateTag",
+        "whereUniqueInputName": "TagWhereUniqueInput"
+      },
+      "related": {
+        "listKey": "Aster",
+        "listPath": "asters",
+        "fieldPath": "links",
+        "labelField": "code",
+        "uniqueSelectors": [
+          "code",
+          "id"
+        ]
+      },
+      "storage": {
+        "modelName": "gap08_tag_rows",
+        "relatedModelName": "gap08_aster_rows",
+        "relationKind": "manyToMany",
+        "relationName": "Gap08MappedTagLink",
+        "joinTableName": "Gap08MappedTagLink",
+        "relationNearFieldName": "asters",
+        "relationFarFieldName": "links",
+        "physicalJoinTable": {
+          "derivation": "prisma-implicit-many-to-many-v2",
+          "tableName": "_Gap08MappedTagLink",
+          "localColumn": "B",
+          "relatedColumn": "A",
+          "columns": [
+            {
+              "name": "A",
+              "listKey": "Aster",
+              "referencesTableName": "gap08_aster_rows",
+              "referencesColumnName": "id"
+            },
+            {
+              "name": "B",
+              "listKey": "Tag",
+              "referencesTableName": "gap08_tag_rows",
+              "referencesColumnName": "id"
+            }
+          ],
+          "requiredCatalogForeignKeys": 2,
+          "requiredUniqueColumns": [
+            "A",
+            "B"
+          ]
+        }
+      }
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "Aster.links:connect",
+      "endpointId": "Aster.links",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "connect",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 1
+      }
+    },
+    {
+      "id": "Aster.links:nested-create",
+      "endpointId": "Aster.links",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "nested-create",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 1,
+        "edgeDelta": 1
+      }
+    },
+    {
+      "id": "Aster.links:invalid-id",
+      "endpointId": "Aster.links",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "invalid-id",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-resolution",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.links:invalid-selector",
+      "endpointId": "Aster.links",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "invalid-selector",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "graphql-validation",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.links:cross-list-id",
+      "endpointId": "Aster.links",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "cross-list-id",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-resolution",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.links:duplicate-write",
+      "endpointId": "Aster.links",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "duplicate-write",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.links:conflicting-write",
+      "endpointId": "Aster.links",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "conflicting-write",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-conflict",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.links:atomic-rollback",
+      "endpointId": "Aster.links",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "atomic-rollback",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "transaction-rollback",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.links:unchanged-state",
+      "endpointId": "Aster.links",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "unchanged-state",
+      "selector": "code",
+      "expectedOutcome": "assertion",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.links:set",
+      "endpointId": "Aster.links",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "set",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.links:disconnect",
+      "endpointId": "Aster.links",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "disconnect",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": -1
+      }
+    },
+    {
+      "id": "Aster.links:delete-local",
+      "endpointId": "Aster.links",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "delete-local",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": -1,
+        "relatedDelta": 0,
+        "edgeDelta": -1
+      }
+    },
+    {
+      "id": "Aster.links:delete-related",
+      "endpointId": "Aster.links",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "delete-related",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": -1,
+        "edgeDelta": -1
+      }
+    },
+    {
+      "id": "Aster.members:connect",
+      "endpointId": "Aster.members",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "connect",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 1
+      }
+    },
+    {
+      "id": "Aster.members:nested-create",
+      "endpointId": "Aster.members",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "nested-create",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 1,
+        "edgeDelta": 1
+      }
+    },
+    {
+      "id": "Aster.members:invalid-id",
+      "endpointId": "Aster.members",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "invalid-id",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-resolution",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.members:invalid-selector",
+      "endpointId": "Aster.members",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "invalid-selector",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "graphql-validation",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.members:cross-list-id",
+      "endpointId": "Aster.members",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "cross-list-id",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-resolution",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.members:duplicate-write",
+      "endpointId": "Aster.members",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "duplicate-write",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.members:conflicting-write",
+      "endpointId": "Aster.members",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "conflicting-write",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-conflict",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.members:atomic-rollback",
+      "endpointId": "Aster.members",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "atomic-rollback",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "transaction-rollback",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.members:unchanged-state",
+      "endpointId": "Aster.members",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "unchanged-state",
+      "selector": "code",
+      "expectedOutcome": "assertion",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.members:opposite-required-set",
+      "endpointId": "Aster.members",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "opposite-required-set",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-required",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      },
+      "invariant": "replacement-fixture-required-relationship-must-not-be-nulled",
+      "invariantSource": "opposite-update-requiredness",
+      "productRedOnAllowance": true
+    },
+    {
+      "id": "Aster.members:opposite-required-disconnect",
+      "endpointId": "Aster.members",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "opposite-required-disconnect",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-required",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      },
+      "invariant": "replacement-fixture-required-relationship-must-not-be-nulled",
+      "invariantSource": "opposite-update-requiredness",
+      "productRedOnAllowance": true
+    },
+    {
+      "id": "Aster.members:opposite-required-delete-local",
+      "endpointId": "Aster.members",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "opposite-required-delete-local",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-required",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      },
+      "invariant": "replacement-fixture-required-relationship-must-not-be-nulled",
+      "invariantSource": "opposite-update-requiredness",
+      "productRedOnAllowance": true
+    },
+    {
+      "id": "Aster.members:delete-related",
+      "endpointId": "Aster.members",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "delete-related",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": -1,
+        "edgeDelta": -1
+      }
+    },
+    {
+      "id": "Aster.partner:connect",
+      "endpointId": "Aster.partner",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "connect",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 1
+      }
+    },
+    {
+      "id": "Aster.partner:nested-create",
+      "endpointId": "Aster.partner",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "nested-create",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 1,
+        "edgeDelta": 1
+      }
+    },
+    {
+      "id": "Aster.partner:invalid-id",
+      "endpointId": "Aster.partner",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "invalid-id",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-resolution",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.partner:invalid-selector",
+      "endpointId": "Aster.partner",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "invalid-selector",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "graphql-validation",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.partner:cross-list-id",
+      "endpointId": "Aster.partner",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "cross-list-id",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-resolution",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.partner:duplicate-write",
+      "endpointId": "Aster.partner",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "duplicate-write",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.partner:conflicting-write",
+      "endpointId": "Aster.partner",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "conflicting-write",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-conflict",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.partner:atomic-rollback",
+      "endpointId": "Aster.partner",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "atomic-rollback",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "transaction-rollback",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.partner:unchanged-state",
+      "endpointId": "Aster.partner",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "unchanged-state",
+      "selector": "code",
+      "expectedOutcome": "assertion",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Aster.partner:disconnect",
+      "endpointId": "Aster.partner",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "disconnect",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": -1
+      }
+    },
+    {
+      "id": "Aster.partner:delete-local",
+      "endpointId": "Aster.partner",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "delete-local",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": -1,
+        "relatedDelta": 0,
+        "edgeDelta": -1
+      }
+    },
+    {
+      "id": "Aster.partner:delete-related",
+      "endpointId": "Aster.partner",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "delete-related",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": -1,
+        "edgeDelta": -1
+      }
+    },
+    {
+      "id": "Rook.aster:connect",
+      "endpointId": "Rook.aster",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "connect",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 1
+      }
+    },
+    {
+      "id": "Rook.aster:nested-create",
+      "endpointId": "Rook.aster",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "nested-create",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 1,
+        "edgeDelta": 1
+      }
+    },
+    {
+      "id": "Rook.aster:invalid-id",
+      "endpointId": "Rook.aster",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "invalid-id",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-resolution",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Rook.aster:invalid-selector",
+      "endpointId": "Rook.aster",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "invalid-selector",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "graphql-validation",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Rook.aster:cross-list-id",
+      "endpointId": "Rook.aster",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "cross-list-id",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-resolution",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Rook.aster:duplicate-write",
+      "endpointId": "Rook.aster",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "duplicate-write",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Rook.aster:conflicting-write",
+      "endpointId": "Rook.aster",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "conflicting-write",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-conflict",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Rook.aster:atomic-rollback",
+      "endpointId": "Rook.aster",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "atomic-rollback",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "transaction-rollback",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Rook.aster:unchanged-state",
+      "endpointId": "Rook.aster",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "unchanged-state",
+      "selector": "code",
+      "expectedOutcome": "assertion",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Rook.aster:disconnect",
+      "endpointId": "Rook.aster",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "disconnect",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": -1
+      }
+    },
+    {
+      "id": "Rook.aster:delete-local",
+      "endpointId": "Rook.aster",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "delete-local",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": -1,
+        "relatedDelta": 0,
+        "edgeDelta": -1
+      }
+    },
+    {
+      "id": "Rook.aster:delete-related",
+      "endpointId": "Rook.aster",
+      "pairId": "Aster.partner<->Rook.aster",
+      "kind": "delete-related",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": -1,
+        "edgeDelta": -1
+      }
+    },
+    {
+      "id": "Sable.aster:connect",
+      "endpointId": "Sable.aster",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "connect",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 1
+      }
+    },
+    {
+      "id": "Sable.aster:nested-create",
+      "endpointId": "Sable.aster",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "nested-create",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 1,
+        "edgeDelta": 1
+      }
+    },
+    {
+      "id": "Sable.aster:invalid-id",
+      "endpointId": "Sable.aster",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "invalid-id",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-resolution",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Sable.aster:invalid-selector",
+      "endpointId": "Sable.aster",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "invalid-selector",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "graphql-validation",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Sable.aster:cross-list-id",
+      "endpointId": "Sable.aster",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "cross-list-id",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-resolution",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Sable.aster:duplicate-write",
+      "endpointId": "Sable.aster",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "duplicate-write",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Sable.aster:conflicting-write",
+      "endpointId": "Sable.aster",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "conflicting-write",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-conflict",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Sable.aster:atomic-rollback",
+      "endpointId": "Sable.aster",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "atomic-rollback",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "transaction-rollback",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Sable.aster:unchanged-state",
+      "endpointId": "Sable.aster",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "unchanged-state",
+      "selector": "code",
+      "expectedOutcome": "assertion",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Sable.aster:required-disconnect",
+      "endpointId": "Sable.aster",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "required-disconnect",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-required",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      },
+      "invariant": "replacement-fixture-required-relationship-must-not-be-nulled",
+      "invariantSource": "local-update-requiredness",
+      "productRedOnAllowance": true
+    },
+    {
+      "id": "Sable.aster:delete-local",
+      "endpointId": "Sable.aster",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "delete-local",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": -1,
+        "relatedDelta": 0,
+        "edgeDelta": -1
+      }
+    },
+    {
+      "id": "Sable.aster:required-delete-related",
+      "endpointId": "Sable.aster",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "required-delete-related",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-required",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      },
+      "invariant": "replacement-fixture-required-relationship-must-not-be-nulled",
+      "invariantSource": "local-update-requiredness",
+      "productRedOnAllowance": true
+    },
+    {
+      "id": "Sable.aster:required-create",
+      "endpointId": "Sable.aster",
+      "pairId": "Aster.members<->Sable.aster",
+      "kind": "required-create",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-required",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      },
+      "invariant": "replacement-fixture-required-relationship-must-not-be-nulled",
+      "invariantSource": "local-create-requiredness",
+      "productRedOnAllowance": true
+    },
+    {
+      "id": "Tag.asters:connect",
+      "endpointId": "Tag.asters",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "connect",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 1
+      }
+    },
+    {
+      "id": "Tag.asters:nested-create",
+      "endpointId": "Tag.asters",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "nested-create",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 1,
+        "edgeDelta": 1
+      }
+    },
+    {
+      "id": "Tag.asters:invalid-id",
+      "endpointId": "Tag.asters",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "invalid-id",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-resolution",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Tag.asters:invalid-selector",
+      "endpointId": "Tag.asters",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "invalid-selector",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "graphql-validation",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Tag.asters:cross-list-id",
+      "endpointId": "Tag.asters",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "cross-list-id",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-resolution",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Tag.asters:duplicate-write",
+      "endpointId": "Tag.asters",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "duplicate-write",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Tag.asters:conflicting-write",
+      "endpointId": "Tag.asters",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "conflicting-write",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "relationship-conflict",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Tag.asters:atomic-rollback",
+      "endpointId": "Tag.asters",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "atomic-rollback",
+      "selector": "code",
+      "expectedOutcome": "rejection",
+      "expectedError": "transaction-rollback",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Tag.asters:unchanged-state",
+      "endpointId": "Tag.asters",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "unchanged-state",
+      "selector": "code",
+      "expectedOutcome": "assertion",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Tag.asters:set",
+      "endpointId": "Tag.asters",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "set",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": 0
+      }
+    },
+    {
+      "id": "Tag.asters:disconnect",
+      "endpointId": "Tag.asters",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "disconnect",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": 0,
+        "edgeDelta": -1
+      }
+    },
+    {
+      "id": "Tag.asters:delete-local",
+      "endpointId": "Tag.asters",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "delete-local",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": -1,
+        "relatedDelta": 0,
+        "edgeDelta": -1
+      }
+    },
+    {
+      "id": "Tag.asters:delete-related",
+      "endpointId": "Tag.asters",
+      "pairId": "Aster.links<->Tag.asters",
+      "kind": "delete-related",
+      "selector": "code",
+      "expectedOutcome": "success",
+      "expectedCounts": {
+        "parentDelta": 0,
+        "relatedDelta": -1,
+        "edgeDelta": -1
+      }
+    }
+  ]
+}
