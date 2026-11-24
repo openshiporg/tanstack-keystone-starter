@@ -1,19 +1,19 @@
-import { Link, useNavigate, useSearch } from '@tanstack/react-router'
+import { useNavigate, useSearch } from '@tanstack/react-router'
 import {
+  ArrowDown,
+  ArrowUp,
   ArrowUpDown,
   ChevronDown,
-  ChevronUp,
-  CirclePlus,
   Columns3,
   Filter,
   Search,
   SlidersHorizontal,
   X,
 } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import {
   defaultListSearchState,
   isAtDefaultListState,
@@ -50,7 +50,6 @@ import {
 import { enhanceFields } from './enhance-fields'
 import type { EnhancedDashboardField } from './enhance-fields'
 import type { DashboardList } from '@/features/cms/graphql-client'
-import { cn } from '@/lib/utils'
 
 type FilterType =
   | 'contains'
@@ -93,9 +92,29 @@ export function FilterBar({
   const [filterType, setFilterType] = useState<FilterType>('contains')
   const [filterValue, setFilterValue] = useState<unknown>('')
 
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
   useEffect(() => {
     setSearchString(searchParams.search || '')
   }, [searchParams.search])
+
+  // "/" focuses search, like Linear and GitHub
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement
+      if (
+        event.key !== '/' ||
+        event.metaKey ||
+        event.ctrlKey ||
+        target.closest('input,textarea,[contenteditable=true]')
+      )
+        return
+      event.preventDefault()
+      searchInputRef.current?.focus()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   const searchableFields = useMemo(
     () => list.fields.filter((field) => field.isFilterable),
@@ -403,49 +422,73 @@ export function FilterBar({
   }
 
   return (
-    <div>
-      <div className="mb-3 flex flex-wrap items-center gap-2">
-        <div className="relative min-w-56 flex-1">
+    <div className="flex flex-col gap-2.5">
+      <div className="flex items-center gap-2">
+        <form
+          role="search"
+          aria-label={`Search ${list.label}`}
+          className="ks-field relative flex h-8 min-w-0 flex-1 items-center md:max-w-[420px]"
+          onSubmit={(event) => {
+            event.preventDefault()
+            updateSearch(searchString)
+          }}
+        >
           <Search
-            className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
+            className="pointer-events-none absolute left-2.5 size-3.5 text-[var(--ks-label)]"
             aria-hidden="true"
           />
-          <form
-            role="search"
-            aria-label={`Search ${list.label}`}
-            onSubmit={(event) => {
-              event.preventDefault()
-              updateSearch(searchString)
+          <input
+            ref={searchInputRef}
+            type="search"
+            className="h-full w-full min-w-0 bg-transparent pr-8 pl-8 text-[13px] text-[var(--ks-ink)] outline-none placeholder:text-[var(--ks-label)] [&::-webkit-search-cancel-button]:hidden"
+            value={searchString}
+            onChange={(event) => setSearchString(event.target.value)}
+            onBlur={() => {
+              if ((searchParams.search || '') !== searchString.trim())
+                updateSearch(searchString)
             }}
-          >
-            <Input
-              type="search"
-              className="h-10 w-full rounded-lg bg-muted/40 pl-9 placeholder:text-muted-foreground/80"
-              value={searchString}
-              onChange={(event) => setSearchString(event.target.value)}
-              aria-label={`Search ${list.label}`}
-              placeholder={filterBarSearchPlaceholder(searchLabels)}
-            />
-          </form>
-        </div>
+            aria-label={`Search ${list.label}`}
+            placeholder={filterBarSearchPlaceholder(searchLabels)}
+          />
+          {searchString ? (
+            <button
+              type="button"
+              aria-label="Clear search"
+              onClick={() => {
+                setSearchString('')
+                updateSearch('')
+              }}
+              className="absolute right-1.5 grid size-5 place-items-center rounded-[5px] text-[var(--ks-label)] hover:text-[var(--ks-ink)]"
+            >
+              <X className="size-3.5" />
+            </button>
+          ) : (
+            <span className="ks-kbd pointer-events-none absolute right-1.5 h-5 max-md:hidden">
+              /
+            </span>
+          )}
+        </form>
 
-        <div className="flex items-center gap-2">
+        <div className="ks-track ml-auto shrink-0">
           <Popover open={filterPopoverOpen} onOpenChange={setFilterPopoverOpen}>
             <PopoverTrigger
               aria-label={`Add filter to ${list.label}`}
               disabled={!hasFilterableFields}
-              className="inline-flex h-9 items-center justify-center gap-2 rounded-lg border bg-background px-3 hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 lg:px-4 lg:py-2"
+              render={
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="max-sm:w-7 max-sm:px-0"
+                />
+              }
             >
-              <SlidersHorizontal
-                className="size-4 stroke-muted-foreground"
-                aria-hidden="true"
-              />
-              <span className="hidden lg:inline">Filter</span>
+              <SlidersHorizontal aria-hidden="true" />
+              <span className="max-sm:hidden">Filter</span>
             </PopoverTrigger>
             <PopoverContent className="w-96 p-0" sideOffset={8}>
-              <div className="border-b px-4 py-3">
-                <div className="text-sm font-medium">Add filter</div>
-                <div className="mt-1 text-xs text-muted-foreground">
+              <div className="border-b border-[var(--ks-line)] px-4 py-3">
+                <div className="text-[13px] font-medium text-[var(--ks-ink)]">Add filter</div>
+                <div className="mt-1 text-[12px] text-[var(--ks-dim)]">
                   Choose a field, condition, and value to filter this list.
                 </div>
               </div>
@@ -523,11 +566,12 @@ export function FilterBar({
                   )}
                 </div>
               ) : (
-                <div className="p-4 text-sm text-muted-foreground">
+                <div className="p-4 text-[13px] text-[var(--ks-dim)]">
                   No filters available for this list.
                 </div>
               )}
-              <div className="flex justify-end gap-2 border-t px-4 py-3">
+              <div className="flex justify-end border-t border-[var(--ks-line)] px-4 py-3">
+                <div className="ks-track">
                 <Button
                   type="button"
                   variant="outline"
@@ -544,6 +588,7 @@ export function FilterBar({
                 >
                   Apply filter
                 </Button>
+                </div>
               </div>
             </PopoverContent>
           </Popover>
@@ -567,29 +612,14 @@ export function FilterBar({
               Reset
             </Button>
           ) : null}
-          {!list.hideCreate && !list.isSingleton ? (
-            <Link
-              to="/dashboard/$listKey/create"
-              params={{ listKey: list.path }}
-              aria-label={`Create ${list.singular}`}
-              className={cn(
-                buttonVariants({ size: 'icon' }),
-                'rounded-lg lg:w-auto lg:px-4 lg:py-2',
-              )}
-            >
-              <CirclePlus aria-hidden="true" />
-              <span className="hidden lg:inline">Create {list.singular}</span>
-            </Link>
-          ) : null}
         </div>
       </div>
 
       {activeFilters.length ? (
-        <div className="-mx-4 mb-3 flex items-center gap-1.5 border-t bg-muted/40 px-4 py-2 md:-mx-6 md:px-6">
-          <div className="mr-1.5 flex items-center gap-1.5 border-r border-muted-foreground/30 pr-2">
+        <div className="flex items-center gap-2">
+          <div className="flex items-center">
             <Filter
-              className="size-4 stroke-muted-foreground/50"
-              strokeWidth={1.5}
+              className="size-3.5 text-[var(--ks-label)]"
               aria-hidden="true"
             />
           </div>
@@ -664,9 +694,18 @@ function SortSelection({
   if (!sortBy || !activeField) {
     return (
       <DropdownMenu>
-        <DropdownMenuTrigger className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border bg-background px-3 text-xs font-medium hover:bg-accent hover:text-accent-foreground">
-          <ArrowUpDown className="h-3 w-3" aria-hidden="true" />
-          SORT
+        <DropdownMenuTrigger
+          aria-label="Sort"
+          render={
+            <Button
+              variant="outline"
+              size="sm"
+              className="max-sm:w-7 max-sm:px-0"
+            />
+          }
+        >
+          <ArrowUpDown aria-hidden="true" />
+          <span className="max-sm:hidden">Sort</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[200px]">
           <DropdownMenuGroup>
@@ -691,14 +730,25 @@ function SortSelection({
   }
 
   return (
-    <div className="inline-flex divide-x rounded-lg border">
+    <>
       <DropdownMenu>
-        <DropdownMenuTrigger className="inline-flex h-9 items-center justify-center gap-1.5 rounded-l-lg px-3 text-sm font-medium hover:bg-accent hover:text-accent-foreground">
+        <DropdownMenuTrigger
+          aria-label={`Sorted by ${activeField.label}`}
+          render={
+            <Button
+              variant="outline"
+              size="sm"
+              className="max-sm:w-7 max-sm:px-0"
+            />
+          }
+        >
           <ArrowUpDown
-            className="h-3 w-3 stroke-muted-foreground"
+            className="!text-[var(--ks-accent)]"
             aria-hidden="true"
           />
-          {activeField.label}
+          <span className="max-w-28 truncate max-sm:hidden">
+            {activeField.label}
+          </span>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[200px]">
           <DropdownMenuGroup>
@@ -713,7 +763,7 @@ function SortSelection({
                   />
                 }
                 onClick={() => onSortChange('')}
-                className="mr-2 cursor-pointer rounded-sm border px-1.5 py-0 text-[10px] font-medium tracking-wide uppercase"
+                className="mr-2 cursor-pointer"
               >
                 Clear
               </Badge>
@@ -728,7 +778,7 @@ function SortSelection({
                   <span className="flex w-full items-center justify-between">
                     {field.label}
                     {field.path === activeFieldPath ? (
-                      <Badge className="rounded-sm border px-1.5 py-0 text-[10px] font-medium tracking-wide uppercase">
+                      <Badge className="font-mono">
                         {direction}
                       </Badge>
                     ) : null}
@@ -744,28 +794,18 @@ function SortSelection({
         aria-label={`Sort ${activeField.label} ${
           direction === 'ASC' ? 'descending' : 'ascending'
         }`}
-        className="rounded-l-none border-0 pr-2 pl-3"
+        size="sm"
+        className="px-2 font-mono text-[12px]"
         onClick={() => handleSortChange(activeFieldPath)}
       >
-        <span className="text-[10px] font-semibold tracking-wide uppercase">
-          {direction}
-        </span>
-        <div className="-space-y-2" aria-hidden="true">
-          <ChevronUp
-            className={cn(
-              'size-3.5',
-              direction === 'ASC' ? 'text-blue-500' : 'opacity-30',
-            )}
-          />
-          <ChevronDown
-            className={cn(
-              'size-3.5',
-              direction === 'DESC' ? 'text-blue-500' : 'opacity-30',
-            )}
-          />
-        </div>
+        {direction === 'ASC' ? (
+          <ArrowUp aria-hidden="true" />
+        ) : (
+          <ArrowDown aria-hidden="true" />
+        )}
+        {direction}
       </Button>
-    </div>
+    </>
   )
 }
 
@@ -804,9 +844,18 @@ function FieldSelection({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border bg-background px-3 text-xs font-medium hover:bg-accent hover:text-accent-foreground">
-        <Columns3 className="h-3 w-3" aria-hidden="true" />
-        COLUMNS
+      <DropdownMenuTrigger
+        aria-label="Columns"
+        render={
+          <Button
+            variant="outline"
+            size="sm"
+            className="max-sm:w-7 max-sm:px-0"
+          />
+        }
+      >
+        <Columns3 aria-hidden="true" />
+        <span className="max-sm:hidden">Columns</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[200px]">
         <DropdownMenuGroup>
@@ -886,34 +935,36 @@ function FilterPill({
   }
 
   return (
-    <div className="inline-flex">
+    <div className="ks-track">
       <Button
-        className="h-7 rounded-none shadow-none first:rounded-s-md last:rounded-e-md hover:bg-red-50 hover:text-red-500 focus-visible:z-10 dark:hover:bg-red-950"
         variant="outline"
-        size="icon"
+        size="icon-sm"
+        data-variant="danger"
         aria-label={`Remove ${fieldLabel} filter`}
         onClick={onRemove}
       >
         <X size={16} aria-hidden="true" />
       </Button>
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger className="inline-flex h-7 max-w-64 items-center justify-start gap-1.5 rounded-none border border-l-0 bg-background px-2 text-xs uppercase shadow-none first:rounded-s-md last:rounded-e-md hover:bg-accent hover:text-accent-foreground focus-visible:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
-          <span className="truncate text-muted-foreground">{fieldLabel}</span>
+        <PopoverTrigger className="flex h-7 max-w-64 items-center justify-start gap-1.5 rounded-[7px] px-2 text-[12px] outline-none hover:text-[var(--ks-ink)] focus-visible:ring-2 focus-visible:ring-[var(--ks-focus)]">
+          <span className="truncate text-[var(--ks-dim)]">{fieldLabel}</span>
+          <span className="truncate font-medium text-[var(--ks-ink)]">
+            {filterLabel}
+          </span>
           <ChevronDown
-            className="size-3 rotate-[-90deg] text-muted-foreground/70"
-            aria-hidden="true"
-          />
-          <span className="truncate font-medium">{filterLabel}</span>
-          <ChevronDown
-            className="size-3 text-muted-foreground/70"
+            className="size-3 text-[var(--ks-label)]"
             aria-hidden="true"
           />
         </PopoverTrigger>
         <PopoverContent className="w-72 p-3" sideOffset={6}>
           <div className="space-y-3">
             <div>
-              <div className="text-sm font-medium">{fieldLabel}</div>
-              <div className="text-xs text-muted-foreground">{filterLabel}</div>
+              <div className="text-[13px] font-medium text-[var(--ks-ink)]">
+                {fieldLabel}
+              </div>
+              <div className="text-[12px] text-[var(--ks-dim)]">
+                {filterLabel}
+              </div>
             </div>
             {filterOption.needsValue === false ? null : (
               <FilterInput
@@ -925,18 +976,20 @@ function FilterPill({
                 autoFocus
               />
             )}
-            <div className="flex justify-end gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button type="button" size="sm" onClick={save}>
-                Save
-              </Button>
+            <div className="flex justify-end">
+              <div className="ks-track">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button type="button" size="sm" onClick={save}>
+                  Save
+                </Button>
+              </div>
             </div>
           </div>
         </PopoverContent>

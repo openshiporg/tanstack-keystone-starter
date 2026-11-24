@@ -80,6 +80,20 @@ export type DashboardListPageData = {
   selectedFields: DashboardField[]
   selectedFieldPaths: string[]
   sortBy: string
+  /** A select field named status/state/stage; drives the dot on the row title. */
+  statusFieldPath: string | null
+}
+
+/** Presentation helper: a select field called status, state or stage, if the list has one. */
+export function findStatusField(list: Pick<DashboardList, 'fields'>) {
+  return (
+    list.fields.find(
+      (field) =>
+        /^(status|state|stage)$/i.test(field.path) &&
+        field.kind === 'select' &&
+        field.listView.fieldMode !== 'hidden',
+    ) ?? null
+  )
 }
 
 export type DashboardItemFieldMeta = {
@@ -1010,7 +1024,14 @@ export async function fetchDashboardListPage(
       ? Math.floor(pageSize)
       : list.pageSize
   const selectedFields = selectedListFields(list, fields, column)
-  const selectedGqlFields = selectedFields
+  const statusField = findStatusField(list)
+  // Title (labelField) and status are always fetched for the row title and its dot.
+  const queryFields = [...selectedFields]
+  for (const extra of [list.fieldMap[list.labelField], statusField]) {
+    if (extra && !queryFields.some((field) => field.path === extra.path))
+      queryFields.push(extra)
+  }
+  const selectedGqlFields = queryFields
     .map((field) => graphQLSelectionForField(adminMeta, field))
     .join('\n')
   const where = buildWhere(list, search, filters)
@@ -1054,6 +1075,7 @@ export async function fetchDashboardListPage(
     selectedFields,
     selectedFieldPaths: selectedFields.map((field) => field.path),
     sortBy: resolveEffectiveSortToken(list, sortBy),
+    statusFieldPath: statusField?.path ?? null,
   }
 }
 

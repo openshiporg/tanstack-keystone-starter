@@ -8,12 +8,15 @@ import {
   useRouterState,
 } from '@tanstack/react-router'
 import type { SearchSchemaInput } from '@tanstack/react-router'
+import { Plus, RotateCw, SearchX, TriangleAlert } from 'lucide-react'
 
 import { FilterBar } from '@/components/dashboard/filter-bar'
 import { hasAnyDashboardFilters } from '@/components/dashboard/filter-param-compat'
 import { KeystoneListTable } from '@/components/dashboard/keystone-list-table'
 import { PageContainer } from '@/components/dashboard/page-container'
 import { normalizeDashboardPageSize } from '@/components/dashboard/page-size'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { EmptyState } from '@/components/ui/empty-state'
 import {
   dashboardQueryKeys,
   fetchDashboardListPage,
@@ -95,7 +98,8 @@ function ListRoute() {
   const search = Route.useSearch()
   const loaderData = Route.useLoaderData()
 
-  const { data, isFetching, error } = useQuery({
+  const navigate = Route.useNavigate()
+  const { data, isFetching, error, refetch } = useQuery({
     queryKey: dashboardQueryKeys.listPage(params.listKey, search),
     queryFn: () =>
       fetchDashboardListPage({
@@ -117,14 +121,35 @@ function ListRoute() {
   const selectedFields = new Set(data.selectedFieldPaths)
   const isFiltered =
     Boolean(search.search.trim()) || hasAnyDashboardFilters(search)
+  const isEmpty = !error && data.count === 0 && !isFiltered
+  const canCreate = !list.hideCreate && !list.isSingleton
+
+  const createAction = canCreate ? (
+    <Link
+      to="/dashboard/$listKey/create"
+      params={{ listKey: list.path }}
+      data-variant="primary"
+      className={buttonVariants({ size: 'sm' })}
+    >
+      <Plus />
+      <span className="max-sm:hidden">New {list.singular.toLowerCase()}</span>
+      <span className="sm:hidden">New</span>
+    </Link>
+  ) : null
+
   const header = (
-    <div>
-      <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-50">
+    <div className="flex items-center gap-2.5">
+      <h1 className="text-[18px] leading-7 font-semibold tracking-[-0.01em] text-[var(--ks-ink)] md:text-[20px]">
         {list.label}
       </h1>
-      <p className="text-muted-foreground">
-        {list.description || `Create and manage ${list.label.toLowerCase()}`}
-      </p>
+      {!error ? (
+        <span
+          className="font-mono text-[12px] text-[var(--ks-dim)]"
+          aria-label={`${data.count} total`}
+        >
+          {data.count}
+        </span>
+      ) : null}
     </div>
   )
 
@@ -132,36 +157,66 @@ function ListRoute() {
     <PageContainer
       title={list.label}
       header={header}
+      actions={createAction}
       breadcrumbs={[
         { type: 'link', label: 'Overview', href: '/dashboard' },
         { type: 'page', label: list.label },
       ]}
     >
-      <div className="px-4 md:px-6">
+      <div className="px-4 pt-4 pb-3 md:px-6">
         <FilterBar list={list} selectedFields={selectedFields} />
       </div>
 
-      {error ? (
-        <div className="px-4 md:px-6">
-          <div
-            className="rounded-md border border-destructive/50 bg-destructive/5 p-4 text-sm text-destructive"
-            role="alert"
-            aria-live="assertive"
+      <div className="border-y border-[var(--ks-line)] md:mx-6 md:mb-6 md:rounded-[12px] md:border md:bg-[var(--ks-surface)] md:shadow-[var(--ks-card-shadow)]">
+        {error ? (
+          <EmptyState
+            title={`Couldn't load ${list.label.toLowerCase()}`}
+            description={error.message}
+            icons={[TriangleAlert]}
           >
-            Failed to load items: {error.message}
-          </div>
-        </div>
-      ) : isFetching ? (
-        <div
-          className="px-4 md:px-6 text-sm text-muted-foreground"
-          role="status"
-          aria-live="polite"
-        >
-          Loading items…
-        </div>
-      ) : (
-        <KeystoneListTable data={data} isFiltered={isFiltered} />
-      )}
+            <Button size="sm" variant="outline" onClick={() => void refetch()}>
+              <RotateCw />
+              Retry
+            </Button>
+          </EmptyState>
+        ) : isEmpty ? (
+          <EmptyState title={`No ${list.plural.toLowerCase()}`}>
+            {canCreate ? (
+              <Link
+                to="/dashboard/$listKey/create"
+                params={{ listKey: list.path }}
+                data-variant="primary"
+                className={buttonVariants({ size: 'sm' })}
+              >
+                <Plus />
+                New {list.singular.toLowerCase()}
+              </Link>
+            ) : null}
+          </EmptyState>
+        ) : data.count === 0 ? (
+          <EmptyState
+            title="No matches"
+            description={
+              search.search ? `Nothing matches “${search.search}”` : undefined
+            }
+            icons={[SearchX]}
+            action={{
+              label: 'Clear search and filters',
+              onClick: () =>
+                void navigate({
+                  to: '/dashboard/$listKey',
+                  params: { listKey: list.path },
+                }),
+            }}
+          />
+        ) : (
+          <KeystoneListTable
+            data={data}
+            isFiltered={isFiltered}
+            isFetching={isFetching}
+          />
+        )}
+      </div>
     </PageContainer>
   )
 }
@@ -175,8 +230,10 @@ function DashboardListNotFound() {
       title={title}
       header={
         <div>
-          <h1 className="text-2xl font-semibold">{title}</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-[18px] leading-7 font-semibold text-[var(--ks-ink)] md:text-[20px]">
+            {title}
+          </h1>
+          <p className="text-[13px] text-[var(--ks-dim)]">
             The model “{listKey}” is not available in this dashboard.
           </p>
         </div>
@@ -189,7 +246,7 @@ function DashboardListNotFound() {
       <div className="px-4 md:px-6">
         <Link
           to="/dashboard"
-          className="font-medium text-blue-600 underline-offset-4 hover:underline dark:text-blue-400"
+          className="text-[13px] font-medium text-[var(--ks-accent-ink)] underline-offset-4 hover:underline"
         >
           Back to dashboard
         </Link>

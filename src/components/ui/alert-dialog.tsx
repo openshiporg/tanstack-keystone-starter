@@ -103,6 +103,7 @@ function AlertDialogAction({
 }: React.ComponentProps<typeof AlertDialogPrimitive.Close>) {
   return (
     <AlertDialogPrimitive.Close
+      data-variant="primary"
       className={cn(buttonVariants(), className)}
       {...props}
     />

@@ -217,13 +217,13 @@ export function ListPageActions({
             <Button
               type="button"
               variant="outline"
-              className="rounded-l-[20px] rounded-r-md font-semibold"
+              size="sm"
               disabled={disabled || runningActionKey !== null}
             />
           }
         >
-          <MoreHorizontal className="size-3.5 shrink-0" />
-          <span className="tracking-wide uppercase">Actions</span>
+          <MoreHorizontal />
+          Actions
         </DropdownMenuTrigger>
         <DropdownMenuContent align="center" className="w-52">
           {actions.map((action) => (

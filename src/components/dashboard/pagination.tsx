@@ -1,10 +1,11 @@
 import { useNavigate } from '@tanstack/react-router'
 import {
+  Check,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  Minus,
-  Plus,
+  PencilLine,
+  Trash2,
   X,
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -30,13 +31,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Input } from '@/components/ui/input'
-import {
-  DASHBOARD_PAGE_SIZES,
-  normalizeDashboardPageSize,
-  snapPageSizeToClosest,
-} from './page-size'
 
+import { DASHBOARD_PAGE_SIZES, normalizeDashboardPageSize } from './page-size'
+
+const bar =
+  'sticky bottom-0 z-20 flex h-12 items-center gap-2 border-t border-[var(--ks-line)] bg-[color-mix(in_oklab,var(--ks-surface)_90%,transparent)] px-3 backdrop-blur-md md:rounded-b-[12px] md:px-6'
+
+/**
+ * List footer. Sticky at the bottom of the page: range + pager + page size.
+ * With rows selected it becomes the bulk-action bar (count, actions, edit, delete, clear).
+ */
 export function Pagination({
   currentPage = 1,
   total = 0,
@@ -46,6 +50,7 @@ export function Pagination({
   selectionActions,
   onResetSelection,
   onDelete,
+  onEdit,
   isDeleteLoading = false,
 }: {
   currentPage?: number
@@ -56,11 +61,13 @@ export function Pagination({
   selectionActions?: React.ReactNode
   onResetSelection?: () => void
   onDelete?: () => void
+  onEdit?: () => void
   isDeleteLoading?: boolean
 }) {
   const [currentPageInput, setCurrentPageInput] = useState(
     currentPage.toString(),
   )
+  const [customSize, setCustomSize] = useState('')
   const navigate = useNavigate({ from: '/dashboard/$listKey' })
   const totalPages = Math.max(1, Math.ceil(total / pageSize))
 
@@ -69,7 +76,8 @@ export function Pagination({
   }, [currentPage])
 
   function handlePageChange(newPage: number) {
-    const page = Math.max(1, Math.min(totalPages, Number(newPage)))
+    const page = Math.max(1, Math.min(totalPages, Number(newPage) || 1))
+    setCurrentPageInput(page.toString())
     if (page === currentPage) return
     void navigate({ search: (previous) => ({ ...previous, page }) })
   }
@@ -81,215 +89,207 @@ export function Pagination({
     })
   }
 
-  function statsMessage() {
-    if (total > pageSize) {
-      const start = pageSize * (currentPage - 1) + 1
-      const end = Math.min(start + pageSize - 1, total)
-      return (
-        <div
-          className="flex items-center gap-x-1 text-xs sm:text-sm"
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          <span>{start}</span>
-          {start !== end ? (
-            <>
-              <span className="text-muted-foreground/70">-</span>
-              <span>{end}</span>
-            </>
-          ) : null}
-          <span className="text-xs tracking-wide text-muted-foreground/70 uppercase sm:text-sm">
-            of
-          </span>
-          <span>{total}</span>
-          <span className="hidden truncate text-xs tracking-wide text-muted-foreground/70 uppercase sm:inline sm:text-sm">
-            {list.plural.toLowerCase()}
-          </span>
-        </div>
-      )
-    }
+  const start = total === 0 ? 0 : pageSize * (currentPage - 1) + 1
+  const end = Math.min(pageSize * currentPage, total)
+  const noun = (n: number) => (n === 1 ? list.singular : list.plural)
 
-    const label = total === 1 ? list.singular : list.plural
+  if (selectedItems.size > 0 && (onDelete || onEdit || selectionActions)) {
+    const n = selectedItems.size
     return (
       <div
-        className="flex items-center gap-x-1 text-xs sm:text-sm"
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
+        className={bar}
+        role="toolbar"
+        aria-label={`${list.plural} selection actions`}
       >
-        <span>{total}</span>
-        <span className="hidden truncate text-xs tracking-wide text-muted-foreground/70 uppercase sm:inline sm:text-sm">
-          {label.toLowerCase()}
+        <span className="flex min-w-0 items-center gap-2 text-[13px]">
+          <span className="grid h-5 min-w-5 place-items-center rounded-[6px] bg-[var(--ks-accent)] px-1 font-mono text-[12px] font-medium text-white">
+            {n}
+          </span>
+          <span className="truncate text-[var(--ks-ink-2)]">selected</span>
         </span>
+        <div className="ks-track ml-auto">
+          {selectionActions}
+          {onEdit ? (
+            <Button variant="outline" size="sm" onClick={onEdit}>
+              <PencilLine />
+              Edit
+            </Button>
+          ) : null}
+          {onDelete ? (
+            <AlertDialog>
+              <AlertDialogTrigger
+                render={
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    data-variant="danger"
+                    disabled={isDeleteLoading}
+                  />
+                }
+              >
+                <Trash2 />
+                {isDeleteLoading ? 'Deleting' : 'Delete'}
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Delete {n} {noun(n).toLowerCase()}
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <div className="ks-track">
+                    <AlertDialogCancel className="h-7 px-2.5 text-[12px]">
+                      Cancel
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      data-variant="danger-fill"
+                      className="h-7 px-2.5 text-[12px]"
+                      onClick={() => onDelete?.()}
+                      disabled={isDeleteLoading}
+                    >
+                      Delete {n}
+                    </AlertDialogAction>
+                  </div>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          ) : null}
+          <Button
+            variant="outline"
+            size="icon-sm"
+            aria-label="Clear selection"
+            title="Clear (Esc)"
+            onClick={onResetSelection}
+          >
+            <X />
+          </Button>
+        </div>
       </div>
     )
   }
 
-  if (selectedItems.size > 0 && onDelete) {
-    return (
-      <nav
-        className="fixed bottom-4 left-1/2 z-10 -translate-x-1/2 transition-all duration-300"
-        aria-label={`${list.plural} selection actions`}
-      >
-        <div className="flex items-center gap-x-1 rounded-full border border-transparent bg-zinc-100 p-1 text-sm shadow shadow-black/20 ring-1 ring-foreground/5 dark:bg-zinc-900">
-          <Button
-            type="button"
-            onClick={onResetSelection}
-            variant="outline"
-            className="rounded-l-[20px] rounded-r-md font-semibold"
-          >
-            <X className="size-3.5 shrink-0" aria-hidden="true" />
-            <span className="tracking-wide uppercase">Cancel</span>
-          </Button>
-          {selectionActions}
-          <AlertDialog>
-            <AlertDialogTrigger
-              className="inline-flex h-9 items-center justify-center gap-3 rounded-l-md rounded-r-[20px] bg-destructive px-4 py-2 text-sm font-semibold tracking-wide text-destructive-foreground uppercase shadow-xs hover:bg-destructive/90 disabled:pointer-events-none disabled:opacity-50"
-              disabled={isDeleteLoading}
-            >
-              Delete {selectedItems.size}{' '}
-              {selectedItems.size === 1 ? list.singular : list.plural}
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Delete Confirmation</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Are you sure you want to delete {selectedItems.size}{' '}
-                  {selectedItems.size === 1 ? list.singular : list.plural}?
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={onDelete}
-                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                >
-                  Delete
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
-      </nav>
-    )
-  }
-
   return (
-    <nav
-      className="fixed bottom-4 left-1/2 z-10 -translate-x-1/2 transition-all duration-300"
-      aria-label={`${list.plural} pagination`}
-    >
-      <div className="flex items-center gap-x-1 rounded-full border border-transparent bg-zinc-100 p-1 text-sm shadow shadow-black/20 ring-1 ring-foreground/5 dark:bg-zinc-900">
-        <Button
-          variant="outline"
-          aria-label="Previous page"
-          className="h-8 w-9 rounded-l-[20px] rounded-r-md p-1.5 text-xs font-semibold sm:h-9 sm:w-auto sm:p-2 sm:text-sm"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage <= 1}
-        >
-          <ChevronLeft className="size-4 sm:size-5" aria-hidden="true" />
-        </Button>
+    <nav className={bar} aria-label={`${list.plural} pagination`}>
+      <span
+        className="min-w-0 truncate text-[12px] text-[var(--ks-dim)]"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <span className="font-mono text-[var(--ks-ink-2)]">
+          {total > pageSize ? `${start}–${end}` : total}
+        </span>
+        {total > pageSize ? (
+          <>
+            {' of '}
+            <span className="font-mono text-[var(--ks-ink-2)]">{total}</span>
+          </>
+        ) : null}{' '}
+        <span className="max-sm:hidden">{noun(total).toLowerCase()}</span>
+      </span>
 
-        <div className="flex items-center gap-x-2 px-2">
-          {statsMessage()}
-          <span className="text-muted-foreground/40">/</span>
-          <Input
-            value={currentPageInput}
-            onChange={(event) => {
-              const value = event.target.value
-              if (value === '' || /^\d+$/.test(value))
-                setCurrentPageInput(value)
-            }}
-            onBlur={() =>
-              currentPageInput === ''
-                ? setCurrentPageInput(currentPage.toString())
-                : handlePageChange(Number(currentPageInput))
-            }
-            onKeyDown={(event) => {
-              if (event.key === 'Enter')
-                handlePageChange(Number(currentPageInput))
-            }}
-            className="h-7 w-10 rounded-md bg-background px-1 text-center text-xs"
-            aria-label="Page number"
-          />
-          <span className="text-xs text-muted-foreground">of {totalPages}</span>
-        </div>
-
+      <div className="ml-auto flex items-center gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger
             aria-label={`Change rows per page, currently ${pageSize}`}
-            className="inline-flex h-8 items-center gap-1 rounded-md border bg-background px-2 text-xs font-medium outline-none hover:bg-accent hover:text-accent-foreground"
+            render={
+              <Button
+                variant="ghost"
+                size="sm"
+                className="gap-1 px-2 text-[12px]"
+              />
+            }
           >
-            {pageSize} per page
-            <ChevronDown className="size-3.5" aria-hidden="true" />
+            <span className="font-mono text-[var(--ks-ink-2)]">{pageSize}</span>
+            <span className="max-sm:hidden">per page</span>
+            <ChevronDown className="!size-3" />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-44" align="center">
+          <DropdownMenuContent align="end" className="w-44">
             <DropdownMenuGroup>
-              <DropdownMenuLabel>Page Size</DropdownMenuLabel>
+              <DropdownMenuLabel>Page size</DropdownMenuLabel>
               {DASHBOARD_PAGE_SIZES.map((size) => (
                 <DropdownMenuItem
                   key={size}
                   onClick={() => handlePageSizeChange(size)}
+                  className="justify-between"
                 >
-                  {size} per page
+                  <span className="font-mono">{size}</span>
+                  {size === pageSize ? (
+                    <Check className="size-3.5 text-[var(--ks-accent)]" />
+                  ) : null}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <div className="flex items-center gap-2 p-1.5">
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                className="size-7"
-                aria-label="Decrease rows per page"
-                onClick={() =>
-                  handlePageSizeChange(snapPageSizeToClosest(pageSize - 1))
+            <form
+              className="p-1"
+              onSubmit={(event) => {
+                event.preventDefault()
+                if (customSize) handlePageSizeChange(Number(customSize))
+              }}
+            >
+              <input
+                inputMode="numeric"
+                aria-label="Custom page size"
+                placeholder="Custom"
+                value={customSize}
+                onKeyDown={(event) => event.stopPropagation()}
+                onChange={(event) =>
+                  /^\d*$/.test(event.target.value) &&
+                  setCustomSize(event.target.value)
                 }
-                disabled={pageSize <= DASHBOARD_PAGE_SIZES[0]}
-              >
-                <Minus className="size-3" aria-hidden="true" />
-              </Button>
-              <Input
-                value={pageSize}
-                onChange={(event) => {
-                  const value = event.target.value
-                  if (value === '') return
-                  if (/^\d+$/.test(value)) handlePageSizeChange(Number(value))
-                }}
-                className="h-7 w-14 px-1 text-center text-xs"
-                aria-label="Rows per page"
+                className="ks-field h-7 w-full px-2 font-mono text-[12px]"
               />
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                className="size-7"
-                aria-label="Increase rows per page"
-                onClick={() =>
-                  handlePageSizeChange(snapPageSizeToClosest(pageSize + 1))
-                }
-                disabled={
-                  pageSize >=
-                  DASHBOARD_PAGE_SIZES[DASHBOARD_PAGE_SIZES.length - 1]
-                }
-              >
-                <Plus className="size-3" aria-hidden="true" />
-              </Button>
-            </div>
+            </form>
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <Button
-          variant="outline"
-          aria-label="Next page"
-          className="h-8 w-9 rounded-l-md rounded-r-[20px] p-1.5 text-xs font-semibold sm:h-9 sm:w-auto sm:p-2 sm:text-sm"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage >= totalPages}
-        >
-          <ChevronRight className="size-4 sm:size-5" aria-hidden="true" />
-        </Button>
+        <div className="ks-track">
+          <Button
+            variant="outline"
+            size="icon-sm"
+            aria-label="Previous page"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage <= 1}
+          >
+            <ChevronLeft />
+          </Button>
+          <label className="flex h-7 items-center gap-1 px-1.5 font-mono text-[12px] text-[var(--ks-dim)]">
+            <span className="sr-only">Page number</span>
+            <input
+              className="w-6 bg-transparent text-center text-[var(--ks-ink)] outline-none"
+              inputMode="numeric"
+              value={currentPageInput}
+              onChange={(event) =>
+                /^\d*$/.test(event.target.value) &&
+                setCurrentPageInput(event.target.value)
+              }
+              onBlur={() =>
+                currentPageInput === ''
+                  ? setCurrentPageInput(currentPage.toString())
+                  : handlePageChange(Number(currentPageInput))
+              }
+              onKeyDown={(event) =>
+                event.key === 'Enter' &&
+                handlePageChange(Number(currentPageInput))
+              }
+            />
+            <span>/</span>
+            <span>{totalPages}</span>
+          </label>
+          <Button
+            variant="outline"
+            size="icon-sm"
+            aria-label="Next page"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage >= totalPages}
+          >
+            <ChevronRight />
+          </Button>
+        </div>
       </div>
     </nav>
   )
