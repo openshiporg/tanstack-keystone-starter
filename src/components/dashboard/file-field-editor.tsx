@@ -193,7 +193,7 @@ export function FileFieldEditor({
       {current ? (
         <div className="overflow-hidden rounded-[10px] bg-[var(--ks-track)] shadow-[inset_0_0_0_1px_var(--ks-line)]">
           <div className="flex flex-col sm:flex-row">
-            <div className="flex h-40 w-full items-center justify-center border-b bg-muted/30 sm:h-40 sm:w-40 sm:flex-none sm:border-r sm:border-b-0">
+            <div className="flex h-40 w-full items-center justify-center border-b border-[var(--ks-line)] bg-[var(--ks-surface-2)] sm:h-40 sm:w-40 sm:flex-none sm:border-r sm:border-b-0">
               {field.kind === 'image' &&
               ((isPendingUpload(current) && current.previewUrl) ||
                 (!isPendingUpload(current) && current.url)) ? (

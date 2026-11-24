@@ -494,10 +494,10 @@ export function FilterBar({
               </div>
               {activeFilterField && activeFilterType ? (
                 <div className="grid gap-3 p-4">
-                  <label className="grid gap-1.5 text-sm">
-                    <span className="font-medium">Field</span>
+                  <label className="grid gap-1.5 text-[13px]">
+                    <span className="font-medium text-[var(--ks-ink-2)]">Field</span>
                     <select
-                      className="h-9 rounded-md border bg-background px-2 text-sm"
+                      className="ks-field h-8 px-2 text-[13px]"
                       value={activeFilterField.path}
                       onChange={(event) => {
                         const nextField = filterableFields.find(
@@ -521,10 +521,10 @@ export function FilterBar({
                       ))}
                     </select>
                   </label>
-                  <label className="grid gap-1.5 text-sm">
-                    <span className="font-medium">Condition</span>
+                  <label className="grid gap-1.5 text-[13px]">
+                    <span className="font-medium text-[var(--ks-ink-2)]">Condition</span>
                     <select
-                      className="h-9 rounded-md border bg-background px-2 text-sm"
+                      className="ks-field h-8 px-2 text-[13px]"
                       value={activeFilterType.type}
                       onChange={(event) => {
                         const nextType =
@@ -543,8 +543,8 @@ export function FilterBar({
                     </select>
                   </label>
                   {activeFilterType.needsValue === false ? null : (
-                    <label className="grid gap-1.5 text-sm">
-                      <span className="font-medium">Value</span>
+                    <label className="grid gap-1.5 text-[13px]">
+                      <span className="font-medium text-[var(--ks-ink-2)]">Value</span>
                       {ActiveFilterInput ? (
                         <ActiveFilterInput
                           value={filterValue}

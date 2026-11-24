@@ -295,7 +295,7 @@ export function RelationshipEditSheet({
             ) : null}
             {error ? (
               <div
-                className="rounded-md border border-destructive/40 bg-destructive/5 p-3 text-[12px] text-[var(--ks-danger)]"
+                className="rounded-[10px] bg-[color-mix(in_oklab,var(--ks-red)_10%,transparent)] px-3 py-2.5 text-[13px] text-[var(--ks-danger)] shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--ks-red)_25%,transparent)]"
                 role="alert"
                 aria-live="assertive"
               >
