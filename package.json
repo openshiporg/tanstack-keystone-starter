@@ -12,7 +12,7 @@
     "migrate": "npm run cms:generate && prisma migrate deploy && prisma generate",
     "cms:check": "tsx scripts/cms-generate.ts --check && tsx scripts/compare-cms-prisma-schema.ts && tsx scripts/check-cms-prisma-delegates.ts",
     "cms:check:prisma": "tsx scripts/compare-cms-prisma-schema.ts && tsx scripts/check-cms-prisma-delegates.ts",
-    "dev": "npm run cms:generate && vite dev --port 3000",
+    "dev": "npm run cms:generate && vite dev --port ${PORT:-3000}",
     "dev:seeded": "CMS_ADAPTER=memory CMS_BOOTSTRAP_MODE=seeded npm run dev",
     "dev:fresh": "CMS_ADAPTER=memory CMS_BOOTSTRAP_MODE=fresh npm run dev",
     "dev:prisma": "CMS_ADAPTER=prisma npm run dev",

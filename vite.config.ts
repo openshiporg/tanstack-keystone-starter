@@ -15,6 +15,11 @@ const isolatedNitroBuildDir = process.env.NITRO_BUILD_DIR
 const config = defineConfig({
   ...(isolatedViteCacheDir ? { cacheDir: isolatedViteCacheDir } : {}),
   resolve: { tsconfigPaths: true },
+  // Proxies such as portless pass PORT/HOST; honour them so the app is reachable on 127.0.0.1.
+  server: {
+    ...(process.env.HOST ? { host: process.env.HOST } : {}),
+    ...(process.env.PORT ? { port: Number(process.env.PORT), strictPort: true } : {}),
+  },
   plugins: [
     devtools(),
     nitro({
