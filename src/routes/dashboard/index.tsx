@@ -1,10 +1,11 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { Link, createFileRoute } from '@tanstack/react-router'
-import { Database, PlusIcon } from 'lucide-react'
+import { ArrowUpRight, Database, Plus, Search } from 'lucide-react'
 
+import { useCommandPalette } from '@/components/dashboard/command-palette'
 import { PageContainer } from '@/components/dashboard/page-container'
 import { buttonVariants } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import type { DashboardListSummary } from '@/features/cms/graphql-client'
 import {
   dashboardQueryKeys,
   fetchDashboardOverview,
@@ -27,130 +28,150 @@ function DashboardIndexRoute() {
   })
 
   const lists = data.lists.filter((list) => !list.hideNavigation)
-  const header = (
-    <div className="flex flex-col">
-      <h1 className="text-lg font-semibold md:text-2xl">Dashboard</h1>
-      {lists.length > 0 ? (
-        <p className="text-muted-foreground">{lists.length} Models</p>
-      ) : null}
-    </div>
+  const total = lists.reduce(
+    (sum, list) => sum + (list.isSingleton ? 0 : list.count),
+    0,
   )
 
   return (
     <PageContainer
-      title="Dashboard"
-      header={header}
-      breadcrumbs={[{ type: 'page', label: 'Dashboard' }]}
+      title="Overview"
+      breadcrumbs={[{ type: 'page', label: 'Overview' }]}
     >
-      <div className="flex w-full max-w-4xl flex-col gap-4 p-4 md:p-6">
-        <div className="mb-4">
-          <h2 className="mb-2 text-sm font-medium tracking-wide text-muted-foreground uppercase">
-            Data Models
-          </h2>
-
-          {lists.length === 0 ? (
-            <EmptyState />
-          ) : (
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:gap-4 xl:grid-cols-3">
-              {lists.map((list) => (
-                <ListCard key={list.key} list={list} />
-              ))}
-            </div>
-          )}
+      <div className="mx-auto flex w-full max-w-[760px] flex-col gap-5 px-4 pt-5 pb-16 md:px-6 md:pt-8">
+        <div className="flex items-baseline gap-2">
+          <h1 className="text-[18px] leading-7 font-semibold tracking-[-0.01em] text-[var(--ks-ink)] md:text-[20px]">
+            Overview
+          </h1>
+          {lists.length > 0 ? (
+            <span className="font-mono text-[12px] text-[var(--ks-dim)] tabular-nums">
+              {total.toLocaleString('en-US')} records
+            </span>
+          ) : null}
         </div>
+
+        <OverviewSearch />
+
+        {lists.length === 0 ? (
+          <div className="ks-card">
+            <EmptyState />
+          </div>
+        ) : (
+          <section
+            aria-labelledby="lists-heading"
+            className="flex flex-col gap-2"
+          >
+            <h2 id="lists-heading" className="ks-label px-1">
+              Lists
+            </h2>
+            <ul className="ks-card divide-y divide-[var(--ks-line)] overflow-hidden">
+              {lists.map((list) => (
+                <ListRow key={list.key} list={list} />
+              ))}
+            </ul>
+          </section>
+        )}
       </div>
     </PageContainer>
   )
 }
 
-function ListCard({
-  list,
-}: {
-  list: (typeof Route.useLoaderData extends () => infer T
-    ? Awaited<T>
-    : never)['lists'][number]
-}) {
+/** Find-a-record entry on the overview: opens the command palette's record search. */
+function OverviewSearch() {
+  const palette = useCommandPalette()
+  return (
+    <button
+      type="button"
+      onClick={palette.open}
+      className="ks-field flex h-10 w-full items-center gap-2.5 px-3 text-left text-[13px] text-[var(--ks-label)] hover:text-[var(--ks-dim)]"
+    >
+      <Search className="size-4 shrink-0" />
+      <span className="flex-1 truncate">Search records</span>
+      <kbd className="ks-kbd max-sm:hidden">⌘K</kbd>
+    </button>
+  )
+}
+
+/**
+ * One list: label on the left, then a New pill and one ks-track holding the count (a plain
+ * label) and an open-list arrow pill. The whole row is a link; only the two buttons take clicks.
+ */
+function ListRow({ list }: { list: DashboardListSummary }) {
   const isSingleton = list.isSingleton || false
+  const hideCreate = Boolean(list.hideCreate)
+  const singletonIsMissing = isSingleton && !list.singletonItemId
+  const meta = isSingleton
+    ? singletonIsMissing
+      ? 'Not created'
+      : 'Singleton'
+    : list.count.toLocaleString('en-US')
+  const canOpen = !(singletonIsMissing && hideCreate)
+  const href = isSingleton
+    ? `/dashboard/${list.path}/1`
+    : `/dashboard/${list.path}`
+
+  const body = (
+    <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-[var(--ks-ink)]">
+      {list.label}
+    </span>
+  )
 
   return (
-    <Card
-      className={cn(
-        'relative bg-gradient-to-bl from-background to-muted/80 shadow-xs transition-colors hover:bg-muted',
-      )}
-    >
-      {isSingleton ? (
-        list.singletonItemId ? (
-          <Link
-            to="/dashboard/$listKey/$id"
-            params={{ listKey: list.path, id: '1' }}
-          >
-            <CardContent className="p-4">
-              <h3 className="text-sm font-semibold text-foreground">
-                {list.label}
-              </h3>
-              <p className="mt-1 text-xs text-muted-foreground">Singleton</p>
-            </CardContent>
-          </Link>
-        ) : !list.hideCreate ? (
-          <Link
-            to="/dashboard/$listKey/$id"
-            params={{ listKey: list.path, id: '1' }}
-          >
-            <CardContent className="p-4">
-              <h3 className="text-sm font-semibold text-foreground">
-                {list.label}
-              </h3>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Create singleton
-              </p>
-            </CardContent>
-          </Link>
-        ) : (
-          <CardContent className="p-4">
-            <h3 className="text-sm font-semibold text-foreground">
-              {list.label}
-            </h3>
-            <p className="mt-1 text-xs text-muted-foreground">Singleton</p>
-          </CardContent>
-        )
+    <li className="group relative flex items-center gap-3 px-3 py-[5px] md:px-4">
+      {!canOpen ? (
+        <div className="flex min-w-0 flex-1 items-center gap-3">{body}</div>
       ) : (
-        <Link to="/dashboard/$listKey" params={{ listKey: list.path }}>
-          <CardContent className="p-4">
-            <h3 className="text-sm font-semibold text-foreground">
-              {list.label}
-            </h3>
-            <p className="mt-1 text-xs text-muted-foreground">
-              {list.count} item{list.count !== 1 ? 's' : ''}
-            </p>
-          </CardContent>
+        <Link
+          to={href}
+          className="flex min-w-0 flex-1 items-center gap-3 rounded-[8px] outline-none after:absolute after:inset-0 after:content-[''] focus-visible:after:rounded-[10px] focus-visible:after:ring-2 focus-visible:after:ring-[var(--ks-focus)]"
+        >
+          {body}
         </Link>
       )}
-
-      {!list.hideCreate && !isSingleton ? (
-        <Link
-          to="/dashboard/$listKey/create"
-          params={{ listKey: list.path }}
-          className={cn(
-            buttonVariants({ variant: 'outline', size: 'icon' }),
-            'absolute top-3 right-3 size-7',
-          )}
-          title={`Add ${list.singular?.toLowerCase() || 'item'}`}
-        >
-          <PlusIcon className="size-4" />
-          <span className="sr-only">Create new {list.label}</span>
-        </Link>
-      ) : null}
-    </Card>
+      <div className="pointer-events-none relative z-10 flex shrink-0 items-center justify-end gap-2">
+        {!hideCreate && !isSingleton ? (
+          <Link
+            to="/dashboard/$listKey/create"
+            params={{ listKey: list.path }}
+            aria-label={`New ${list.singular?.toLowerCase() || 'item'}`}
+            className={cn(
+              buttonVariants({ variant: 'outline', size: 'sm' }),
+              'pointer-events-auto max-sm:w-7 max-sm:px-0',
+            )}
+          >
+            <Plus />
+            <span className="max-sm:hidden">New</span>
+          </Link>
+        ) : null}
+        <div className="ks-track">
+          <span className="flex h-7 min-w-9 items-center justify-end px-1.5 font-mono text-[12px] text-[var(--ks-dim)] tabular-nums">
+            {meta}
+          </span>
+          {canOpen ? (
+            <Link
+              to={href}
+              aria-label={`Open ${list.label}`}
+              className={cn(
+                buttonVariants({ variant: 'outline', size: 'icon-sm' }),
+                'pointer-events-auto',
+              )}
+            >
+              <ArrowUpRight />
+            </Link>
+          ) : null}
+        </div>
+      </div>
+    </li>
   )
 }
 
 function EmptyState() {
   return (
-    <div className="flex flex-col items-center justify-center p-8 text-center">
-      <Database className="mb-4 size-12 text-muted-foreground" />
-      <h3 className="mb-2 text-lg font-semibold">No lists configured</h3>
-      <p className="text-muted-foreground">
-        There are no data models configured in your admin interface.
+    <div className="flex flex-col items-center justify-center gap-1 p-10 text-center">
+      <Database className="mb-2 size-5 text-[var(--ks-label)]" />
+      <h3 className="text-[13px] font-medium text-[var(--ks-ink)]">No lists</h3>
+      <p className="text-[13px] text-[var(--ks-dim)]">
+        There are no lists configured in this dashboard.
       </p>
     </div>
   )

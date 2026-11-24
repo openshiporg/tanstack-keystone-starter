@@ -224,7 +224,7 @@ function CreateRoute() {
     <>
       <PageBreadcrumbs
         items={[
-          { type: 'link', label: 'Dashboard', href: '/dashboard' },
+          { type: 'link', label: 'Overview', href: '/dashboard' },
           { type: 'model', label: list.label, href: `/dashboard/${list.path}` },
           { type: 'page', label: 'Create' },
         ]}

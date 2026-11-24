@@ -34,7 +34,7 @@ function AlertDialogContent({
       <AlertDialogPrimitive.Popup
         aria-modal="true"
         className={cn(
-          'fixed top-1/2 left-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-lg border bg-background p-6 shadow-lg',
+          'fixed top-1/2 left-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 ks-pop p-5 text-[13px]',
           className,
         )}
         {...props}
@@ -91,7 +91,7 @@ function AlertDialogDescription({
 }: React.ComponentProps<typeof AlertDialogPrimitive.Description>) {
   return (
     <AlertDialogPrimitive.Description
-      className={cn('text-sm text-muted-foreground', className)}
+      className={cn('text-[13px] text-[var(--ks-dim)]', className)}
       {...props}
     />
   )

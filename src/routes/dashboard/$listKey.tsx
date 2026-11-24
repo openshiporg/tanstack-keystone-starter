@@ -133,7 +133,7 @@ function ListRoute() {
       title={list.label}
       header={header}
       breadcrumbs={[
-        { type: 'link', label: 'Dashboard', href: '/dashboard' },
+        { type: 'link', label: 'Overview', href: '/dashboard' },
         { type: 'page', label: list.label },
       ]}
     >
@@ -182,7 +182,7 @@ function DashboardListNotFound() {
         </div>
       }
       breadcrumbs={[
-        { type: 'link', label: 'Dashboard', href: '/dashboard' },
+        { type: 'link', label: 'Overview', href: '/dashboard' },
         { type: 'page', label: title },
       ]}
     >

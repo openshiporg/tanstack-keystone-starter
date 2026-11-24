@@ -73,7 +73,7 @@ export function ToasterProvider({ children }: { children: React.ReactNode }) {
             aria-live="polite"
             aria-atomic="true"
             className={cn(
-              'pointer-events-auto w-full max-w-sm rounded-lg border bg-background p-4 shadow-lg',
+              'pointer-events-auto w-full max-w-sm ks-pop p-3 text-[13px]',
             )}
           >
             <div className="flex items-start justify-between gap-3">

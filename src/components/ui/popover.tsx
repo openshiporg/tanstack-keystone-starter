@@ -19,7 +19,7 @@ function PopoverContent({
       <PopoverPrimitive.Positioner sideOffset={sideOffset}>
         <PopoverPrimitive.Popup
           className={cn(
-            'z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none',
+            'ks-pop z-50 w-72 p-3 text-popover-foreground outline-none',
             className,
           )}
           {...props}

@@ -1,13 +1,9 @@
-import { Collapsible } from '@base-ui/react/collapsible'
+/**
+ * Sidebar: overview, every list the session can see (labels only), search, and the account menu.
+ */
 import { Link, useLocation } from '@tanstack/react-router'
-import { ChevronRight, Home, Package } from 'lucide-react'
+import { LayoutGrid, Search } from 'lucide-react'
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import {
   Sidebar as SidebarComponent,
   SidebarContent,
@@ -18,15 +14,13 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarRail,
   useSidebar,
 } from '@/components/ui/sidebar'
 import type { DashboardListSummary } from '@/features/cms/graphql-client'
 
-import { Logo, LogoIcon } from './logo'
+import { useCommandPalette } from './command-palette'
+import { LogoIcon } from './logo'
 import { UserProfile } from './user-profile'
 
 export type DashboardUser = {
@@ -40,7 +34,7 @@ export type DashboardUser = {
 
 function isLinkActive(pathname: string, href: string) {
   if (href === '/dashboard') return pathname === '/dashboard'
-  return pathname.startsWith(href)
+  return pathname === href || pathname.startsWith(`${href}/`)
 }
 
 export function DashboardSidebar({
@@ -50,29 +44,43 @@ export function DashboardSidebar({
   lists: DashboardListSummary[]
   user?: DashboardUser | null
 }) {
-  const { isMobile, setOpenMobile } = useSidebar()
+  const { setOpenMobile } = useSidebar()
   const pathname = useLocation().pathname
+  const palette = useCommandPalette()
+  const close = () => setOpenMobile(false)
   const sidebarLinks = lists.map((list) => ({
+    key: list.key,
     title: list.label,
     href: `/dashboard/${list.path}`,
   }))
-  const modelsAreActive = sidebarLinks.some((link) =>
-    isLinkActive(pathname, link.href),
-  )
 
   return (
-    <SidebarComponent collapsible="icon">
-      <SidebarHeader>
-        <SidebarMenuButton render={<div />}>
-          <div className="p-2 group-has-[[data-collapsible=icon]]/sidebar-wrapper:hidden">
-            <Logo aria-hidden="true" />
-          </div>
-        </SidebarMenuButton>
-        <SidebarMenuButton render={<div />}>
-          <div className="hidden group-has-[[data-collapsible=icon]]/sidebar-wrapper:block">
-            <LogoIcon className="size-6" />
-          </div>
-        </SidebarMenuButton>
+    <SidebarComponent collapsible="icon" variant="inset">
+      <SidebarHeader className="gap-2 px-2 pt-2.5 pb-1">
+        <Link
+          to="/dashboard"
+          onClick={close}
+          className="flex h-8 items-center gap-2 rounded-[8px] px-1.5 outline-none focus-visible:ring-2 focus-visible:ring-[var(--ks-focus)] group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"
+        >
+          <span className="ks-raised grid size-6 shrink-0 place-items-center rounded-[7px]">
+            <LogoIcon className="size-3.5" suffix="-nav" />
+          </span>
+          <span className="truncate text-[13px] font-semibold tracking-[-0.01em] text-[var(--ks-ink)] group-data-[collapsible=icon]:hidden">
+            Keystone
+          </span>
+        </Link>
+        <button
+          type="button"
+          onClick={() => {
+            close()
+            palette.open()
+          }}
+          className="ks-field flex h-8 w-full items-center gap-2 px-2 text-left text-[13px] text-[var(--ks-label)] outline-none hover:text-[var(--ks-dim)] group-data-[collapsible=icon]:hidden"
+        >
+          <Search className="size-3.5" />
+          <span className="flex-1">Search</span>
+          <span className="ks-kbd max-md:hidden">⌘K</span>
+        </button>
       </SidebarHeader>
 
       <SidebarContent
@@ -81,7 +89,7 @@ export function DashboardSidebar({
         aria-label="Primary navigation"
         className="no-scrollbar"
       >
-        <SidebarGroup>
+        <SidebarGroup className="py-1">
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
@@ -91,113 +99,53 @@ export function DashboardSidebar({
                     aria-current={
                       isLinkActive(pathname, '/dashboard') ? 'page' : undefined
                     }
-                    onClick={() => setOpenMobile(false)}
+                    onClick={close}
                   />
                 }
                 isActive={isLinkActive(pathname, '/dashboard')}
+                tooltip="Overview"
               >
-                <Home className="size-4" />
-                <span>Dashboard</span>
+                <LayoutGrid />
+                <span>Overview</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarMenu>
-            <SidebarGroupLabel>Models</SidebarGroupLabel>
-            <div className="max-h-full overflow-y-auto group-has-[[data-collapsible=icon]]/sidebar-wrapper:hidden">
-              <Collapsible.Root
-                defaultOpen={modelsAreActive}
-                className="group/collapsible"
-                render={<SidebarMenuItem />}
-              >
-                <Collapsible.Trigger render={<SidebarMenuButton />}>
-                  <Package className="size-4" />
-                  <span>Models</span>
-                  <ChevronRight
-                    className="ml-auto transition-transform duration-200 group-data-open/collapsible:rotate-90"
-                    aria-hidden="true"
-                  />
-                </Collapsible.Trigger>
-                <Collapsible.Panel>
-                  <SidebarMenuSub>
-                    {sidebarLinks.map((link) => (
-                      <SidebarMenuSubItem key={link.href}>
-                        <SidebarMenuSubButton
-                          render={
-                            <Link
-                              to={link.href}
-                              aria-current={
-                                isLinkActive(pathname, link.href)
-                                  ? 'page'
-                                  : undefined
-                              }
-                              onClick={() => setOpenMobile(false)}
-                            />
-                          }
-                          isActive={isLinkActive(pathname, link.href)}
-                        >
-                          <span>{link.title}</span>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
-                  </SidebarMenuSub>
-                </Collapsible.Panel>
-              </Collapsible.Root>
-            </div>
-
-            <div className="hidden group-has-[[data-collapsible=icon]]/sidebar-wrapper:block">
-              <DropdownMenu>
-                <SidebarMenuItem>
-                  <DropdownMenuTrigger
-                    render={
-                      <SidebarMenuButton className="data-popup-open:bg-sidebar-accent data-popup-open:text-sidebar-accent-foreground" />
-                    }
+        {sidebarLinks.length > 0 ? (
+          <SidebarGroup className="py-1">
+            <SidebarGroupLabel>Lists</SidebarGroupLabel>
+            <SidebarMenu>
+              {sidebarLinks.map((link) => {
+                const active = isLinkActive(pathname, link.href)
+                return (
+                  <SidebarMenuItem
+                    key={link.href}
+                    className="group-data-[collapsible=icon]:hidden"
                   >
-                    <Package className="size-4" />
-                    <span className="sr-only">Models</span>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    side={isMobile ? 'bottom' : 'right'}
-                    align={isMobile ? 'end' : 'start'}
-                    className="min-w-56"
-                  >
-                    <div className="max-h-[calc(100vh-16rem)] overflow-y-auto py-1">
-                      {sidebarLinks.map((link) => {
-                        const active = isLinkActive(pathname, link.href)
-                        return (
-                          <DropdownMenuItem
-                            key={link.href}
-                            render={
-                              <Link
-                                to={link.href}
-                                aria-current={active ? 'page' : undefined}
-                                onClick={() => setOpenMobile(false)}
-                              />
-                            }
-                            className={active ? 'bg-blue-50 text-blue-600' : ''}
-                          >
-                            <span>{link.title}</span>
-                            {active ? (
-                              <span
-                                className="ml-auto size-2 rounded-full bg-blue-600"
-                                aria-hidden="true"
-                              />
-                            ) : null}
-                          </DropdownMenuItem>
-                        )
-                      })}
-                    </div>
-                  </DropdownMenuContent>
-                </SidebarMenuItem>
-              </DropdownMenu>
-            </div>
-          </SidebarMenu>
-        </SidebarGroup>
+                    <SidebarMenuButton
+                      render={
+                        <Link
+                          to={link.href}
+                          aria-current={active ? 'page' : undefined}
+                          onClick={close}
+                        />
+                      }
+                      isActive={active}
+                    >
+                      <span>{link.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              })}
+            </SidebarMenu>
+          </SidebarGroup>
+        ) : null}
       </SidebarContent>
 
-      <SidebarFooter>{user ? <UserProfile user={user} /> : null}</SidebarFooter>
+      <SidebarFooter className="p-2">
+        {user ? <UserProfile user={user} /> : null}
+      </SidebarFooter>
       <SidebarRail />
     </SidebarComponent>
   )

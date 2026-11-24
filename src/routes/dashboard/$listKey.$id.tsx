@@ -408,7 +408,7 @@ function DashboardItemRoute() {
     <>
       <PageBreadcrumbs
         items={[
-          { type: 'link', label: 'Dashboard', href: '/dashboard' },
+          { type: 'link', label: 'Overview', href: '/dashboard' },
           {
             type: 'model',
             label: data.list.label,
@@ -740,7 +740,7 @@ function SingletonCreateForm({
     <>
       <PageBreadcrumbs
         items={[
-          { type: 'link', label: 'Dashboard', href: '/dashboard' },
+          { type: 'link', label: 'Overview', href: '/dashboard' },
           {
             type: 'model',
             label: data.list.label,
