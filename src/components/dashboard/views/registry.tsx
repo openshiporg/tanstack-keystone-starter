@@ -76,7 +76,7 @@ function scalarFilterController(
       if (kind === 'checkbox') {
         return (
           <select
-            className="h-9 w-full rounded-md border bg-background px-2 text-sm"
+            className="ks-field h-8 w-full px-2 text-[13px]"
             value={String(value ?? true)}
             onChange={(event) => onChange(event.target.value === 'true')}
             autoFocus={autoFocus}
@@ -96,13 +96,13 @@ function scalarFilterController(
           Array.isArray(value) ? value.map((entry) => String(entry)) : [],
         )
         return (
-          <div className="space-y-2 max-h-48 overflow-y-auto rounded-md border p-2">
+          <div className="space-y-2 max-h-48 overflow-y-auto rounded-[10px] p-2 shadow-[inset_0_0_0_1px_var(--ks-line)]">
             {optionEntries.map((option) => {
               const optionValue = String(option.value)
               return (
                 <label
                   key={optionValue}
-                  className="flex items-center gap-2 text-sm"
+                  className="flex items-center gap-2 text-[13px]"
                 >
                   <input
                     type="checkbox"
@@ -306,12 +306,12 @@ function MultiselectCell({
 }) {
   const values = Array.isArray(value) ? value : []
   if (!values.length)
-    return <span className="text-sm text-muted-foreground">—</span>
+    return <span className="text-[13px] text-[var(--ks-dim)]">—</span>
   const labels = values.map((entry) => optionLabel(field, entry))
   const displayLabels = labels.length < 3 ? labels : labels.slice(0, 2)
   const overflow = labels.length < 3 ? 0 : labels.length - 2
   return (
-    <span className="text-sm select-text">
+    <span className="text-[13px] select-text">
       {displayLabels.join(', ')}
       {overflow ? `, +${overflow} more` : ''}
     </span>
@@ -332,9 +332,9 @@ function Cell({ field, item, linkTo }: CellProps) {
   else if (field.kind === 'select')
     content =
       value === null || value === undefined || value === '' ? (
-        <span className="text-sm text-muted-foreground">—</span>
+        <span className="text-[13px] text-[var(--ks-dim)]">—</span>
       ) : (
-        <span className="text-sm select-text">{optionLabel(field, value)}</span>
+        <span className="text-[13px] select-text">{optionLabel(field, value)}</span>
       )
   else if (field.kind === 'multiselect')
     content = <MultiselectCell field={field} value={value} />
@@ -345,16 +345,16 @@ function Cell({ field, item, linkTo }: CellProps) {
       </Badge>
     )
   else if (value === null || value === undefined || value === '')
-    content = <span className="text-sm text-muted-foreground">—</span>
+    content = <span className="text-[13px] text-[var(--ks-dim)]">—</span>
   else if (Array.isArray(value))
     content = (
       <span className="select-text">{value.map(valueToLabel).join(', ')}</span>
     )
   else if (typeof value === 'object')
     content = (
-      <span className="text-xs text-muted-foreground italic">Complex data</span>
+      <span className="text-[12px] text-[var(--ks-label)]">Complex data</span>
     )
-  else content = <span className="text-sm select-text">{String(value)}</span>
+  else content = <span className="text-[13px] select-text">{String(value)}</span>
 
   if (!linkTo) return content
   const match = linkTo.href.match(/^\/dashboard\/([^/]+)\/([^/]+)$/)
@@ -363,7 +363,7 @@ function Cell({ field, item, linkTo }: CellProps) {
     <Link
       to="/dashboard/$listKey/$id"
       params={{ listKey: match[1], id: decodeURIComponent(match[2]) }}
-      className="font-medium text-blue-600 hover:text-blue-800 hover:underline dark:text-blue-400 dark:hover:text-blue-300"
+      className="font-medium text-[var(--ks-ink)] hover:underline"
     >
       {content}
     </Link>
@@ -416,7 +416,7 @@ function RelationshipLink({
     <Link
       to="/dashboard/$listKey/$id"
       params={{ listKey, id }}
-      className="rounded bg-muted px-1.5 py-0.5 font-medium text-blue-600 hover:text-blue-800 hover:underline dark:text-blue-400 dark:hover:text-blue-300"
+      className="rounded-[5px] bg-[var(--ks-track)] px-1.5 py-0.5 text-[var(--ks-ink-2)] shadow-[inset_0_0_0_1px_var(--ks-line)] hover:text-[var(--ks-ink)]"
     >
       {valueToLabel(value)}
     </Link>

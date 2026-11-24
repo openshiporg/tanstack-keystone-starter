@@ -37,13 +37,13 @@ export function ListPreviewTable({
 
   if (error) {
     return (
-      <div className="flex items-start gap-3 rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-sm">
-        <AlertTriangleIcon className="mt-0.5 size-4 text-destructive" />
+      <div className="flex items-start gap-3 rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-[13px]">
+        <AlertTriangleIcon className="mt-0.5 size-4 text-[var(--ks-danger)]" />
         <div>
-          <div className="font-medium text-destructive">
+          <div className="font-medium text-[var(--ks-danger)]">
             Could not load list records
           </div>
-          <p className="text-muted-foreground">{error.message}</p>
+          <p className="text-[var(--ks-dim)]">{error.message}</p>
         </div>
       </div>
     )
@@ -54,11 +54,11 @@ export function ListPreviewTable({
   if (data.items.length === 0) {
     return (
       <div className="flex flex-col items-center gap-2 rounded-xl border bg-card p-8 text-center">
-        <DatabaseIcon className="size-8 text-muted-foreground" />
+        <DatabaseIcon className="size-8 text-[var(--ks-dim)]" />
         <div className="font-medium">
           No {data.list.label.toLowerCase()} found
         </div>
-        <p className="max-w-md text-sm text-muted-foreground">
+        <p className="max-w-md text-[13px] text-[var(--ks-dim)]">
           The GraphQL read path is working, but this list does not currently
           have matching records.
         </p>
@@ -103,7 +103,7 @@ function FieldValue({
   value: unknown
 }) {
   if (value === null || value === undefined || value === '') {
-    return <span className="text-muted-foreground">—</span>
+    return <span className="text-[var(--ks-dim)]">—</span>
   }
 
   if (field.kind === 'checkbox') {
@@ -117,7 +117,7 @@ function FieldValue({
 
   if (field.kind === 'multiselect' && Array.isArray(value)) {
     if (value.length === 0)
-      return <span className="text-muted-foreground">—</span>
+      return <span className="text-[var(--ks-dim)]">—</span>
 
     return (
       <div className="flex flex-wrap gap-1">
@@ -133,7 +133,7 @@ function FieldValue({
   if (field.kind === 'relationship') {
     if (Array.isArray(value)) {
       if (value.length === 0)
-        return <span className="text-muted-foreground">—</span>
+        return <span className="text-[var(--ks-dim)]">—</span>
 
       return (
         <div className="flex flex-wrap gap-1">
@@ -162,7 +162,7 @@ function FieldValue({
 
   if (typeof value === 'object') {
     return (
-      <code className="rounded bg-muted px-1.5 py-0.5 text-xs">
+      <code className="rounded bg-muted px-1.5 py-0.5 text-[12px]">
         {JSON.stringify(value)}
       </code>
     )

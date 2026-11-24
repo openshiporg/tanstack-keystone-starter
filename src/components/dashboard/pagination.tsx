@@ -140,19 +140,14 @@ export function Pagination({
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <div className="ks-track">
-                    <AlertDialogCancel className="h-7 px-2.5 text-[12px]">
-                      Cancel
-                    </AlertDialogCancel>
-                    <AlertDialogAction
-                      data-variant="danger-fill"
-                      className="h-7 px-2.5 text-[12px]"
-                      onClick={() => onDelete?.()}
-                      disabled={isDeleteLoading}
-                    >
-                      Delete {n}
-                    </AlertDialogAction>
-                  </div>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    data-variant="danger-fill"
+                    onClick={() => onDelete?.()}
+                    disabled={isDeleteLoading}
+                  >
+                    Delete {n}
+                  </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>

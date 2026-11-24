@@ -313,19 +313,19 @@ function RelationshipValueCard({
   const data = option?.data ?? {}
   const optionLabel = option?.label ?? id
   return (
-    <Card size="sm" className="border bg-muted/20">
+    <Card size="sm" className="bg-[var(--ks-track)] shadow-[inset_0_0_0_1px_var(--ks-line)]">
       <CardHeader>
         <CardTitle>{optionLabel}</CardTitle>
-        <CardDescription className="font-mono text-xs">{id}</CardDescription>
+        <CardDescription className="font-mono text-[12px]">{id}</CardDescription>
       </CardHeader>
       {cardFields.length ? (
-        <CardContent className="space-y-2 text-sm">
+        <CardContent className="space-y-2 text-[13px]">
           {cardFields.map((fieldPath) => (
             <div
               key={fieldPath}
               className="grid grid-cols-[96px_minmax(0,1fr)] gap-2"
             >
-              <span className="text-muted-foreground">{fieldPath}</span>
+              <span className="text-[var(--ks-dim)]">{fieldPath}</span>
               <span className="break-words">
                 {(() => {
                   const relatedField = relatedList?.fields.find(
@@ -359,7 +359,7 @@ function RelationshipValueCard({
               type="button"
               aria-label={`Edit ${optionLabel}`}
               onClick={onEdit}
-              className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+              className="text-[13px] font-medium text-[var(--ks-ink)] hover:underline"
             >
               Edit
             </button>
@@ -369,7 +369,7 @@ function RelationshipValueCard({
               type="button"
               aria-label={`Remove ${optionLabel}`}
               onClick={onRemove}
-              className="text-sm text-muted-foreground hover:text-foreground"
+              className="text-[13px] text-[var(--ks-dim)] hover:text-foreground"
             >
               Remove
             </button>
@@ -595,7 +595,7 @@ export function RelationshipFieldEditor({
 
   if (displayMode === 'count') {
     return (
-      <div className="rounded-md border bg-muted/20 px-3 py-2 text-sm text-muted-foreground">
+      <div className="rounded-[10px] bg-[var(--ks-track)] shadow-[inset_0_0_0_1px_var(--ks-line)] px-3 py-2 text-[13px] text-[var(--ks-dim)]">
         {Number.isFinite(countValue) ? countValue : 0} related{' '}
         {(Number.isFinite(countValue) ? countValue : 0) === 1
           ? 'item'
@@ -605,9 +605,9 @@ export function RelationshipFieldEditor({
   }
 
   return (
-    <div className="space-y-2 rounded-md border p-3">
+    <div className="space-y-2 rounded-[10px] p-3 shadow-[inset_0_0_0_1px_var(--ks-line)]">
       <div className="flex items-center gap-2">
-        <Search className="size-4 text-muted-foreground" aria-hidden="true" />
+        <Search className="size-4 text-[var(--ks-dim)]" aria-hidden="true" />
         <Input
           id={`field-${field.path}`}
           aria-label={`Search ${field.label}`}
@@ -651,7 +651,7 @@ export function RelationshipFieldEditor({
           {ids.map((id) => (
             <span
               key={id}
-              className="inline-flex items-center gap-2 rounded-full border bg-muted/30 px-2 py-1 text-xs"
+              className="inline-flex h-6 items-center gap-1.5 rounded-[6px] bg-[var(--ks-track)] px-2 text-[12px] text-[var(--ks-ink-2)] shadow-[inset_0_0_0_1px_var(--ks-line)]"
             >
               {selectedLabelById.get(id) ?? id}
               {canEditInline ? (
@@ -659,7 +659,7 @@ export function RelationshipFieldEditor({
                   type="button"
                   aria-label={`Edit ${selectedLabelById.get(id) ?? id}`}
                   onClick={() => setEditingId(id)}
-                  className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                  className="text-[var(--ks-ink-2)] hover:text-[var(--ks-ink)]"
                 >
                   Edit
                 </button>
@@ -669,7 +669,7 @@ export function RelationshipFieldEditor({
                   type="button"
                   aria-label={`Remove ${selectedLabelById.get(id) ?? id}`}
                   onClick={() => removeId(id)}
-                  className="text-muted-foreground hover:text-foreground"
+                  className="text-[var(--ks-dim)] hover:text-foreground"
                 >
                   ×
                 </button>
@@ -679,13 +679,13 @@ export function RelationshipFieldEditor({
         </div>
       )}
       <div
-        className="max-h-44 overflow-auto rounded-md border bg-background"
+        className="max-h-44 overflow-auto rounded-[8px] bg-[var(--ks-surface)] shadow-[inset_0_0_0_1px_var(--ks-line)]"
         role="group"
         aria-label={`${field.label} options`}
       >
         {data.length === 0 ? (
           <div
-            className="p-3 text-sm text-muted-foreground"
+            className="p-3 text-[13px] text-[var(--ks-dim)]"
             role="status"
             aria-live="polite"
           >
@@ -700,7 +700,7 @@ export function RelationshipFieldEditor({
               type="button"
               aria-pressed={checked}
               aria-label={`${checked ? 'Disconnect' : 'Connect'} ${option.label}`}
-              className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-muted disabled:cursor-not-allowed disabled:opacity-60"
+              className="flex w-full items-center justify-between px-3 py-2 text-left text-[13px] hover:bg-[var(--ks-hover)] disabled:cursor-not-allowed disabled:opacity-60"
               disabled={!canInlineConnect}
               onClick={() => {
                 if (!canInlineConnect) return
@@ -714,7 +714,7 @@ export function RelationshipFieldEditor({
               }}
             >
               <span>{option.label}</span>
-              <span className="font-mono text-xs text-muted-foreground">
+              <span className="font-mono text-[12px] text-[var(--ks-dim)]">
                 {option.id}
               </span>
             </button>
@@ -723,7 +723,7 @@ export function RelationshipFieldEditor({
         {(page + 1) * pageSize < optionsData.count ? (
           <button
             type="button"
-            className="w-full border-t px-3 py-2 text-left text-sm text-muted-foreground hover:bg-muted"
+            className="w-full border-t px-3 py-2 text-left text-[13px] text-[var(--ks-dim)] hover:bg-[var(--ks-hover)]"
             onClick={() => setPage((current) => current + 1)}
           >
             Load more related items

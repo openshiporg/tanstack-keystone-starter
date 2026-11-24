@@ -77,7 +77,7 @@ describe('dashboard required indicators', () => {
     )
 
     expect(markup).toContain('Label')
-    expect(markup).toContain('text-destructive">*</span>')
+    expect(markup).toContain('aria-hidden="true">*</span>')
     expect(markup).toContain('Label:true')
     expect(markup).toContain('Notes:false')
   })

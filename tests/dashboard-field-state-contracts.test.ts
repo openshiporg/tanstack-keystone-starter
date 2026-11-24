@@ -500,7 +500,7 @@ describe('dashboard field state contracts', () => {
     )
 
     expect(markup).toContain('Estimate must be greater than or equal to 3')
-    expect(markup).toContain('border-red-500')
+    expect(markup).toContain('shadow-[inset_0_0_0_1px_var(--ks-danger)]')
     expect(markup).toContain('id="field-estimate"')
   })
 

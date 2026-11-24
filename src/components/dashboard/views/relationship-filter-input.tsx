@@ -144,9 +144,9 @@ export function RelationshipFilterInput({
   }
 
   return (
-    <div className="space-y-2 rounded-md border p-2">
+    <div className="space-y-2 rounded-[10px] p-2 shadow-[inset_0_0_0_1px_var(--ks-line)]">
       <div className="flex items-center gap-2">
-        <Search className="size-4 text-muted-foreground" />
+        <Search className="size-4 text-[var(--ks-dim)]" />
         <Input
           value={search}
           onChange={(event) => setSearch(event.target.value)}
@@ -159,13 +159,13 @@ export function RelationshipFilterInput({
           {ids.map((id) => (
             <span
               key={id}
-              className="inline-flex items-center gap-2 rounded-full border bg-muted/30 px-2 py-1 text-xs"
+              className="inline-flex h-6 items-center gap-1.5 rounded-[6px] bg-[var(--ks-track)] px-2 text-[12px] text-[var(--ks-ink-2)] shadow-[inset_0_0_0_1px_var(--ks-line)]"
             >
               {selectedLabelById.get(id) ?? id}
               <button
                 type="button"
                 onClick={() => setIds(ids.filter((entry) => entry !== id))}
-                className="text-muted-foreground hover:text-foreground"
+                className="text-[var(--ks-dim)] hover:text-foreground"
               >
                 ×
               </button>
@@ -173,9 +173,9 @@ export function RelationshipFilterInput({
           ))}
         </div>
       ) : null}
-      <div className="max-h-44 overflow-auto rounded-md border bg-background">
+      <div className="max-h-44 overflow-auto rounded-[8px] bg-[var(--ks-surface)] shadow-[inset_0_0_0_1px_var(--ks-line)]">
         {options.length === 0 ? (
-          <div className="p-3 text-sm text-muted-foreground">
+          <div className="p-3 text-[13px] text-[var(--ks-dim)]">
             No related items found.
           </div>
         ) : null}
@@ -185,7 +185,7 @@ export function RelationshipFilterInput({
             <button
               key={option.id}
               type="button"
-              className="flex w-full items-center justify-between px-3 py-2 text-left text-sm hover:bg-muted"
+              className="flex w-full items-center justify-between px-3 py-2 text-left text-[13px] hover:bg-[var(--ks-hover)]"
               onClick={() => {
                 if (many)
                   setIds(
@@ -197,7 +197,7 @@ export function RelationshipFilterInput({
               }}
             >
               <span>{option.label}</span>
-              <span className="font-mono text-xs text-muted-foreground">
+              <span className="font-mono text-[12px] text-[var(--ks-dim)]">
                 {checked ? 'Selected' : option.id}
               </span>
             </button>
@@ -206,7 +206,7 @@ export function RelationshipFilterInput({
         {options.length < optionsData.count ? (
           <button
             type="button"
-            className="w-full border-t px-3 py-2 text-left text-sm text-muted-foreground hover:bg-muted"
+            className="w-full border-t px-3 py-2 text-left text-[13px] text-[var(--ks-dim)] hover:bg-[var(--ks-hover)]"
             onClick={() => setPage((current) => current + 1)}
           >
             Load more related items

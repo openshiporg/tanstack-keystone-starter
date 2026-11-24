@@ -19,9 +19,9 @@ export function Field({
 }) {
   if (!onChange) {
     if (value === null || value === undefined || value === '')
-      return <span className="text-sm text-muted-foreground">—</span>
+      return <span className="text-[13px] text-[var(--ks-dim)]">—</span>
     return (
-      <pre className="overflow-auto rounded bg-muted p-2 text-xs">
+      <pre className="overflow-auto rounded-[8px] bg-[var(--ks-track)] p-2 font-mono text-[12px] text-[var(--ks-ink-2)]">
         {typeof value === 'string' ? value : JSON.stringify(value, null, 2)}
       </pre>
     )
@@ -47,9 +47,9 @@ export function Cell({
 }) {
   const value = item[field.path]
   if (value === null || value === undefined || value === '')
-    return <span className="text-sm text-muted-foreground">—</span>
+    return <span className="text-[13px] text-[var(--ks-dim)]">—</span>
   return (
-    <span className="text-xs text-muted-foreground italic">Complex data</span>
+    <span className="text-[12px] text-[var(--ks-label)]">Complex data</span>
   )
 }
 

@@ -316,7 +316,7 @@ export function RichDocumentEditor({
   }, [editor, incomingValue, value])
 
   return (
-    <div className="overflow-hidden rounded-lg border bg-background shadow-xs focus-within:ring-2 focus-within:ring-ring/30">
+    <div className="ks-field overflow-hidden">
       <Slate
         editor={editor}
         initialValue={value as unknown as Descendant[]}
@@ -337,7 +337,7 @@ export function RichDocumentEditor({
         <Editable
           id={id}
           aria-label="Rich document content"
-          className="min-h-48 px-4 py-3 text-sm leading-6 outline-none [&_[data-slate-placeholder]]:text-muted-foreground"
+          className="min-h-48 px-3 py-2.5 text-[13px] leading-6 outline-none [&_[data-slate-placeholder]]:text-muted-foreground"
           placeholder={placeholder || 'Write document content…'}
           renderElement={renderElement}
           renderLeaf={renderLeaf}
@@ -361,7 +361,7 @@ function RichDocumentToolbar({
   const editor = useSlate()
   return (
     <div
-      className="flex flex-wrap items-center gap-1 border-b bg-muted/30 p-2"
+      className="flex flex-wrap items-center gap-1.5 border-b border-[var(--ks-line)] p-1.5"
       role="toolbar"
       aria-label="Document formatting"
     >
@@ -530,7 +530,7 @@ function InsertDocumentMenu({
   return (
     <select
       aria-label="Insert document block"
-      className="h-8 rounded-md border bg-background px-2 text-xs"
+      className="ks-field h-7 px-2 text-[12px]"
       value={value}
       onMouseDown={(event) => {
         selectionBeforeMenu.current = editor.selection
@@ -943,7 +943,7 @@ function InlineRelationshipElement({
           type="button"
           aria-label={`${config?.label ?? 'Relationship'} selector`}
           aria-expanded={open}
-          className="rounded border bg-muted/30 px-1.5 py-0.5 text-xs text-primary hover:bg-muted"
+          className="rounded border bg-muted/30 px-1.5 py-0.5 text-[12px] text-primary hover:bg-[var(--ks-hover)]"
           onMouseDown={(event) => event.preventDefault()}
           onClick={() => setOpen((current) => !current)}
         >
@@ -955,7 +955,7 @@ function InlineRelationshipElement({
           <div
             role="dialog"
             aria-label={`${config?.label ?? 'Relationship'} options`}
-            className="absolute left-0 top-full z-30 mt-1 w-64 rounded-md border bg-background p-2 shadow-lg"
+            className="ks-pop absolute top-full left-0 z-30 mt-1 w-64 p-2"
           >
             <Input
               autoFocus
@@ -965,15 +965,15 @@ function InlineRelationshipElement({
             />
             <div className="mt-2 max-h-40 overflow-auto">
               {isLoading ? (
-                <p className="p-2 text-xs text-muted-foreground">Loading…</p>
+                <p className="p-2 text-[12px] text-[var(--ks-dim)]">Loading…</p>
               ) : null}
               {error ? (
-                <p className="p-2 text-xs text-destructive">
+                <p className="p-2 text-[12px] text-[var(--ks-danger)]">
                   Unable to load options.
                 </p>
               ) : null}
               {!isLoading && !error && options.items.length === 0 ? (
-                <p className="p-2 text-xs text-muted-foreground">
+                <p className="p-2 text-[12px] text-[var(--ks-dim)]">
                   No related items found.
                 </p>
               ) : null}
@@ -981,7 +981,7 @@ function InlineRelationshipElement({
                 <button
                   key={option.id}
                   type="button"
-                  className="block w-full rounded px-2 py-1 text-left text-xs hover:bg-muted"
+                  className="block w-full rounded px-2 py-1 text-left text-[12px] hover:bg-[var(--ks-hover)]"
                   onMouseDown={(event) => event.preventDefault()}
                   onClick={() => choose(option)}
                 >
@@ -1013,7 +1013,7 @@ function ComponentSchemaEditor({
   const kind = schema.kind
   if (kind === 'child')
     return (
-      <p className="text-xs text-muted-foreground">
+      <p className="text-[12px] text-[var(--ks-dim)]">
         {String(
           asRecord(schema.options).placeholder ?? 'Editable content below',
         )}
@@ -1024,11 +1024,11 @@ function ComponentSchemaEditor({
     const current = value ?? schema.defaultValue ?? ''
     const inputType = typeof current === 'number' ? 'number' : 'text'
     return (
-      <label className="block space-y-1 text-xs">
-        <span className="text-muted-foreground">{path || 'Value'}</span>
+      <label className="block space-y-1 text-[12px]">
+        <span className="text-[var(--ks-dim)]">{path || 'Value'}</span>
         {options.length ? (
           <select
-            className="h-8 w-full rounded-md border bg-background px-2"
+            className="ks-field h-8 w-full px-2"
             value={String(current)}
             onChange={(event) => onChange(event.target.value)}
           >
@@ -1101,8 +1101,8 @@ function ComponentSchemaEditor({
       current.discriminant ?? discriminantSchema.defaultValue ?? ''
     return (
       <div className="space-y-2 rounded border border-dashed p-2">
-        <label className="block space-y-1 text-xs">
-          <span className="text-muted-foreground">{path || 'Variant'}</span>
+        <label className="block space-y-1 text-[12px]">
+          <span className="text-[var(--ks-dim)]">{path || 'Variant'}</span>
           <Input
             value={String(discriminant)}
             onChange={(event) => {
@@ -1129,10 +1129,10 @@ function ComponentSchemaEditor({
   if (kind === 'array') {
     const current = Array.isArray(value) ? value : []
     return (
-      <label className="block space-y-1 text-xs">
-        <span className="text-muted-foreground">{path || 'Items'}</span>
+      <label className="block space-y-1 text-[12px]">
+        <span className="text-[var(--ks-dim)]">{path || 'Items'}</span>
         <textarea
-          className="min-h-16 w-full rounded-md border bg-background p-2 font-mono text-xs"
+          className="ks-field min-h-16 w-full p-2 font-mono text-[12px]"
           value={JSON.stringify(current, null, 2)}
           onChange={(event) => {
             try {
@@ -1191,8 +1191,8 @@ function ComponentRelationshipField({
     selected.map((entry) => String(asRecord(entry).id ?? '')),
   )
   return (
-    <div className="space-y-1 text-xs">
-      <span className="text-muted-foreground">{config.label}</span>
+    <div className="space-y-1 text-[12px]">
+      <span className="text-[var(--ks-dim)]">{config.label}</span>
       <Input
         value={search}
         placeholder="Search related items…"
@@ -1200,7 +1200,7 @@ function ComponentRelationshipField({
       />
       <div className="max-h-24 overflow-auto rounded border">
         {isLoading ? (
-          <p className="p-2 text-muted-foreground">Loading…</p>
+          <p className="p-2 text-[var(--ks-dim)]">Loading…</p>
         ) : null}
         {options.items.map((option) => {
           const selectedOption = selectedIds.has(option.id)
@@ -1209,7 +1209,7 @@ function ComponentRelationshipField({
               key={option.id}
               type="button"
               className={cn(
-                'block w-full px-2 py-1 text-left hover:bg-muted',
+                'block w-full px-2 py-1 text-left hover:bg-[var(--ks-hover)]',
                 selectedOption && 'bg-muted',
               )}
               onMouseDown={(event) => event.preventDefault()}
@@ -1276,7 +1276,7 @@ function DocumentElement({
       <blockquote
         {...attributes}
         style={style}
-        className="my-3 border-l-2 pl-4 text-muted-foreground italic"
+        className="my-3 border-l-2 pl-4 text-[var(--ks-dim)] italic"
       >
         {children}
       </blockquote>
@@ -1285,7 +1285,7 @@ function DocumentElement({
     return (
       <pre
         {...attributes}
-        className="my-3 overflow-x-auto rounded-md bg-muted p-3 font-mono text-xs"
+        className="my-3 overflow-x-auto rounded-md bg-muted p-3 font-mono text-[12px]"
       >
         <code>{children}</code>
       </pre>
@@ -1361,11 +1361,11 @@ function DocumentElement({
       <div
         {...attributes}
         data-document-node="component-block"
-        className="my-3 rounded-md border bg-muted/20 p-3"
+        className="my-3 rounded-[10px] bg-[var(--ks-track)] shadow-[inset_0_0_0_1px_var(--ks-line)] p-3"
       >
         <div
           contentEditable={false}
-          className="mb-2 text-xs font-medium text-muted-foreground"
+          className="mb-2 text-[12px] font-medium text-[var(--ks-dim)]"
         >
           {block?.label ?? `Component: ${String(node.component ?? 'unknown')}`}
         </div>
@@ -1401,13 +1401,13 @@ function DocumentLeaf({ attributes, children, leaf }: RenderLeafProps) {
   if (marks.strikethrough) content = <s>{content}</s>
   if (marks.code)
     content = (
-      <code className="rounded bg-muted px-1 py-0.5 text-xs">{content}</code>
+      <code className="rounded bg-muted px-1 py-0.5 text-[12px]">{content}</code>
     )
   if (marks.superscript) content = <sup>{content}</sup>
   if (marks.subscript) content = <sub>{content}</sub>
   if (marks.keyboard)
     content = (
-      <kbd className="rounded border bg-muted px-1 text-xs">{content}</kbd>
+      <kbd className="rounded border bg-muted px-1 text-[12px]">{content}</kbd>
     )
   return <span {...attributes}>{content}</span>
 }

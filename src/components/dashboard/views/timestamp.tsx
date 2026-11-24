@@ -137,14 +137,14 @@ export function Field({
       <div className="space-y-2">
         <Label>{field.label}</Label>
         {field.description ? (
-          <p className="text-sm text-muted-foreground">{field.description}</p>
+          <p className="text-[13px] text-[var(--ks-dim)]">{field.description}</p>
         ) : null}
         <Input
           id={`field-${field.path}`}
           readOnly
           tabIndex={-1}
           value={dateValue ? dateValue.toLocaleString() : 'yyyy-mm-dd --:--:--'}
-          className="bg-muted cursor-default"
+          className="cursor-default bg-[var(--ks-track)]"
           onFocus={(event) => event.target.blur()}
         />
       </div>
@@ -153,17 +153,17 @@ export function Field({
 
   return (
     <div className="space-y-2">
-      <Label className={validationMessage ? 'text-red-600' : ''}>
+      <Label className={validationMessage ? 'text-[var(--ks-danger)]' : ''}>
         {field.label}
       </Label>
       {field.description ? (
-        <p className="text-sm text-muted-foreground">{field.description}</p>
+        <p className="text-[13px] text-[var(--ks-dim)]">{field.description}</p>
       ) : null}
-      <div className="space-y-3 rounded-lg border p-3">
+      <div className="space-y-3 rounded-[10px] p-3 shadow-[inset_0_0_0_1px_var(--ks-line)]">
         <div
           className={cn(
-            'flex items-center gap-2 text-sm',
-            !dateValue && 'text-muted-foreground',
+            'flex items-center gap-2 text-[13px]',
+            !dateValue && 'text-[var(--ks-dim)]',
           )}
         >
           <CalendarIcon className="h-4 w-4" />
@@ -173,7 +173,7 @@ export function Field({
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor={`field-${field.path}`} className="text-sm">
+            <Label htmlFor={`field-${field.path}`} className="text-[13px]">
               Date
             </Label>
             <Input
@@ -182,7 +182,7 @@ export function Field({
               autoFocus={autoFocus}
               value={dateValue ? formatDateInputValue(dateValue) : ''}
               onBlur={() => setDirty(true)}
-              className={validationMessage ? 'border-red-500' : undefined}
+              className={validationMessage ? 'shadow-[inset_0_0_0_1px_var(--ks-danger)]' : undefined}
               onChange={(event) => {
                 const nextDate = event.target.value
                 if (!nextDate) {
@@ -206,7 +206,7 @@ export function Field({
           <div className="space-y-2">
             <Label
               htmlFor={`field-${field.path}-time`}
-              className="text-sm flex items-center gap-2"
+              className="text-[13px] flex items-center gap-2"
             >
               <Clock3 className="h-4 w-4" />
               Time
@@ -217,7 +217,7 @@ export function Field({
               step="1"
               value={dateValue ? formatTimeInputValue(dateValue) : ''}
               onBlur={() => setDirty(true)}
-              className={validationMessage ? 'border-red-500' : undefined}
+              className={validationMessage ? 'shadow-[inset_0_0_0_1px_var(--ks-danger)]' : undefined}
               onChange={(event) => {
                 const nextTime = event.target.value
                 if (!dateValue && !nextTime) {
@@ -241,7 +241,7 @@ export function Field({
         </div>
       </div>
       {validationMessage ? (
-        <div className="text-sm text-red-600" role="alert">
+        <div className="text-[12px] text-[var(--ks-danger)]" role="alert">
           {validationMessage}
         </div>
       ) : null}
@@ -258,11 +258,11 @@ export function Cell({
 }) {
   const value = item[field.path]
   return (
-    <span className="text-sm">
+    <span className="text-[13px]">
       {value ? (
         formatDateTime(new Date(String(value)))
       ) : (
-        <span className="text-muted-foreground">—</span>
+        <span className="text-[var(--ks-dim)]">—</span>
       )}
     </span>
   )

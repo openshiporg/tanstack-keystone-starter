@@ -229,11 +229,11 @@ export function RelationshipCreateSheet({
                   <h2 className="text-lg font-semibold">
                     Create {list.singular}
                   </h2>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-[13px] text-[var(--ks-dim)]">
                     Fill out the related item details below.
                   </p>
                   {hasChanges ? (
-                    <p className="text-xs text-amber-600 dark:text-amber-400">
+                    <p className="text-[12px] text-[var(--ks-amber)]">
                       Unsaved changes
                     </p>
                   ) : null}
@@ -254,7 +254,7 @@ export function RelationshipCreateSheet({
               <div className="space-y-6">
                 {error ? (
                   <div
-                    className="rounded-md border border-destructive/40 bg-destructive/5 p-3 text-sm text-destructive"
+                    className="rounded-md border border-destructive/40 bg-destructive/5 p-3 text-[12px] text-[var(--ks-danger)]"
                     role="alert"
                     aria-live="assertive"
                   >
@@ -275,11 +275,11 @@ export function RelationshipCreateSheet({
             </div>
           </div>
 
-          <SheetFooter className="relative z-10 shrink-0 border-t bg-background">
-            <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
+          <SheetFooter className="relative z-10 shrink-0 border-t border-[var(--ks-line)] bg-[var(--ks-surface)]">
+            <div className="flex justify-end"><div className="ks-track">
               <button
                 type="button"
-                className="inline-flex h-8 items-center justify-center rounded-lg border border-border bg-background px-2.5 text-sm font-medium transition-colors hover:bg-muted disabled:pointer-events-none disabled:opacity-50"
+                className="ks-pill h-7 px-2.5 text-[12px]"
                 onClick={requestClose}
                 disabled={saving}
               >
@@ -287,12 +287,13 @@ export function RelationshipCreateSheet({
               </button>
               <button
                 type="submit"
-                className="inline-flex h-8 items-center justify-center rounded-lg bg-primary px-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
+                data-variant="primary"
+                className="ks-pill h-7 px-2.5 text-[12px]"
                 disabled={saving}
               >
                 {saving ? 'Creating…' : `Create ${list.singular}`}
               </button>
-            </div>
+            </div></div>
           </SheetFooter>
         </form>
       </SheetContent>

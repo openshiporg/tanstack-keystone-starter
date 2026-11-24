@@ -1,7 +1,20 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { createFileRoute, notFound, redirect } from '@tanstack/react-router'
-import { Check, Copy, RotateCcw, Save, Trash2 } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import {
+  Link,
+  createFileRoute,
+  notFound,
+  redirect,
+} from '@tanstack/react-router'
+import {
+  Check,
+  Copy,
+  FileQuestion,
+  RotateCw,
+  Trash2,
+  TriangleAlert,
+  Undo2,
+} from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { enhanceFields } from '@/components/dashboard/enhance-fields'
 import {
@@ -18,6 +31,7 @@ import {
   graphQLErrorState,
   mutationErrorState,
 } from '@/components/dashboard/graphql-error-details'
+import { statusTone } from '@/components/dashboard/keystone-list-table'
 import { ItemPageActions } from '@/components/dashboard/item-page-actions'
 import { MutationErrorNotice } from '@/components/dashboard/mutation-error-notice'
 import { PageBreadcrumbs } from '@/components/dashboard/page-breadcrumbs'
@@ -33,8 +47,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { EmptyState } from '@/components/ui/empty-state'
 import { useToast } from '@/components/ui/toaster'
 import {
   dashboardQueryKeys,
@@ -42,7 +56,9 @@ import {
   fetchDashboardItemPage,
   fetchKeystoneAdminMeta,
   findDashboardListByPath,
+  findStatusField,
 } from '@/features/cms/graphql-client'
+import { cn } from '@/lib/utils'
 
 export const Route = createFileRoute('/dashboard/$listKey/$id')({
   loader: async ({ context, params }) => {
@@ -99,6 +115,7 @@ function DashboardItemRoute() {
   const [deleting, setDeleting] = useState(false)
   const [showValidation, setShowValidation] = useState(false)
   const [showResetDialog, setShowResetDialog] = useState(false)
+  const [justSaved, setJustSaved] = useState(false)
   const item = data.item
 
   const enhancedFields = useMemo(() => {
@@ -188,6 +205,44 @@ function DashboardItemRoute() {
 
   usePreventNavigation(hasChanges && !saving && !deleting)
 
+  // Status dot on the title line follows the live value of the list's status select, if any
+  const status = useMemo(() => {
+    const statusField = findStatusField(data.list)
+    if (!statusField || !data.item) return null
+    const enhanced = allVisibleFields[statusField.path]
+    let raw: unknown = data.item[statusField.path]
+    if (enhanced && statusField.path in draft) {
+      const live = enhanced.controller.serialize(draft[statusField.path])
+      if (statusField.path in live) raw = live[statusField.path]
+    }
+    const options = Array.isArray(statusField.fieldMeta.options)
+      ? (statusField.fieldMeta.options as Array<{
+          label: string
+          value: unknown
+        }>)
+      : []
+    const option = options.find((entry) => String(entry.value) === String(raw))
+    return {
+      tone: statusTone(raw),
+      label:
+        option?.label ??
+        (raw === null || raw === undefined ? 'None' : String(raw)),
+    }
+  }, [allVisibleFields, data.item, data.list, draft])
+
+  // Cmd/Ctrl+S saves, like every desktop editor
+  const saveRef = useRef<() => void>(() => {})
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 's') {
+        event.preventDefault()
+        saveRef.current()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
   useEffect(() => {
     setDraft(currentDraft)
   }, [currentDraft])
@@ -195,7 +250,8 @@ function DashboardItemRoute() {
   function resetChanges() {
     setDraft(currentDraft)
     setShowResetDialog(false)
-    setMessage({ message: 'Unsaved changes reset.', details: null })
+    setMessage(null)
+    setShowValidation(false)
     toast({
       title: 'Changes reset',
       description: 'Unsaved edits were discarded.',
@@ -244,7 +300,9 @@ function DashboardItemRoute() {
         queryKey: dashboardQueryKeys.itemPage(data.list.path, item.id),
       })
       await refetch()
-      setMessage({ message: 'Saved changes.', details: null })
+      setShowValidation(false)
+      setJustSaved(true)
+      window.setTimeout(() => setJustSaved(false), 3000)
       toast({
         title: 'Changes saved',
         description: `${data.list.singular} was updated successfully.`,
@@ -264,7 +322,6 @@ function DashboardItemRoute() {
   async function handleCopyId() {
     if (!data.item) return
     await navigator.clipboard.writeText(item.id)
-    setMessage({ message: 'ID copied to clipboard', details: null })
     toast({
       title: 'ID copied',
       description: 'The item id is now in your clipboard.',
@@ -374,13 +431,38 @@ function DashboardItemRoute() {
     }
   }
 
+  saveRef.current = () => {
+    if (hasChanges && !saving && !deleting) void saveChanges()
+  }
+
+  const crumbsBase = [
+    { type: 'link' as const, label: 'Overview', href: '/dashboard' },
+    {
+      type: 'model' as const,
+      label: data.list.label,
+      href: `/dashboard/${data.list.path}`,
+    },
+  ]
+
   if (error) {
     return (
-      <main className="w-full max-w-5xl p-4 md:p-6">
-        <div className="rounded-md border border-destructive/50 bg-destructive/5 p-4 text-sm text-destructive">
-          Failed to load item: {error.message}
+      <>
+        <PageBreadcrumbs
+          items={[...crumbsBase, { type: 'page', label: 'Error' }]}
+        />
+        <div className="ks-card mx-4 mt-6 md:mx-6">
+          <EmptyState
+            title={`Couldn't load ${data.list.singular.toLowerCase()}`}
+            description={error.message}
+            icons={[TriangleAlert]}
+          >
+            <Button size="sm" variant="outline" onClick={() => void refetch()}>
+              <RotateCw />
+              Retry
+            </Button>
+          </EmptyState>
         </div>
-      </main>
+      </>
     )
   }
 
@@ -396,38 +478,40 @@ function DashboardItemRoute() {
 
   if (missingItem) {
     return (
-      <main className="w-full max-w-5xl p-4 md:p-6">
-        <div className="rounded-md border border-destructive/50 bg-destructive/5 p-4 text-sm text-destructive">
-          Item not found.
+      <>
+        <PageBreadcrumbs
+          items={[...crumbsBase, { type: 'page', label: 'Not found' }]}
+        />
+        <div className="ks-card mx-4 mt-6 md:mx-6">
+          <EmptyState title="Not found" icons={[FileQuestion]}>
+            <Link
+              to="/dashboard/$listKey"
+              params={{ listKey: data.list.path }}
+              className={buttonVariants({ variant: 'outline', size: 'sm' })}
+            >
+              {data.list.label}
+            </Link>
+          </EmptyState>
         </div>
-      </main>
+      </>
     )
   }
+
+  const hasSidebar = sidebarGroups.length > 0
+  const pageTitle = data.list.isSingleton ? data.list.label : data.title
+  const busy = saving || deleting
 
   return (
     <>
       <PageBreadcrumbs
-        items={[
-          { type: 'link', label: 'Overview', href: '/dashboard' },
-          {
-            type: 'model',
-            label: data.list.label,
-            href: `/dashboard/${data.list.path}`,
-          },
-          { type: 'page', label: data.title },
-        ]}
+        items={[...crumbsBase, { type: 'page', label: pageTitle }]}
         actions={
-          <div className="flex min-w-0 flex-wrap items-center justify-end gap-2">
-            {hasChanges ? (
-              <span className="hidden text-xs text-muted-foreground sm:inline">
-                Unsaved changes
-              </span>
-            ) : null}
+          <div className="ks-track">
             <ItemPageActions
               data={data}
               item={item}
               itemLabel={data.title}
-              disabled={saving || deleting}
+              disabled={busy}
               onError={(errorState) => {
                 setMessage({
                   message: errorState.message,
@@ -444,28 +528,36 @@ function DashboardItemRoute() {
             {!data.list.hideDelete ? (
               <AlertDialog>
                 <AlertDialogTrigger
-                  className="inline-flex h-8 items-center justify-center gap-1.5 rounded-md bg-destructive px-3 text-sm font-medium text-destructive-foreground shadow-xs hover:bg-destructive/90 disabled:pointer-events-none disabled:opacity-50"
-                  disabled={deleting || saving}
+                  aria-label="Delete"
+                  disabled={busy}
+                  render={
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      data-variant="danger"
+                      className="max-sm:w-7 max-sm:px-0"
+                    />
+                  }
                 >
-                  <Trash2 className="size-3.5" />
-                  {deleting ? 'Deleting…' : 'Delete'}
+                  <Trash2 />
+                  <span className="max-sm:hidden">
+                    {deleting ? 'Deleting' : 'Delete'}
+                  </span>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
                     <AlertDialogTitle>
-                      Delete {data.list.singular}
+                      Delete {data.list.singular.toLowerCase()}
                     </AlertDialogTitle>
                     <AlertDialogDescription>
-                      Are you sure you want to delete this{' '}
-                      {data.list.singular.toLowerCase()}? This action cannot be
-                      undone.
+                      This cannot be undone.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction
+                      data-variant="danger-fill"
                       onClick={() => void deleteItem()}
-                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                     >
                       Delete
                     </AlertDialogAction>
@@ -473,94 +565,117 @@ function DashboardItemRoute() {
                 </AlertDialogContent>
               </AlertDialog>
             ) : null}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowResetDialog(true)}
-              disabled={!hasChanges || saving || deleting}
-            >
-              <RotateCcw className="size-3.5" />
-              Reset
-            </Button>
+            {hasChanges ? (
+              <Button
+                variant="outline"
+                size="sm"
+                aria-label="Reset"
+                className="max-sm:w-7 max-sm:px-0"
+                onClick={() => setShowResetDialog(true)}
+                disabled={busy}
+              >
+                <Undo2 />
+                <span className="max-sm:hidden">Reset</span>
+              </Button>
+            ) : null}
             <AlertDialog
               open={showResetDialog}
               onOpenChange={setShowResetDialog}
             >
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Reset changes</AlertDialogTitle>
+                  <AlertDialogTitle>Discard changes</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure? Lost changes cannot be recovered.
+                    Unsaved edits will be lost.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={resetChanges}>
-                    Yes, reset
+                  <AlertDialogCancel>Keep editing</AlertDialogCancel>
+                  <AlertDialogAction
+                    data-variant="danger-fill"
+                    onClick={resetChanges}
+                  >
+                    Discard
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
             <Button
               size="sm"
-              onClick={saveChanges}
-              disabled={!hasChanges || saving || deleting}
+              onClick={() => void saveChanges()}
+              disabled={!hasChanges || busy}
+              title="Save (⌘S)"
             >
-              <Save className="size-3.5" />
-              {saving ? 'Saving…' : 'Save Changes'}
+              {justSaved && !hasChanges ? <Check /> : null}
+              {saving ? 'Saving' : justSaved && !hasChanges ? 'Saved' : 'Save'}
             </Button>
           </div>
         }
       />
 
-      <main className="w-full max-w-5xl p-4 md:p-6">
-        <div className="grid min-w-0 gap-6 gap-y-8 lg:grid-cols-[minmax(240px,2fr)_3fr]">
-          <aside className="min-w-0 space-y-4 lg:sticky lg:top-24 lg:self-start">
-            <div>
-              <h1 className="[overflow-wrap:anywhere] text-lg font-semibold md:text-2xl">
-                {data.title}
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                Edit {data.list.singular.toLowerCase()} fields and save changes.
-              </p>
-            </div>
-            <Card className="min-w-0">
-              <CardHeader>
-                <CardTitle className="text-sm text-muted-foreground">
-                  ID
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex min-w-0 flex-wrap items-center gap-2">
-                <code className="min-w-0 break-all rounded bg-muted px-2 py-1 text-sm">
-                  {item.id}
-                </code>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => void handleCopyId()}
-                >
-                  <Copy className="size-3.5" />
-                  Copy ID
-                </Button>
-              </CardContent>
-            </Card>
-            {sidebarGroups.length ? (
-              <EnhancedFormFields
-                list={data.list}
-                fields={allVisibleFields}
-                values={draft}
-                serialized={serialized}
-                view="itemView"
-                region="sidebar"
-                invalidFields={showValidation ? highlightedFields : undefined}
-                onChange={setDraft}
+      <div
+        className={cn(
+          'mx-auto w-full px-4 pt-5 pb-16 md:px-6 md:pt-6',
+          hasSidebar ? 'max-w-[1120px]' : 'max-w-[760px]',
+        )}
+      >
+        {/* Title line: status dot + record label; meta: status, ID */}
+        <div className="mb-5 flex flex-col gap-1.5">
+          <div className="flex min-w-0 items-center gap-2.5">
+            {status ? (
+              <span
+                className="ks-dot"
+                data-tone={status.tone}
+                role="img"
+                aria-label={status.label}
+                title={status.label}
               />
             ) : null}
-          </aside>
-          <div className="min-w-0 space-y-6">
-            {message ? (
-              <MutationErrorNotice error={message} variant="neutral" />
+            <h1
+              className="min-w-0 truncate text-[18px] leading-7 font-semibold tracking-[-0.01em] text-[var(--ks-ink)] md:text-[20px]"
+              title={pageTitle}
+            >
+              {pageTitle}
+            </h1>
+            {hasChanges ? (
+              <span className="shrink-0 rounded-[6px] bg-[color-mix(in_oklab,var(--ks-amber)_14%,transparent)] px-1.5 py-0.5 text-[12px] leading-4 font-medium text-[var(--ks-amber)]">
+                Edited
+              </span>
             ) : null}
+          </div>
+          <div className="flex min-w-0 items-center gap-2 text-[12px] text-[var(--ks-dim)]">
+            {status ? <span className="shrink-0">{status.label}</span> : null}
+            {status ? (
+              <span aria-hidden="true" className="text-[var(--ks-label)]">
+                ·
+              </span>
+            ) : null}
+            <button
+              type="button"
+              onClick={() => void handleCopyId()}
+              className="group/id flex min-w-0 items-center gap-1.5 rounded-[6px] font-mono text-[12px] text-[var(--ks-dim)] hover:text-[var(--ks-ink)]"
+              aria-label="Copy ID"
+            >
+              <span className="truncate">{item.id}</span>
+              <Copy className="size-3 shrink-0 opacity-60 group-hover/id:opacity-100" />
+            </button>
+          </div>
+        </div>
+
+        {message ? (
+          <div className="mb-4">
+            <MutationErrorNotice error={message} />
+          </div>
+        ) : null}
+
+        <div
+          className={
+            hasSidebar
+              ? 'grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_300px]'
+              : undefined
+          }
+        >
+          <div className="min-w-0">
             <EnhancedFormFields
               list={data.list}
               fields={allVisibleFields}
@@ -572,25 +687,47 @@ function DashboardItemRoute() {
               onChange={setDraft}
             />
           </div>
+          {hasSidebar ? (
+            <aside className="min-w-0 lg:sticky lg:top-16 lg:self-start">
+              <EnhancedFormFields
+                list={data.list}
+                fields={allVisibleFields}
+                values={draft}
+                serialized={serialized}
+                view="itemView"
+                region="sidebar"
+                invalidFields={showValidation ? highlightedFields : undefined}
+                onChange={setDraft}
+              />
+            </aside>
+          ) : null}
         </div>
-      </main>
+      </div>
     </>
   )
 }
+
 function MissingSingletonMessage({
   data,
 }: {
   data: NonNullable<ReturnType<typeof Route.useLoaderData>>
 }) {
   return (
-    <main className="w-full max-w-5xl p-4 md:p-6">
-      <div className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
-        <p className="text-sm text-muted-foreground">
-          &quot;{data.list.label}&quot; doesn&apos;t exist, or you don&apos;t
-          have access to it.
-        </p>
+    <>
+      <PageBreadcrumbs
+        items={[
+          { type: 'link', label: 'Overview', href: '/dashboard' },
+          { type: 'page', label: data.list.label },
+        ]}
+      />
+      <div className="ks-card mx-4 mt-6 md:mx-6">
+        <EmptyState
+          title="Not found"
+          description={`“${data.list.label}” doesn't exist, or you don't have access to it.`}
+          icons={[FileQuestion]}
+        />
       </div>
-    </main>
+    </>
   )
 }
 
@@ -749,49 +886,46 @@ function SingletonCreateForm({
           { type: 'page', label: `Create ${data.list.singular}` },
         ]}
         actions={
-          <Button
-            size="sm"
-            className="text-xs sm:text-sm"
-            onClick={() => void createSingleton()}
-            disabled={saving}
-          >
-            Create {data.list.singular}
-            <Check className="ml-1 stroke-[1.5px]" width="8" height="8" />
-          </Button>
+          <div className="ks-track">
+            <Button
+              size="sm"
+              onClick={() => void createSingleton()}
+              disabled={saving}
+            >
+              {saving ? 'Creating' : `Create ${data.list.singular.toLowerCase()}`}
+            </Button>
+          </div>
         }
       />
-      <main className="w-full max-w-5xl p-4 md:p-6">
-        <div className="grid min-w-0 gap-6 gap-y-8 lg:grid-cols-[minmax(240px,2fr)_3fr]">
-          <aside className="min-w-0 space-y-4 lg:sticky lg:top-24 lg:self-start">
-            <div>
-              <h1 className="text-lg font-semibold md:text-2xl">
-                Create {data.list.singular}
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                &quot;{data.list.label}&quot; doesn&apos;t exist yet. Create it
-                here.
-              </p>
-              {hasChanges ? (
-                <p className="text-xs text-amber-600 dark:text-amber-400">
-                  Unsaved changes
-                </p>
-              ) : null}
-            </div>
-            {sidebarGroups.length ? (
-              <EnhancedFormFields
-                list={data.list}
-                fields={formFields}
-                values={state}
-                serialized={serialized}
-                view="createView"
-                region="sidebar"
-                invalidFields={showValidation ? highlightedFields : undefined}
-                onChange={setState}
-              />
-            ) : null}
-          </aside>
-          <div className="min-w-0 space-y-6">
-            {error ? <MutationErrorNotice error={error} /> : null}
+      <div
+        className={cn(
+          'mx-auto w-full px-4 pt-5 pb-16 md:px-6 md:pt-6',
+          sidebarGroups.length ? 'max-w-[1120px]' : 'max-w-[760px]',
+        )}
+      >
+        <div className="mb-5 flex min-w-0 items-center gap-2.5">
+          <h1 className="min-w-0 truncate text-[18px] leading-7 font-semibold tracking-[-0.01em] text-[var(--ks-ink)] md:text-[20px]">
+            New {data.list.singular.toLowerCase()}
+          </h1>
+          {hasChanges ? (
+            <span className="shrink-0 rounded-[6px] bg-[color-mix(in_oklab,var(--ks-amber)_14%,transparent)] px-1.5 py-0.5 text-[12px] leading-4 font-medium text-[var(--ks-amber)]">
+              Edited
+            </span>
+          ) : null}
+        </div>
+        {error ? (
+          <div className="mb-4">
+            <MutationErrorNotice error={error} />
+          </div>
+        ) : null}
+        <div
+          className={
+            sidebarGroups.length
+              ? 'grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_300px]'
+              : undefined
+          }
+        >
+          <div className="min-w-0">
             <EnhancedFormFields
               list={data.list}
               fields={formFields}
@@ -803,8 +937,22 @@ function SingletonCreateForm({
               onChange={setState}
             />
           </div>
+          {sidebarGroups.length ? (
+            <aside className="min-w-0 lg:sticky lg:top-16 lg:self-start">
+              <EnhancedFormFields
+                list={data.list}
+                fields={formFields}
+                values={state}
+                serialized={serialized}
+                view="createView"
+                region="sidebar"
+                invalidFields={showValidation ? highlightedFields : undefined}
+                onChange={setState}
+              />
+            </aside>
+          ) : null}
         </div>
-      </main>
+      </div>
     </>
   )
 }

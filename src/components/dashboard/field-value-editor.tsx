@@ -123,7 +123,7 @@ export function isEditableDashboardField(
 
 export function displayFieldValue(kind: string, value: unknown) {
   if (value === null || value === undefined || value === '')
-    return <span className="text-sm text-muted-foreground">—</span>
+    return <span className="text-[13px] text-[var(--ks-dim)]">—</span>
   if (kind === 'checkbox')
     return (
       <Badge variant={value === true ? 'secondary' : 'outline'}>
@@ -131,15 +131,15 @@ export function displayFieldValue(kind: string, value: unknown) {
       </Badge>
     )
   if (kind === 'multiselect' && Array.isArray(value))
-    return <div className="text-sm">{value.join(', ') || '—'}</div>
+    return <div className="text-[13px]">{value.join(', ') || '—'}</div>
   if (kind === 'relationship') {
     if (Array.isArray(value))
       return (
-        <div className="text-sm">
+        <div className="text-[13px]">
           {value.map(relationshipLabel).join(', ') || '—'}
         </div>
       )
-    return <div className="text-sm">{relationshipLabel(value)}</div>
+    return <div className="text-[13px]">{relationshipLabel(value)}</div>
   }
   if (kind === 'password' && typeof value === 'object')
     return (
@@ -149,11 +149,11 @@ export function displayFieldValue(kind: string, value: unknown) {
     )
   if (typeof value === 'object')
     return (
-      <pre className="overflow-auto rounded bg-muted p-2 text-xs">
+      <pre className="overflow-auto rounded-[8px] bg-[var(--ks-track)] p-2 font-mono text-[12px] text-[var(--ks-ink-2)]">
         {JSON.stringify(value, null, 2)}
       </pre>
     )
-  return <div className="text-sm">{String(value)}</div>
+  return <div className="text-[13px]">{String(value)}</div>
 }
 
 function optionsForField(field: DashboardField) {
@@ -304,19 +304,19 @@ export function FieldValueEditor({
   if (field.kind === 'checkbox') {
     return (
       <div className="space-y-2">
-        <div className="flex h-10 items-center gap-2 rounded-md border px-3">
+        <div className="flex h-8 items-center gap-2">
           <Checkbox
             id={inputId}
             aria-label={field.label}
             checked={value === true}
             onCheckedChange={(checked) => onChange(checked === true)}
           />
-          <Label htmlFor={inputId} className="text-sm text-muted-foreground">
+          <Label htmlFor={inputId} className="text-[13px] text-[var(--ks-dim)]">
             Enabled
           </Label>
         </div>
         {validationMessage ? (
-          <p className="text-sm text-destructive">{validationMessage}</p>
+          <p className="text-[12px] text-[var(--ks-danger)]">{validationMessage}</p>
         ) : null}
       </div>
     )
@@ -331,7 +331,7 @@ export function FieldValueEditor({
           onChange={onChange}
         />
         {validationMessage ? (
-          <p className="text-sm text-destructive">{validationMessage}</p>
+          <p className="text-[12px] text-[var(--ks-danger)]">{validationMessage}</p>
         ) : null}
       </div>
     )
@@ -347,7 +347,7 @@ export function FieldValueEditor({
           onChange={(event) => onChange(event.target.value)}
         />
         {validationMessage ? (
-          <p className="text-sm text-destructive">{validationMessage}</p>
+          <p className="text-[12px] text-[var(--ks-danger)]">{validationMessage}</p>
         ) : null}
       </div>
     )
@@ -358,7 +358,7 @@ export function FieldValueEditor({
       <div className="space-y-2">
         <select
           id={inputId}
-          className="h-9 w-full rounded-md border bg-background px-2 text-sm"
+          className="ks-field h-8 w-full px-2 text-[13px]"
           value={String(value ?? '')}
           onChange={(event) => onChange(event.target.value)}
         >
@@ -370,7 +370,7 @@ export function FieldValueEditor({
           ))}
         </select>
         {validationMessage ? (
-          <p className="text-sm text-destructive">{validationMessage}</p>
+          <p className="text-[12px] text-[var(--ks-danger)]">{validationMessage}</p>
         ) : null}
       </div>
     )
@@ -385,13 +385,13 @@ export function FieldValueEditor({
     )
     return (
       <div className="space-y-2">
-        <div className="grid gap-2 rounded-md border p-3 sm:grid-cols-2">
+        <div className="grid gap-2 rounded-[10px] p-3 shadow-[inset_0_0_0_1px_var(--ks-line)] sm:grid-cols-2">
           {optionsForField(field).map((option) => {
             const optionValue = String(option.value)
             return (
               <label
                 key={optionValue}
-                className="inline-flex items-center gap-2 text-sm"
+                className="inline-flex items-center gap-2 text-[13px]"
               >
                 <input
                   type="checkbox"
@@ -409,7 +409,7 @@ export function FieldValueEditor({
           })}
         </div>
         {validationMessage ? (
-          <p className="text-sm text-destructive">{validationMessage}</p>
+          <p className="text-[12px] text-[var(--ks-danger)]">{validationMessage}</p>
         ) : null}
       </div>
     )
@@ -424,7 +424,7 @@ export function FieldValueEditor({
           onChange={onChange}
         />
         {validationMessage ? (
-          <p className="text-sm text-destructive">{validationMessage}</p>
+          <p className="text-[12px] text-[var(--ks-danger)]">{validationMessage}</p>
         ) : null}
       </div>
     )
@@ -451,7 +451,7 @@ export function FieldValueEditor({
         onChange={(event) => onChange(event.target.value)}
       />
       {validationMessage ? (
-        <p className="text-sm text-destructive">{validationMessage}</p>
+        <p className="text-[12px] text-[var(--ks-danger)]">{validationMessage}</p>
       ) : null}
     </div>
   )

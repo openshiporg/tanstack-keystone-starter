@@ -112,8 +112,9 @@ function ControllerFieldGroups({
       {groups.map((group) => (
         <FieldSection
           key={group.key}
-          title={group.label}
+          title={group.key === '__ungrouped' ? null : group.label}
           description={group.description}
+          count={group.fields.length}
         >
           {group.fields.map((field) => (
             <ControllerField
@@ -147,7 +148,7 @@ function ControllerField({
       <Label htmlFor={`field-${field.path}`}>
         {field.label}
         {field[view].isRequired ? (
-          <span className="ml-1 text-destructive">*</span>
+          <span className="ml-1 text-[var(--ks-danger)]">*</span>
         ) : null}
       </Label>
       <Field

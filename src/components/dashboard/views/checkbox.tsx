@@ -21,7 +21,7 @@ export function Field({
     )
 
   return (
-    <div className="flex h-10 items-center gap-2 rounded-md border px-3">
+    <div className="flex h-8 items-center gap-2">
       <Checkbox
         id={`field-${field.path}`}
         aria-label={field.label}
@@ -30,7 +30,7 @@ export function Field({
       />
       <Label
         htmlFor={`field-${field.path}`}
-        className="text-sm text-muted-foreground"
+        className="text-[13px] text-[var(--ks-dim)]"
       >
         {field.label}
       </Label>

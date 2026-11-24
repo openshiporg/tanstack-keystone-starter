@@ -105,16 +105,16 @@ export function Field({
     if (field.kind === 'multiselect') {
       const values = normalizeMultiSelectValue(field, value)
       if (!values.length)
-        return <span className="text-sm text-muted-foreground">—</span>
+        return <span className="text-[13px] text-[var(--ks-dim)]">—</span>
       return (
-        <span className="text-sm select-text">
+        <span className="text-[13px] select-text">
           {values.map((entry) => entry.label).join(', ')}
         </span>
       )
     }
     const normalized = normalizeSelectValue(field, value)
     if (!normalized.value)
-      return <span className="text-sm text-muted-foreground">—</span>
+      return <span className="text-[13px] text-[var(--ks-dim)]">—</span>
     return <Badge variant="outline">{normalized.value.label}</Badge>
   }
 
@@ -123,11 +123,11 @@ export function Field({
       normalizeMultiSelectValue(field, value).map((entry) => entry.value),
     )
     return (
-      <div className="grid gap-2 rounded-md border p-3 sm:grid-cols-2">
+      <div className="grid gap-2 rounded-[10px] p-3 shadow-[inset_0_0_0_1px_var(--ks-line)] sm:grid-cols-2">
         {options.map((option, index) => (
           <label
             key={option.value}
-            className="inline-flex items-center gap-2 text-sm"
+            className="inline-flex items-center gap-2 text-[13px]"
           >
             <input
               id={index === 0 ? `field-${field.path}` : undefined}
@@ -168,7 +168,7 @@ export function Field({
       <div className="space-y-1">
         <Label>{field.label}</Label>
         {field.description ? (
-          <p className="text-sm text-muted-foreground">{field.description}</p>
+          <p className="text-[13px] text-[var(--ks-dim)]">{field.description}</p>
         ) : null}
       </div>
 
@@ -202,14 +202,14 @@ export function Field({
           id={`field-${field.path}`}
           role="radiogroup"
           aria-label={field.label}
-          className="space-y-2 rounded-md border p-3"
+          className="space-y-2 rounded-[10px] p-3 shadow-[inset_0_0_0_1px_var(--ks-line)]"
         >
           {options.map((option) => {
             const selected = normalized.value?.value === option.value
             return (
               <label
                 key={option.value}
-                className="flex items-center gap-2 text-sm"
+                className="flex items-center gap-2 text-[13px]"
               >
                 <input
                   type="radio"
@@ -226,7 +226,7 @@ export function Field({
       ) : (
         <select
           id={`field-${field.path}`}
-          className="h-9 w-full rounded-md border bg-background px-2 text-sm"
+          className="ks-field h-8 w-full px-2 text-[13px]"
           value={normalized.value?.value ?? ''}
           onChange={(event) => {
             const next =
@@ -259,7 +259,7 @@ export function Field({
           />
           <Label
             htmlFor={`field-${field.path}-null`}
-            className="text-sm text-muted-foreground"
+            className="text-[13px] text-[var(--ks-dim)]"
           >
             Set field as null
           </Label>
@@ -280,16 +280,16 @@ export function Cell({
   if (field.kind === 'multiselect') {
     const values = normalizeMultiSelectValue(field, value)
     if (!values.length)
-      return <span className="text-sm text-muted-foreground">—</span>
+      return <span className="text-[13px] text-[var(--ks-dim)]">—</span>
     return (
-      <span className="text-sm select-text">
+      <span className="text-[13px] select-text">
         {values.map((entry) => entry.label).join(', ')}
       </span>
     )
   }
   const normalized = normalizeSelectValue(field, value)
   if (!normalized.value)
-    return <span className="text-sm text-muted-foreground">—</span>
+    return <span className="text-[13px] text-[var(--ks-dim)]">—</span>
   return <Badge variant="outline">{normalized.value.label}</Badge>
 }
 

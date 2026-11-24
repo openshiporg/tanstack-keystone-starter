@@ -89,7 +89,7 @@ export function EnhancedFormFields({
     )
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_18rem]">
+    <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_300px]">
       <EnhancedFieldGroups
         groups={formGroups}
         fields={fields}
@@ -180,8 +180,9 @@ function EnhancedFieldGroups({
       {groups.map((group) => (
         <FieldSection
           key={group.key}
-          title={group.label}
+          title={group.key === '__ungrouped' ? null : group.label}
           description={group.description}
+          count={group.fields.length}
         >
           {group.fields.map((field) => {
             const enhancedField = fields[field.path]
@@ -234,8 +235,9 @@ function EnhancedField({
   return (
     <div
       className={cn(
-        'space-y-2 rounded-md',
-        forceValidation && 'border border-destructive/30 bg-destructive/5 p-3',
+        'flex min-w-0 flex-col gap-1.5',
+        forceValidation &&
+          'rounded-[10px] bg-[color-mix(in_oklab,var(--ks-red)_7%,transparent)] p-3 shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--ks-red)_25%,transparent)]',
       )}
     >
       <Label
@@ -245,10 +247,14 @@ function EnhancedField({
             ? `field-${field.path}`
             : undefined
         }
-        className={cn(forceValidation && 'text-destructive')}
+        className={cn(forceValidation && 'text-[var(--ks-danger)]')}
       >
         {field.label}
-        {isRequired ? <span className="ml-1 text-destructive">*</span> : null}
+        {isRequired ? (
+          <span className="-ml-1 text-[var(--ks-danger)]" aria-hidden="true">
+            *
+          </span>
+        ) : null}
       </Label>
       <Field
         field={field}
@@ -268,7 +274,7 @@ function EnhancedField({
         }
       />
       {forceValidation ? (
-        <p className="text-xs text-destructive">
+        <p className="text-[12px] text-[var(--ks-danger)]">
           Please review this field and try again.
         </p>
       ) : null}

@@ -21,9 +21,9 @@ export function Field({
   if (!onChange) {
     const display = String(value ?? '').trim()
     return display ? (
-      <span className="text-sm select-text">{display}</span>
+      <span className="text-[13px] select-text">{display}</span>
     ) : (
-      <span className="text-sm text-muted-foreground">—</span>
+      <span className="text-[13px] text-[var(--ks-dim)]">—</span>
     )
   }
 
@@ -58,9 +58,9 @@ export function Cell({
 }) {
   const display = String(item[field.path] ?? '').trim()
   return display ? (
-    <span className="text-sm select-text">{display}</span>
+    <span className="text-[13px] select-text">{display}</span>
   ) : (
-    <span className="text-sm text-muted-foreground">—</span>
+    <span className="text-[13px] text-[var(--ks-dim)]">—</span>
   )
 }
 

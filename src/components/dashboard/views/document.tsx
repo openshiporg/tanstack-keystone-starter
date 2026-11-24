@@ -42,7 +42,7 @@ export function Field({
 
   if (!onChange) {
     if (!normalized.document)
-      return <span className="text-sm text-muted-foreground">—</span>
+      return <span className="text-[13px] text-[var(--ks-dim)]">—</span>
     return (
       <DocumentPreview
         field={field}
@@ -63,7 +63,7 @@ export function Field({
           placeholder={field.description || undefined}
           onChange={(event) => onChange(event.target.value)}
         />
-        <p className="text-xs text-muted-foreground">
+        <p className="text-[12px] text-[var(--ks-dim)]">
           Advanced mode: edit the underlying document JSON directly. Invalid
           JSON will block save.
         </p>
@@ -82,7 +82,7 @@ export function Field({
         {...documentEditorConfig(field.fieldMeta)}
         onChange={(document) => onChange(JSON.stringify({ document }, null, 2))}
       />
-      <p className="text-xs text-muted-foreground">
+      <p className="text-[12px] text-[var(--ks-dim)]">
         Rich text is stored as Keystone-compatible structured document JSON.
         Switch to JSON for advanced blocks and diagnostics.
       </p>
@@ -99,11 +99,11 @@ export function Cell({
 }) {
   const normalized = normalizeDocumentValue(item[field.path])
   if (!normalized.document)
-    return <span className="text-sm text-muted-foreground">—</span>
+    return <span className="text-[13px] text-[var(--ks-dim)]">—</span>
   const excerpt = normalized.plainText.trim()
-  if (!excerpt) return <span className="text-sm text-muted-foreground">—</span>
+  if (!excerpt) return <span className="text-[13px] text-[var(--ks-dim)]">—</span>
   const trimmed = excerpt.length > 120 ? `${excerpt.slice(0, 117)}…` : excerpt
-  return <span className="text-sm text-muted-foreground">{trimmed}</span>
+  return <span className="text-[13px] text-[var(--ks-dim)]">{trimmed}</span>
 }
 
 export function controller(config: {
@@ -222,9 +222,9 @@ function DocumentPreview({
   const hasContent = plainText.trim().length > 0
 
   return (
-    <Card size="sm" className={cn('border bg-muted/20', compact && 'gap-2')}>
+    <Card size="sm" className={cn('bg-[var(--ks-track)] shadow-[inset_0_0_0_1px_var(--ks-line)]', compact && 'gap-2')}>
       <CardHeader className={cn(compact && 'pb-0')}>
-        <CardTitle className="text-sm">
+        <CardTitle className="text-[13px]">
           {compact ? 'Preview' : field.label}
         </CardTitle>
         <CardDescription>
@@ -237,7 +237,7 @@ function DocumentPreview({
         {hasContent ? (
           <DocumentContent nodes={value ?? []} compact={compact} />
         ) : (
-          <span className="text-sm text-muted-foreground">—</span>
+          <span className="text-[13px] text-[var(--ks-dim)]">—</span>
         )}
       </CardContent>
     </Card>
@@ -252,7 +252,7 @@ function DocumentContent({
   compact?: boolean
 }) {
   return (
-    <div className={cn('space-y-3 text-sm', compact && 'space-y-2')}>
+    <div className={cn('space-y-3 text-[13px]', compact && 'space-y-2')}>
       {nodes.map((node, index) => renderNode(node, `${index}`, compact))}
     </div>
   )
@@ -296,7 +296,7 @@ function renderNode(
     return (
       <blockquote
         key={key}
-        className="border-l-2 pl-3 text-muted-foreground italic"
+        className="border-l-2 pl-3 text-[var(--ks-dim)] italic"
       >
         {text}
       </blockquote>
@@ -350,7 +350,7 @@ function renderNode(
   if (node.type === 'code') {
     if (!text) return null
     return (
-      <pre key={key} className="overflow-auto rounded-md bg-muted p-3 text-xs">
+      <pre key={key} className="overflow-auto rounded-[8px] bg-[var(--ks-track)] p-3 font-mono text-[12px] text-[var(--ks-ink-2)]">
         <code>{text}</code>
       </pre>
     )
@@ -400,8 +400,8 @@ function renderList(
 
 function headingClassName(level: number, compact: boolean) {
   if (level <= 1) return compact ? 'text-base' : 'text-xl'
-  if (level === 2) return compact ? 'text-sm' : 'text-lg'
-  return 'text-sm'
+  if (level === 2) return compact ? 'text-[13px]' : 'text-lg'
+  return 'text-[13px]'
 }
 
 function clampHeadingLevel(node: DocumentNode) {

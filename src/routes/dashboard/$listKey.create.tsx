@@ -1,7 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
-import { createFileRoute, notFound, redirect } from '@tanstack/react-router'
-import { Check } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import {
+  Link,
+  createFileRoute,
+  notFound,
+  redirect,
+} from '@tanstack/react-router'
+import { X } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { enhanceFields } from '@/components/dashboard/enhance-fields'
 import {
@@ -21,7 +26,7 @@ import {
 import { MutationErrorNotice } from '@/components/dashboard/mutation-error-notice'
 import { PageBreadcrumbs } from '@/components/dashboard/page-breadcrumbs'
 import { usePreventNavigation } from '@/components/dashboard/use-prevent-navigation'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { useToast } from '@/components/ui/toaster'
 import {
   dashboardQueryKeys,
@@ -30,6 +35,7 @@ import {
   fetchKeystoneAdminMeta,
   findDashboardListByPath,
 } from '@/features/cms/graphql-client'
+import { cn } from '@/lib/utils'
 
 export const Route = createFileRoute('/dashboard/$listKey/create')({
   loader: async ({ context, params }) => {
@@ -220,59 +226,90 @@ function CreateRoute() {
     }
   }
 
+  // Cmd/Ctrl+S creates
+  const createRef = useRef<() => void>(() => {})
+  createRef.current = () => {
+    if (!saving) void onCreate()
+  }
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 's') {
+        event.preventDefault()
+        createRef.current()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
+  const hasSidebar = sidebarGroups.length > 0
+
   return (
     <>
       <PageBreadcrumbs
         items={[
           { type: 'link', label: 'Overview', href: '/dashboard' },
           { type: 'model', label: list.label, href: `/dashboard/${list.path}` },
-          { type: 'page', label: 'Create' },
+          { type: 'page', label: `New ${list.singular.toLowerCase()}` },
         ]}
         actions={
-          <Button
-            size="sm"
-            className="text-xs sm:text-sm"
-            onClick={onCreate}
-            disabled={saving}
-          >
-            Create {list.singular}
-            <Check className="ml-1 stroke-[1.5px]" width="8" height="8" />
-          </Button>
+          <div className="ks-track">
+            <Link
+              to="/dashboard/$listKey"
+              params={{ listKey: list.path }}
+              aria-label="Cancel"
+              className={cn(
+                buttonVariants({ variant: 'outline', size: 'sm' }),
+                'max-sm:w-7 max-sm:px-0',
+              )}
+            >
+              <X />
+              <span className="max-sm:hidden">Cancel</span>
+            </Link>
+            <Button
+              size="sm"
+              onClick={() => void onCreate()}
+              disabled={saving}
+              title="Create (⌘S)"
+            >
+              {saving ? 'Creating' : 'Create'}
+            </Button>
+          </div>
         }
       />
 
-      <main className="w-full max-w-5xl p-4 md:p-6">
-        <div className="grid min-w-0 gap-6 gap-y-8 lg:grid-cols-[minmax(240px,2fr)_3fr]">
-          <aside className="min-w-0 space-y-4 lg:sticky lg:top-24 lg:self-start">
-            <div>
-              <h1 className="text-lg font-semibold md:text-2xl">
-                Create {list.singular}
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                Add a new {list.singular.toLowerCase()} to{' '}
-                {list.label.toLowerCase()}
-              </p>
-              {hasChanges ? (
-                <p className="text-xs text-amber-600 dark:text-amber-400">
-                  Unsaved changes
-                </p>
-              ) : null}
-            </div>
-            {sidebarGroups.length ? (
-              <EnhancedFormFields
-                list={list}
-                fields={formFields}
-                values={state}
-                serialized={serialized}
-                view="createView"
-                region="sidebar"
-                invalidFields={showValidation ? highlightedFields : undefined}
-                onChange={setState}
-              />
-            ) : null}
-          </aside>
-          <div className="min-w-0 space-y-6">
-            {error ? <MutationErrorNotice error={error} /> : null}
+      <div
+        className={cn(
+          'mx-auto w-full px-4 pt-5 pb-16 md:px-6 md:pt-6',
+          hasSidebar ? 'max-w-[1120px]' : 'max-w-[760px]',
+        )}
+      >
+        <div className="mb-5 flex min-w-0 items-center gap-2.5">
+          <span className="ks-dot" data-tone="gray" aria-hidden="true" />
+          <h1 className="min-w-0 truncate text-[18px] leading-7 font-semibold tracking-[-0.01em] text-[var(--ks-ink)] md:text-[20px]">
+            New {list.singular.toLowerCase()}
+          </h1>
+          {hasChanges ? (
+            <span className="shrink-0 rounded-[6px] bg-[color-mix(in_oklab,var(--ks-amber)_14%,transparent)] px-1.5 py-0.5 text-[12px] leading-4 font-medium text-[var(--ks-amber)]">
+              Edited
+            </span>
+          ) : null}
+        </div>
+
+        {error ? (
+          <div className="mb-4">
+            <MutationErrorNotice error={error} />
+          </div>
+        ) : null}
+
+        <div
+          className={
+            hasSidebar
+              ? 'grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_300px]'
+              : undefined
+          }
+        >
+          <div className="min-w-0">
             <EnhancedFormFields
               list={list}
               fields={formFields}
@@ -284,8 +321,22 @@ function CreateRoute() {
               onChange={setState}
             />
           </div>
+          {hasSidebar ? (
+            <aside className="min-w-0 lg:sticky lg:top-16 lg:self-start">
+              <EnhancedFormFields
+                list={list}
+                fields={formFields}
+                values={state}
+                serialized={serialized}
+                view="createView"
+                region="sidebar"
+                invalidFields={showValidation ? highlightedFields : undefined}
+                onChange={setState}
+              />
+            </aside>
+          ) : null}
         </div>
-      </main>
+      </div>
     </>
   )
 }

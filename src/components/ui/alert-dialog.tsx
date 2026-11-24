@@ -60,16 +60,13 @@ function AlertDialogHeader({
 
 function AlertDialogFooter({
   className,
+  children,
   ...props
 }: React.ComponentProps<'div'>) {
   return (
-    <div
-      className={cn(
-        'flex flex-col-reverse gap-2 sm:flex-row sm:justify-end',
-        className,
-      )}
-      {...props}
-    />
+    <div className={cn('flex justify-end', className)} {...props}>
+      <div className="ks-track">{children}</div>
+    </div>
   )
 }
 
@@ -79,7 +76,7 @@ function AlertDialogTitle({
 }: React.ComponentProps<typeof AlertDialogPrimitive.Title>) {
   return (
     <AlertDialogPrimitive.Title
-      className={cn('text-lg font-semibold', className)}
+      className={cn('text-[15px] leading-5 font-semibold text-[var(--ks-ink)]', className)}
       {...props}
     />
   )
@@ -104,7 +101,7 @@ function AlertDialogAction({
   return (
     <AlertDialogPrimitive.Close
       data-variant="primary"
-      className={cn(buttonVariants(), className)}
+      className={cn(buttonVariants({ size: 'sm' }), className)}
       {...props}
     />
   )
@@ -116,7 +113,7 @@ function AlertDialogCancel({
 }: React.ComponentProps<typeof AlertDialogPrimitive.Close>) {
   return (
     <AlertDialogPrimitive.Close
-      className={cn(buttonVariants({ variant: 'outline' }), className)}
+      className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), className)}
       {...props}
     />
   )

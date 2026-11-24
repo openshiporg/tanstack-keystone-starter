@@ -1,3 +1,5 @@
+import { ChevronRight } from 'lucide-react'
+
 import type {
   DashboardField,
   DashboardList,
@@ -50,26 +52,52 @@ export function groupFields<TField extends DashboardField>(
   return sections
 }
 
+/**
+ * One section card. Loose (ungrouped) fields share a plain card; a named group gets its own
+ * collapsible card with a field count.
+ */
 export function FieldSection({
   title,
   description,
+  count,
   children,
 }: {
-  title: string
+  title?: string | null
   description?: string | null
+  count?: number
   children: React.ReactNode
 }) {
+  if (!title)
+    return (
+      <section className="ks-card flex flex-col gap-5 p-4 md:p-5">
+        {children}
+      </section>
+    )
   return (
-    <section className="rounded-lg border bg-background p-4 shadow-xs">
-      <div className="mb-4">
-        <h2 className="text-sm font-semibold tracking-wide text-muted-foreground uppercase">
-          {title}
-        </h2>
-        {description ? (
-          <p className="mt-1 text-sm text-muted-foreground">{description}</p>
-        ) : null}
-      </div>
-      <div className="space-y-4">{children}</div>
+    <section className="ks-card overflow-hidden" aria-label={title}>
+      <details open className="group/fg">
+        <summary className="flex cursor-pointer list-none items-start gap-2 px-4 py-3 outline-none group-open/fg:border-b group-open/fg:border-[var(--ks-line)] md:px-5 focus-visible:[&>span:first-child]:ring-2 focus-visible:[&>span:first-child]:ring-[var(--ks-focus)] [&::-webkit-details-marker]:hidden">
+          <span className="mt-0.5 grid size-4 shrink-0 place-items-center rounded-[4px] text-[var(--ks-label)] transition-transform group-open/fg:rotate-90">
+            <ChevronRight className="size-3.5" />
+          </span>
+          <span className="flex min-w-0 flex-col gap-0.5">
+            <h2 className="text-[13px] leading-5 font-semibold text-[var(--ks-ink)]">
+              {title}
+            </h2>
+            {description ? (
+              <span className="text-[12px] leading-4 text-[var(--ks-dim)]">
+                {description}
+              </span>
+            ) : null}
+          </span>
+          {count !== undefined ? (
+            <span className="mt-0.5 ml-auto font-mono text-[12px] text-[var(--ks-label)]">
+              {count}
+            </span>
+          ) : null}
+        </summary>
+        <div className="flex flex-col gap-5 p-4 md:p-5">{children}</div>
+      </details>
     </section>
   )
 }

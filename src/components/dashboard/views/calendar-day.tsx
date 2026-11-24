@@ -40,12 +40,12 @@ export function Field({
     <div className="space-y-2">
       <Label
         htmlFor={`field-${field.path}`}
-        className={invalid ? 'text-red-600' : undefined}
+        className={invalid ? 'text-[var(--ks-danger)]' : undefined}
       >
         {field.label}
       </Label>
       {field.description ? (
-        <p className="text-sm text-muted-foreground">{field.description}</p>
+        <p className="text-[13px] text-[var(--ks-dim)]">{field.description}</p>
       ) : null}
       <Input
         id={`field-${field.path}`}
@@ -53,7 +53,7 @@ export function Field({
         autoFocus={autoFocus}
         readOnly={!onChange}
         value={normalized.value ?? ''}
-        className={invalid ? 'border-red-500' : undefined}
+        className={invalid ? 'shadow-[inset_0_0_0_1px_var(--ks-danger)]' : undefined}
         onBlur={() => setDirty(true)}
         onChange={(event) => {
           onChange?.({ ...normalized, value: event.target.value || null })
@@ -61,7 +61,7 @@ export function Field({
         }}
       />
       {invalid ? (
-        <div className="text-sm text-red-600" role="alert">
+        <div className="text-[12px] text-[var(--ks-danger)]" role="alert">
           {field.label} is required
         </div>
       ) : null}
@@ -78,9 +78,9 @@ export function Cell({
 }) {
   const value = item[field.path]
   return value ? (
-    <span className="text-sm">{String(value).slice(0, 10)}</span>
+    <span className="text-[13px]">{String(value).slice(0, 10)}</span>
   ) : (
-    <span className="text-sm text-muted-foreground">—</span>
+    <span className="text-[13px] text-[var(--ks-dim)]">—</span>
   )
 }
 

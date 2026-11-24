@@ -189,9 +189,9 @@ export function FileFieldEditor({
         : null
 
   return (
-    <div className="space-y-3 rounded-md border p-3">
+    <div className="space-y-3 rounded-[10px] p-3 shadow-[inset_0_0_0_1px_var(--ks-line)]">
       {current ? (
-        <div className="overflow-hidden rounded-md border bg-muted/20">
+        <div className="overflow-hidden rounded-[10px] bg-[var(--ks-track)] shadow-[inset_0_0_0_1px_var(--ks-line)]">
           <div className="flex flex-col sm:flex-row">
             <div className="flex h-40 w-full items-center justify-center border-b bg-muted/30 sm:h-40 sm:w-40 sm:flex-none sm:border-r sm:border-b-0">
               {field.kind === 'image' &&
@@ -205,32 +205,32 @@ export function FileFieldEditor({
                   className="h-full w-full object-contain"
                 />
               ) : field.kind === 'image' ? (
-                <ImageIcon className="size-12 text-muted-foreground" />
+                <ImageIcon className="size-12 text-[var(--ks-dim)]" />
               ) : (
-                <FileIcon className="size-12 text-muted-foreground" />
+                <FileIcon className="size-12 text-[var(--ks-dim)]" />
               )}
             </div>
             <div className="flex min-w-0 flex-1 flex-col gap-2 p-4">
               <div>
                 <div
-                  className="truncate text-sm font-medium"
+                  className="truncate text-[13px] font-medium"
                   title={fileLabel(field, current)}
                 >
                   {fileLabel(field, current)}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-[13px] text-[var(--ks-dim)]">
                   {[bytesLabel, dimensionsLabel].filter(Boolean).join(' • ') ||
                     'Ready to save'}
                 </div>
                 {statusLabel ? (
-                  <div className="mt-1 text-xs font-medium text-amber-600 dark:text-amber-400">
+                  <div className="mt-1 text-[12px] font-medium text-[var(--ks-amber)]">
                     {statusLabel}
                   </div>
                 ) : null}
               </div>
               {!isPendingUpload(current) && current.url ? (
                 <a
-                  className="truncate text-xs text-blue-600 hover:underline"
+                  className="truncate text-[12px] text-[var(--ks-accent-ink)] hover:underline"
                   href={current.url}
                   target="_blank"
                   rel="noreferrer"
@@ -293,7 +293,7 @@ export function FileFieldEditor({
             ) : null}
           </div>
           {value.kind === 'remove' ? (
-            <p className="text-sm text-muted-foreground">
+            <p className="text-[13px] text-[var(--ks-dim)]">
               This {field.kind} will be removed when you save.
             </p>
           ) : null}

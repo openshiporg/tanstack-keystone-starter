@@ -170,9 +170,9 @@ export function Field({
 
   if (!onChange) {
     return value === null || value === undefined || value === '' ? (
-      <span className="text-sm text-muted-foreground">—</span>
+      <span className="text-[13px] text-[var(--ks-dim)]">—</span>
     ) : (
-      <span className="text-sm select-text">{String(value)}</span>
+      <span className="text-[13px] select-text">{String(value)}</span>
     )
   }
 
@@ -194,16 +194,16 @@ export function Field({
         <div className="space-y-2">
           <Label>{field.label}</Label>
           {field.description ? (
-            <p className="text-sm text-muted-foreground">{field.description}</p>
+            <p className="text-[13px] text-[var(--ks-dim)]">{field.description}</p>
           ) : null}
           <Input
             id={`field-${field.path}`}
             autoFocus={autoFocus}
             readOnly
             value="Auto increment"
-            className="bg-muted shadow-xs"
+            className="bg-[var(--ks-track)]"
           />
-          <div className="flex items-start gap-2 rounded-md border bg-muted/30 px-3 py-2 text-sm text-muted-foreground">
+          <div className="flex items-start gap-2 rounded-[10px] bg-[var(--ks-track)] shadow-[inset_0_0_0_1px_var(--ks-line)] px-3 py-2 text-[13px] text-[var(--ks-dim)]">
             <Info className="mt-0.5 h-4 w-4 shrink-0" />
             <p>
               This field is set to auto increment. It will default to the next
@@ -218,7 +218,7 @@ export function Field({
       <div className="space-y-2">
         <Label>{field.label}</Label>
         {field.description ? (
-          <p className="text-sm text-muted-foreground">{field.description}</p>
+          <p className="text-[13px] text-[var(--ks-dim)]">{field.description}</p>
         ) : null}
         <Input
           id={`field-${field.path}`}
@@ -228,7 +228,7 @@ export function Field({
           value={normalized.value ?? ''}
           required={isRequired}
           onBlur={() => setDirty(true)}
-          className={errorMessage ? 'border-red-500 shadow-xs' : 'shadow-xs'}
+          className={errorMessage ? 'shadow-[inset_0_0_0_1px_var(--ks-danger)]' : undefined}
           onChange={(event) => {
             const next =
               event.target.value === '' ? null : Number(event.target.value)
@@ -239,7 +239,7 @@ export function Field({
           }}
         />
         {errorMessage ? (
-          <p className="text-sm text-red-600" role="alert">
+          <p className="text-[12px] text-[var(--ks-danger)]" role="alert">
             {errorMessage}
           </p>
         ) : null}
@@ -265,16 +265,16 @@ export function Field({
         <div className="space-y-2">
           <Label>{field.label}</Label>
           {field.description ? (
-            <p className="text-sm text-muted-foreground">{field.description}</p>
+            <p className="text-[13px] text-[var(--ks-dim)]">{field.description}</p>
           ) : null}
           <Input
             id={`field-${field.path}`}
             autoFocus={autoFocus}
             readOnly
             value="Auto increment"
-            className="bg-muted shadow-xs"
+            className="bg-[var(--ks-track)]"
           />
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-[12px] text-[var(--ks-dim)] mt-1">
             This field is set to auto increment. It will default to the next
             available number.
           </p>
@@ -286,7 +286,7 @@ export function Field({
       <div className="space-y-2">
         <Label>{field.label}</Label>
         {field.description ? (
-          <p className="text-sm text-muted-foreground">{field.description}</p>
+          <p className="text-[13px] text-[var(--ks-dim)]">{field.description}</p>
         ) : null}
         <Input
           id={`field-${field.path}`}
@@ -295,7 +295,7 @@ export function Field({
           value={normalized.value ?? ''}
           required={isRequired}
           onBlur={() => setDirty(true)}
-          className={errorMessage ? 'border-red-500 shadow-xs' : 'shadow-xs'}
+          className={errorMessage ? 'shadow-[inset_0_0_0_1px_var(--ks-danger)]' : undefined}
           onChange={(event) =>
             onChange({
               ...normalized,
@@ -304,7 +304,7 @@ export function Field({
           }
         />
         {errorMessage ? (
-          <p className="text-sm text-red-600" role="alert">
+          <p className="text-[12px] text-[var(--ks-danger)]" role="alert">
             {errorMessage}
           </p>
         ) : null}
@@ -321,7 +321,7 @@ export function Field({
     <div className="space-y-2">
       <Label>{field.label}</Label>
       {field.description ? (
-        <p className="text-sm text-muted-foreground">{field.description}</p>
+        <p className="text-[13px] text-[var(--ks-dim)]">{field.description}</p>
       ) : null}
       <Input
         id={`field-${field.path}`}
@@ -331,7 +331,7 @@ export function Field({
         value={normalized.value ?? ''}
         required={isRequired}
         onBlur={() => setDirty(true)}
-        className={errorMessage ? 'border-red-500 shadow-xs' : 'shadow-xs'}
+        className={errorMessage ? 'shadow-[inset_0_0_0_1px_var(--ks-danger)]' : undefined}
         onChange={(event) =>
           onChange({
             ...normalized,
@@ -340,7 +340,7 @@ export function Field({
         }
       />
       {errorMessage ? (
-        <p className="text-sm text-red-600" role="alert">
+        <p className="text-[12px] text-[var(--ks-danger)]" role="alert">
           {errorMessage}
         </p>
       ) : null}
@@ -357,9 +357,9 @@ export function Cell({
 }) {
   const value = item[field.path]
   return value === null || value === undefined || value === '' ? (
-    <span className="text-sm text-muted-foreground">—</span>
+    <span className="text-[13px] text-[var(--ks-dim)]">—</span>
   ) : (
-    <span className="text-sm select-text">{String(value)}</span>
+    <span className="text-[13px] select-text">{String(value)}</span>
   )
 }
 

@@ -198,7 +198,7 @@ export function Field({
       <div className="space-y-2">
         <Label>{field.label}</Label>
         {field.description ? (
-          <p className="text-sm text-muted-foreground">{field.description}</p>
+          <p className="text-[13px] text-[var(--ks-dim)]">{field.description}</p>
         ) : null}
         <div className="flex items-center space-x-2">
           <Checkbox
@@ -207,7 +207,7 @@ export function Field({
             disabled
             className="opacity-50"
           />
-          <Label className="text-sm text-muted-foreground">
+          <Label className="text-[13px] text-[var(--ks-dim)]">
             {isIndeterminate ? 'Access denied' : 'Value is set'}
           </Label>
         </div>
@@ -220,7 +220,7 @@ export function Field({
       <div className="space-y-2">
         <Label>{field.label}</Label>
         {field.description ? (
-          <p className="text-sm text-muted-foreground">{field.description}</p>
+          <p className="text-[13px] text-[var(--ks-dim)]">{field.description}</p>
         ) : null}
         <Button
           ref={triggerRef}
@@ -254,7 +254,7 @@ export function Field({
     <div className="space-y-3">
       <Label htmlFor={`field-${field.path}`}>{field.label}</Label>
       {field.description ? (
-        <p className="text-sm text-muted-foreground">{field.description}</p>
+        <p className="text-[13px] text-[var(--ks-dim)]">{field.description}</p>
       ) : null}
       <div className="flex flex-col gap-4 md:flex-row">
         <div className="flex-1">
@@ -265,7 +265,7 @@ export function Field({
             value={normalized.value}
             required={isRequired}
             placeholder="New password"
-            className={cn('shadow-xs', error && 'border-red-500')}
+            className={cn(error && 'shadow-[inset_0_0_0_1px_var(--ks-danger)]')}
             onBlur={() =>
               setTouched((current) => ({ ...current, value: true }))
             }
@@ -285,7 +285,7 @@ export function Field({
             type={secureTextEntry ? 'password' : 'text'}
             value={normalized.confirm}
             placeholder="Confirm password"
-            className={cn('shadow-xs', error && 'border-red-500')}
+            className={cn(error && 'shadow-[inset_0_0_0_1px_var(--ks-danger)]')}
             onBlur={() =>
               setTouched((current) => ({ ...current, confirm: true }))
             }
@@ -318,17 +318,17 @@ export function Field({
         </div>
       </div>
       {validation.rejectCommon ? (
-        <p className="text-xs text-muted-foreground">
+        <p className="text-[12px] text-[var(--ks-dim)]">
           Common passwords are rejected.
         </p>
       ) : null}
       {validation.match ? (
-        <p className="text-xs text-muted-foreground">
+        <p className="text-[12px] text-[var(--ks-dim)]">
           {validation.match.explanation}
         </p>
       ) : null}
       {error ? (
-        <p className="text-sm text-destructive" role="alert">
+        <p className="text-[12px] text-[var(--ks-danger)]" role="alert">
           {error}
         </p>
       ) : null}
