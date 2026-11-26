@@ -13,6 +13,7 @@ import {
   Sun,
 } from 'lucide-react'
 
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -76,10 +77,21 @@ const THEMES = [
   ['system', 'System', Monitor],
 ] as const
 
-function ThemeSwitcher() {
+/** Light / dark / system as a segmented control. `withLabels` adds the text beside each icon. */
+export function ThemeSwitcher({
+  withLabels = false,
+  className,
+}: {
+  withLabels?: boolean
+  className?: string
+}) {
   const { theme, setTheme } = useTheme()
   return (
-    <div className="ks-seg" role="radiogroup" aria-label="Theme">
+    <div
+      className={cn('ks-track ks-seg', className)}
+      role="radiogroup"
+      aria-label="Theme"
+    >
       {THEMES.map(([value, label, Icon]) => (
         <button
           key={value}
@@ -89,12 +101,59 @@ function ThemeSwitcher() {
           aria-label={`${label} theme`}
           title={label}
           onClick={() => setTheme(value)}
-          className="grid h-6 w-7 place-items-center"
+          className={withLabels ? undefined : '!px-1.5'}
         >
           <Icon className="size-3.5" />
+          {withLabels ? <span>{label}</span> : null}
         </button>
       ))}
     </div>
+  )
+}
+
+/** Appearance and session rows under the form when someone opens their own record. */
+export function AccountExtras() {
+  const queryClient = useQueryClient()
+  return (
+    <section
+      aria-label="Preferences"
+      className="ks-card mt-4 divide-y divide-[var(--ks-line)]"
+    >
+      <div className="flex items-center justify-between gap-4 px-5 py-4">
+        <div className="min-w-0">
+          <h2 className="text-[13px] font-medium text-[var(--ks-ink)]">
+            Appearance
+          </h2>
+          <p className="text-[12px] text-[var(--ks-dim)]">
+            System, light or dark
+          </p>
+        </div>
+        <ThemeSwitcher
+          withLabels
+          className="shrink-0 max-sm:[&_span]:hidden"
+        />
+      </div>
+      <div className="flex items-center justify-between gap-4 px-5 py-4">
+        <div className="min-w-0">
+          <h2 className="text-[13px] font-medium text-[var(--ks-ink)]">
+            Session
+          </h2>
+          <p className="text-[12px] text-[var(--ks-dim)]">This browser</p>
+        </div>
+        <div className="ks-track shrink-0">
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            data-variant="danger"
+            onClick={() => void signOutDashboard(queryClient)}
+          >
+            <LogOut />
+            Sign out
+          </Button>
+        </div>
+      </div>
+    </section>
   )
 }
 

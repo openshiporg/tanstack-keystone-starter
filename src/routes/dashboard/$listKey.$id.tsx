@@ -37,6 +37,7 @@ import { ItemPageActions } from '@/components/dashboard/item-page-actions'
 import { MutationErrorNotice } from '@/components/dashboard/mutation-error-notice'
 import { PageBreadcrumbs } from '@/components/dashboard/page-breadcrumbs'
 import { usePreventNavigation } from '@/components/dashboard/use-prevent-navigation'
+import { AccountExtras } from '@/components/dashboard/user-profile'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -55,6 +56,7 @@ import {
   dashboardQueryKeys,
   executeRawDashboardGraphQL,
   fetchDashboardItemPage,
+  fetchDashboardOverview,
   fetchKeystoneAdminMeta,
   findDashboardListByPath,
   findStatusField,
@@ -106,6 +108,11 @@ function DashboardItemRoute() {
     queryFn: () =>
       fetchDashboardItemPage({ listPath: params.listKey, id: params.id }),
     initialData: loaderData,
+  })
+  // Same query the shell already holds, so this reads the cache: who is signed in
+  const { data: overview } = useQuery({
+    queryKey: dashboardQueryKeys.overview,
+    queryFn: () => fetchDashboardOverview(),
   })
   const [draft, setDraft] = useState<Record<string, unknown>>({})
   const [message, setMessage] = useState<{
@@ -502,11 +509,19 @@ function DashboardItemRoute() {
   const hasSidebar = sidebarGroups.length > 0
   const pageTitle = data.list.isSingleton ? data.list.label : data.title
   const busy = saving || deleting
+  // Someone's own record is their account page: no list crumb, no delete, plus appearance and session
+  const me = overview?.authenticatedItem
+  const isAccount =
+    me != null && me.listPath === data.list.path && me.id === item.id
 
   return (
     <>
       <PageBreadcrumbs
-        items={[...crumbsBase, { type: 'page', label: pageTitle }]}
+        items={
+          isAccount
+            ? [crumbsBase[0], { type: 'page', label: 'Account' }]
+            : [...crumbsBase, { type: 'page', label: pageTitle }]
+        }
         actions={
           <div className="ks-track">
             <ItemPageActions
@@ -527,7 +542,7 @@ function DashboardItemRoute() {
               }}
               onSuccess={handleActionSuccess}
             />
-            {!data.list.hideDelete ? (
+            {!data.list.hideDelete && !isAccount ? (
               <AlertDialog>
                 <AlertDialogTrigger
                   aria-label="Delete"
@@ -688,6 +703,7 @@ function DashboardItemRoute() {
               invalidFields={showValidation ? highlightedFields : undefined}
               onChange={setDraft}
             />
+            {isAccount ? <AccountExtras /> : null}
           </div>
           {hasSidebar ? (
             <aside className="min-w-0 lg:sticky lg:top-16 lg:self-start">
