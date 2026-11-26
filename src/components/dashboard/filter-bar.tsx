@@ -84,8 +84,8 @@ export function FilterBar({
   list: DashboardList
   selectedFields?: Set<string>
 }) {
-  const navigate = useNavigate({ from: '/dashboard/$listKey' })
-  const searchParams = useSearch({ from: '/dashboard/$listKey' })
+  const navigate = useNavigate({ from: '/dashboard/$listKey/' })
+  const searchParams = useSearch({ from: '/dashboard/$listKey/' })
   const [searchString, setSearchString] = useState(searchParams.search || '')
   const [filterPopoverOpen, setFilterPopoverOpen] = useState(false)
   const [filterField, setFilterField] = useState('')

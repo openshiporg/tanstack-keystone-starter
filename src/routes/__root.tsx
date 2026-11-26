@@ -2,12 +2,16 @@
 import type { QueryClient } from '@tanstack/react-query'
 import {
   HeadContent,
+  Link,
   Outlet,
   ScriptOnce,
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
+import { ArrowLeft } from 'lucide-react'
 import appCss from '../../app/globals.css?url'
+import { AuthShell } from '@/components/dashboard/auth-shell'
+import { buttonVariants } from '@/components/ui/button'
 import { dashboardThemeScript } from '@/components/ui/theme-script'
 
 type RouterContext = {
@@ -44,7 +48,29 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     ],
   }),
   component: RootComponent,
+  notFoundComponent: RootNotFound,
 })
+
+/** Unknown URL outside the dashboard: the same card as the auth pages, one way back. */
+function RootNotFound() {
+  return (
+    <AuthShell title="Page not found" description="404">
+      <div className="ks-track flex w-full">
+        <Link
+          to="/dashboard"
+          className={buttonVariants({
+            variant: 'outline',
+            size: 'sm',
+            className: 'h-8 flex-1',
+          })}
+        >
+          <ArrowLeft />
+          Overview
+        </Link>
+      </div>
+    </AuthShell>
+  )
+}
 
 function RootComponent() {
   return (

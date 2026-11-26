@@ -103,8 +103,8 @@ export function KeystoneListTable({
   isFiltered?: boolean
   isFetching?: boolean
 }) {
-  const navigate = useNavigate({ from: '/dashboard/$listKey' })
-  const search = useSearch({ from: '/dashboard/$listKey' })
+  const navigate = useNavigate({ from: '/dashboard/$listKey/' })
+  const search = useSearch({ from: '/dashboard/$listKey/' })
   const queryClient = useQueryClient()
   const { toast } = useToast()
   const [deleting, setDeleting] = useState(false)

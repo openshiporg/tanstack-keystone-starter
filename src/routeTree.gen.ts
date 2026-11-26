@@ -22,6 +22,7 @@ import { Route as ApiReadyRouteImport } from './routes/api/ready'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiGraphqlRouteImport } from './routes/api/graphql'
 import { Route as ApiCompletionRouteImport } from './routes/api/completion'
+import { Route as DashboardListKeyIndexRouteImport } from './routes/dashboard/$listKey.index'
 import { Route as DashboardListKeyCreateRouteImport } from './routes/dashboard/$listKey.create'
 import { Route as DashboardListKeyIdRouteImport } from './routes/dashboard/$listKey.$id'
 import { Route as ApiMcpTransportTransportRouteImport } from './routes/api/mcp-transport/$transport'
@@ -92,6 +93,11 @@ const ApiCompletionRoute = ApiCompletionRouteImport.update({
   path: '/api/completion',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardListKeyIndexRoute = DashboardListKeyIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardListKeyRoute,
+} as any)
 const DashboardListKeyCreateRoute = DashboardListKeyCreateRouteImport.update({
   id: '/create',
   path: '/create',
@@ -132,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/api/mcp-transport/$transport': typeof ApiMcpTransportTransportRoute
   '/dashboard/$listKey/$id': typeof DashboardListKeyIdRoute
   '/dashboard/$listKey/create': typeof DashboardListKeyCreateRoute
+  '/dashboard/$listKey/': typeof DashboardListKeyIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -139,7 +146,6 @@ export interface FileRoutesByTo {
   '/api/graphql': typeof ApiGraphqlRoute
   '/api/health': typeof ApiHealthRoute
   '/api/ready': typeof ApiReadyRoute
-  '/dashboard/$listKey': typeof DashboardListKeyRouteWithChildren
   '/dashboard/init': typeof DashboardInitRoute
   '/dashboard/no-access': typeof DashboardNoAccessRoute
   '/dashboard/reset': typeof DashboardResetRoute
@@ -150,6 +156,7 @@ export interface FileRoutesByTo {
   '/api/mcp-transport/$transport': typeof ApiMcpTransportTransportRoute
   '/dashboard/$listKey/$id': typeof DashboardListKeyIdRoute
   '/dashboard/$listKey/create': typeof DashboardListKeyCreateRoute
+  '/dashboard/$listKey': typeof DashboardListKeyIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -170,6 +177,7 @@ export interface FileRoutesById {
   '/api/mcp-transport/$transport': typeof ApiMcpTransportTransportRoute
   '/dashboard/$listKey/$id': typeof DashboardListKeyIdRoute
   '/dashboard/$listKey/create': typeof DashboardListKeyCreateRoute
+  '/dashboard/$listKey/': typeof DashboardListKeyIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -191,6 +199,7 @@ export interface FileRouteTypes {
     | '/api/mcp-transport/$transport'
     | '/dashboard/$listKey/$id'
     | '/dashboard/$listKey/create'
+    | '/dashboard/$listKey/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -198,7 +207,6 @@ export interface FileRouteTypes {
     | '/api/graphql'
     | '/api/health'
     | '/api/ready'
-    | '/dashboard/$listKey'
     | '/dashboard/init'
     | '/dashboard/no-access'
     | '/dashboard/reset'
@@ -209,6 +217,7 @@ export interface FileRouteTypes {
     | '/api/mcp-transport/$transport'
     | '/dashboard/$listKey/$id'
     | '/dashboard/$listKey/create'
+    | '/dashboard/$listKey'
   id:
     | '__root__'
     | '/'
@@ -228,6 +237,7 @@ export interface FileRouteTypes {
     | '/api/mcp-transport/$transport'
     | '/dashboard/$listKey/$id'
     | '/dashboard/$listKey/create'
+    | '/dashboard/$listKey/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -334,6 +344,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiCompletionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/$listKey/': {
+      id: '/dashboard/$listKey/'
+      path: '/'
+      fullPath: '/dashboard/$listKey/'
+      preLoaderRoute: typeof DashboardListKeyIndexRouteImport
+      parentRoute: typeof DashboardListKeyRoute
+    }
     '/dashboard/$listKey/create': {
       id: '/dashboard/$listKey/create'
       path: '/create'
@@ -368,11 +385,13 @@ declare module '@tanstack/react-router' {
 interface DashboardListKeyRouteChildren {
   DashboardListKeyIdRoute: typeof DashboardListKeyIdRoute
   DashboardListKeyCreateRoute: typeof DashboardListKeyCreateRoute
+  DashboardListKeyIndexRoute: typeof DashboardListKeyIndexRoute
 }
 
 const DashboardListKeyRouteChildren: DashboardListKeyRouteChildren = {
   DashboardListKeyIdRoute: DashboardListKeyIdRoute,
   DashboardListKeyCreateRoute: DashboardListKeyCreateRoute,
+  DashboardListKeyIndexRoute: DashboardListKeyIndexRoute,
 }
 
 const DashboardListKeyRouteWithChildren =

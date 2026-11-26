@@ -68,7 +68,7 @@ export function Pagination({
     currentPage.toString(),
   )
   const [customSize, setCustomSize] = useState('')
-  const navigate = useNavigate({ from: '/dashboard/$listKey' })
+  const navigate = useNavigate({ from: '/dashboard/$listKey/' })
   const totalPages = Math.max(1, Math.ceil(total / pageSize))
 
   useEffect(() => {
